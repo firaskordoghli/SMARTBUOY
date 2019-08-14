@@ -13,6 +13,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.smartbuoy.DATA.Models.User;
 import com.example.smartbuoy.DATA.Retrofite.ApiUtil;
+import com.example.smartbuoy.DATA.UserSessionManager;
 import com.example.smartbuoy.MainActivity;
 import com.example.smartbuoy.R;
 import com.example.smartbuoy.UI.SignUp.SignUpStep1Activity;
@@ -31,10 +32,16 @@ public class LoginActivity extends AppCompatActivity {
     EditText emailEditText, passwordEditText;
     private ProgressDialog pDialog;
 
+    // User Session Manager Class
+    UserSessionManager session;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+
+        // User Session Manager
+        session = new UserSessionManager(getApplicationContext());
 
         toSignUpBtn = findViewById(R.id.btnToSignUp);
         loginBtn = findViewById(R.id.btnLogin);
@@ -87,8 +94,8 @@ public class LoginActivity extends AppCompatActivity {
         displayLoader();
         JsonObject object = new JsonObject();
 
-        object.addProperty("email", emailEditText.getText().toString());
-        object.addProperty("password", passwordEditText.getText().toString());
+        object.addProperty("email", emailEditText.getText().toString().trim());
+        object.addProperty("password", passwordEditText.getText().toString().trim());
 
         ApiUtil.getServiceClass().login(object).enqueue(new Callback<JsonObject>() {
             @Override
@@ -98,13 +105,15 @@ public class LoginActivity extends AppCompatActivity {
 
                         Gson gson = new Gson();
                         User responseUser = gson.fromJson(response.body().get("user"), User.class);
-                        System.out.println(responseUser); // n7otha shared pref
+
+                        // Creating user login session
+                        session.createUserLoginSession(gson.toJson(responseUser));
 
                         Handler handler = new Handler();
                         handler.postDelayed(new Runnable() {
                             public void run() {
                                 pDialog.dismiss();
-                                Toast.makeText(LoginActivity.this, "logged in", Toast.LENGTH_SHORT).show();
+
                                 Intent intent = new Intent(getApplicationContext(), MainActivity.class);
                                 startActivity(intent);
                             }
