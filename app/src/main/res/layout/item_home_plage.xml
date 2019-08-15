@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="wrap_content">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         style="@style/CardView.Light"
@@ -15,7 +15,7 @@
         tools:ignore="ContentDescription">
 
         <ImageView
-            android:id="@+id/media_image"
+            android:id="@+id/imagePlage"
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:scaleType="centerCrop"
@@ -41,22 +41,22 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="24dp"
-            app:layout_constraintBottom_toTopOf="@+id/primary_text"
+            app:layout_constraintBottom_toTopOf="@+id/tvNomPlage"
             app:layout_constraintStart_toStartOf="parent" />
 
         <TextView
-            android:id="@+id/primary_text"
+            android:id="@+id/tvNomPlage"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
             android:text="@string/primary"
             android:textAppearance="@style/TextAppearance.AppCompat.Headline"
             android:textColor="@color/colorPrimaryTextDefaultMaterialDark"
-            app:layout_constraintBottom_toTopOf="@+id/sub_text"
+            app:layout_constraintBottom_toTopOf="@+id/tvVillePlage"
             app:layout_constraintStart_toStartOf="parent" />
 
         <TextView
-            android:id="@+id/sub_text"
+            android:id="@+id/tvVillePlage"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
@@ -70,7 +70,7 @@
             app:layout_constraintStart_toStartOf="parent" />
 
         <TextView
-            android:id="@+id/textView9"
+            android:id="@+id/tvRatingPlage"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
@@ -78,9 +78,9 @@
             android:text="5"
             android:textAppearance="@style/TextAppearance.AppCompat.Headline"
             android:textColor="@color/colorPrimaryTextDefaultMaterialDark"
-            app:layout_constraintBottom_toTopOf="@+id/sub_text"
+            app:layout_constraintBottom_toTopOf="@+id/tvVillePlage"
             app:layout_constraintEnd_toEndOf="@+id/view"
-            app:layout_constraintStart_toEndOf="@+id/primary_text" />
+            app:layout_constraintStart_toEndOf="@+id/tvNomPlage" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>
