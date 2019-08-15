@@ -27,6 +27,6 @@
         app:menu="@menu/bottom_navigation"
         app:morphCornerRadius="128dp"
         app:morphItemRadius="64dp"
-        app:morphVerticalOffset="15dp" />
+        app:morphVerticalOffset="13dp" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

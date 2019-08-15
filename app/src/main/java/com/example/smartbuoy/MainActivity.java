@@ -10,6 +10,7 @@ import androidx.fragment.app.Fragment;
 
 import com.example.smartbuoy.DATA.Models.User;
 import com.example.smartbuoy.DATA.UserSessionManager;
+import com.example.smartbuoy.UI.Menu.EventsFragment;
 import com.example.smartbuoy.UI.Menu.ExploreFragment;
 import com.example.smartbuoy.UI.Menu.HomeFragment;
 import com.example.smartbuoy.UI.Menu.ProfileFragment;
@@ -37,6 +38,10 @@ public class MainActivity extends AppCompatActivity {
 
                         case R.id.profile:
                             selectedFragment = new ProfileFragment();
+                            break;
+
+                        case R.id.events:
+                            selectedFragment = new EventsFragment();
                             break;
                     }
 
