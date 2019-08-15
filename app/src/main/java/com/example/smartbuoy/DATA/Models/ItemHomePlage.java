@@ -1,7 +1,23 @@
 package com.example.smartbuoy.DATA.Models;
 
+import com.google.gson.annotations.SerializedName;
+
 public class ItemHomePlage {
-    private String id,name,ville,image,rating;
+
+    @SerializedName("_id")
+    private String id;
+
+    @SerializedName("nom")
+    private String name;
+
+    @SerializedName("ville")
+    private String ville;
+
+    @SerializedName("mainImage")
+    private String image;
+
+    @SerializedName("rate")
+    private String rating;
 
     public ItemHomePlage(String id, String name, String ville, String image, String rating) {
         this.id = id;
@@ -49,5 +65,16 @@ public class ItemHomePlage {
 
     public void setRating(String rating) {
         this.rating = rating;
+    }
+
+    @Override
+    public String toString() {
+        return "ItemHomePlage{" +
+                "id='" + id + '\'' +
+                ", name='" + name + '\'' +
+                ", ville='" + ville + '\'' +
+                ", image='" + image + '\'' +
+                ", rating='" + rating + '\'' +
+                '}';
     }
 }

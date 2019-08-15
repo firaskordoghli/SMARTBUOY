@@ -1,19 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="match_parent"
+    tools:context=".UI.DetailPlageActivity">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         style="@style/CardView.Light"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
         tools:ignore="ContentDescription">
 
         <ImageView
-            android:id="@+id/imagePlage"
+            android:id="@+id/imagePlageDetail"
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:scaleType="centerCrop"
@@ -25,36 +28,36 @@
             tools:srcCompat="@drawable/cover_snapseed" />
 
         <View
-            android:id="@+id/view"
+            android:id="@+id/viewDetail"
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:background="#7F000000"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/top_space" />
+            app:layout_constraintTop_toTopOf="@+id/top_spaceDetail" />
 
         <Space
-            android:id="@+id/top_space"
+            android:id="@+id/top_spaceDetail"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="8dp"
-            app:layout_constraintBottom_toTopOf="@+id/tvNomPlage"
+            app:layout_constraintBottom_toTopOf="@+id/tvNomPlageDetail"
             app:layout_constraintStart_toStartOf="parent" />
 
         <TextView
-            android:id="@+id/tvNomPlage"
+            android:id="@+id/tvNomPlageDetail"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
             android:text="@string/primary"
             android:textAppearance="@style/TextAppearance.AppCompat.Headline"
             android:textColor="@color/colorPrimaryTextDefaultMaterialDark"
-            app:layout_constraintBottom_toTopOf="@+id/tvVillePlage"
+            app:layout_constraintBottom_toTopOf="@+id/tvVillePlageDetail"
             app:layout_constraintStart_toStartOf="parent" />
 
         <TextView
-            android:id="@+id/tvVillePlage"
+            android:id="@+id/tvVillePlageDetail"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
@@ -68,7 +71,7 @@
             app:layout_constraintStart_toStartOf="parent" />
 
         <TextView
-            android:id="@+id/tvRatingPlage"
+            android:id="@+id/tvRatingPlageDetail"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
@@ -76,11 +79,11 @@
             android:text="5"
             android:textAppearance="@style/TextAppearance.AppCompat.Headline"
             android:textColor="@color/colorPrimaryTextDefaultMaterialDark"
-            app:layout_constraintBottom_toTopOf="@+id/tvVillePlage"
-            app:layout_constraintEnd_toEndOf="@+id/view"
-            app:layout_constraintStart_toEndOf="@+id/tvNomPlage" />
+            app:layout_constraintBottom_toTopOf="@+id/tvVillePlageDetail"
+            app:layout_constraintEnd_toEndOf="@+id/viewDetail"
+            app:layout_constraintStart_toEndOf="@+id/tvNomPlageDetail" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
-</androidx.cardview.widget.CardView>
+</androidx.constraintlayout.widget.ConstraintLayout>

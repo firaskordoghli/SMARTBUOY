@@ -13,20 +13,25 @@ import com.example.smartbuoy.DATA.Models.ItemHomePlage;
 import com.example.smartbuoy.R;
 import com.squareup.picasso.Picasso;
 
-import java.util.ArrayList;
+import java.util.List;
 
 public class HomePlageAdapter extends RecyclerView.Adapter<HomePlageAdapter.HomePlageViewHolder> {
-    private ArrayList<ItemHomePlage> mHomePlagesList;
+    private List<ItemHomePlage> mHomePlagesList;
+    private OnItemClickListener mListener;
 
-    public HomePlageAdapter(ArrayList<ItemHomePlage> itemHomePlages) {
+    public HomePlageAdapter(List<ItemHomePlage> itemHomePlages) {
         mHomePlagesList = itemHomePlages;
+    }
+
+    public void setOnItemClickListener(OnItemClickListener listener) {
+        mListener = listener;
     }
 
     @NonNull
     @Override
     public HomePlageViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_home_plage, parent, false);
-        HomePlageViewHolder homePlageViewHolder = new HomePlageViewHolder(view);
+        HomePlageViewHolder homePlageViewHolder = new HomePlageViewHolder(view, mListener);
         return homePlageViewHolder;
     }
 
@@ -47,18 +52,34 @@ public class HomePlageAdapter extends RecyclerView.Adapter<HomePlageAdapter.Home
         return mHomePlagesList.size();
     }
 
+    public interface OnItemClickListener {
+        void onItemClick(int position);
+    }
+
     public static class HomePlageViewHolder extends RecyclerView.ViewHolder {
 
         public ImageView imagePlage;
         public TextView nomPlage, villePlage, ratingPlage;
 
-        public HomePlageViewHolder(@NonNull View itemView) {
+        public HomePlageViewHolder(@NonNull View itemView, final OnItemClickListener listener) {
             super(itemView);
 
             imagePlage = itemView.findViewById(R.id.imagePlage);
             nomPlage = itemView.findViewById(R.id.tvNomPlage);
             villePlage = itemView.findViewById(R.id.tvVillePlage);
             ratingPlage = itemView.findViewById(R.id.tvRatingPlage);
+
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    if (listener != null){
+                        int position = getAdapterPosition();
+                        if (position != RecyclerView.NO_POSITION){
+                            listener.onItemClick(position);
+                        }
+                    }
+                }
+            });
         }
     }
 
