@@ -103,23 +103,7 @@ public class HomeFragment extends Fragment {
 
     }
 
-    public boolean isServiceOk(){
-        Log.d(TAG,"isServiceOk: cheking google service version");
-        int available = GoogleApiAvailability.getInstance().isGooglePlayServicesAvailable(getActivity());
 
-        if (available == ConnectionResult.SUCCESS){
-            //every thing is ok
-            Log.d(TAG,"isServiceOk: cheking google service is working");
-            return true;
-        }else if (GoogleApiAvailability.getInstance().isUserResolvableError(available)){
-            //an error eccured
-            Dialog dialog = GoogleApiAvailability.getInstance().getErrorDialog(getActivity(),available,ERROR_DIALOG_REQUEST);
-            dialog.show();
-        }else {
-            Toast.makeText(getContext(), "can't make map", Toast.LENGTH_SHORT).show();
-        }
-        return false;
-    }
 
     public void init(View view){
         Button mapBtn = view.findViewById(R.id.btnToMap);

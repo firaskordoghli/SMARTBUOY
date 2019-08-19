@@ -1,12 +1,5 @@
 package com.example.smartbuoy.UI;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.RequiresApi;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
-import androidx.fragment.app.FragmentActivity;
-
 import android.Manifest;
 import android.app.AlertDialog;
 import android.app.Dialog;
@@ -14,49 +7,104 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.location.Address;
+import android.location.Geocoder;
 import android.location.LocationManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.KeyEvent;
+import android.view.inputmethod.EditorInfo;
+import android.widget.AutoCompleteTextView;
+import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.smartbuoy.MainActivity;
+import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
+import androidx.fragment.app.FragmentActivity;
+
+import com.example.smartbuoy.DATA.Adapters.PlaceAutocompleteAdapter;
+import com.example.smartbuoy.DATA.Models.PlageDetailsMap;
+import com.example.smartbuoy.DATA.Retrofite.ApiUtil;
 import com.example.smartbuoy.R;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GoogleApiAvailability;
+import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.common.api.Status;
+import com.google.android.gms.location.places.Places;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapFragment;
 import com.google.android.gms.maps.OnMapReadyCallback;
-import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.LatLngBounds;
+import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.libraries.places.compat.Place;
+import com.google.android.libraries.places.compat.ui.PlaceAutocompleteFragment;
+import com.google.android.libraries.places.compat.ui.PlaceSelectionListener;
+
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 import static com.example.smartbuoy.DATA.Constants.ERROR_DIALOG_REQUEST;
 import static com.example.smartbuoy.DATA.Constants.PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION;
 import static com.example.smartbuoy.DATA.Constants.PERMISSIONS_REQUEST_ENABLE_GPS;
 
-public class MapSearchActivity extends FragmentActivity implements OnMapReadyCallback {
+
+public class MapSearchActivity extends FragmentActivity implements OnMapReadyCallback, GoogleMap.OnMarkerClickListener, GoogleApiClient.OnConnectionFailedListener {
 
     private static final String TAG = "MapSearchActivity";
+    private static final LatLngBounds LAT_LNG_BOUNDS = new LatLngBounds(
+            new LatLng(-40, -168), new LatLng(71, 136));
+    private LatLng sydney = new LatLng(-8.579892, 116.095239);
+    private GoogleMap mGoogleMap;
     private boolean mLocationPermissionGranted = false;
-    GoogleMap mGoogleMap;
+    private AutoCompleteTextView searshBarMapEt;
+    private PlaceAutocompleteAdapter mPlaceAutocompleteAdapter;
+    private GoogleApiClient mGoogleApiClient;
+    private MapFragment mapFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_map_search);
 
-        //SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
-        MapFragment mapFragment = (MapFragment) getFragmentManager().findFragmentById(R.id.map);
+        mapFragment = (MapFragment) getFragmentManager().findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
+        searshBarMapEt = findViewById(R.id.etSearshBarMap);
+
+        setupAutoCompleteFragment();
+
+    }
+
+    private void setupAutoCompleteFragment() {
+        PlaceAutocompleteFragment autocompleteFragment = (PlaceAutocompleteFragment)
+                getFragmentManager().findFragmentById(R.id.place_autocomplete_fragment);
+        autocompleteFragment.setOnPlaceSelectedListener(new PlaceSelectionListener() {
+            @Override
+            public void onPlaceSelected(Place place) {
+                sydney = place.getLatLng();
+                mapFragment.getMapAsync(MapSearchActivity.this);
+            }
+
+            @Override
+            public void onError(Status status) {
+                Log.e("Error", status.getStatusMessage());
+            }
+        });
     }
 
     private boolean checkMapServices() {
         if (isServicesOK()) {
-            if (isMapsEnabled()) {
-                return true;
-            }
+            return isMapsEnabled();
         }
         return false;
     }
@@ -124,7 +172,7 @@ public class MapSearchActivity extends FragmentActivity implements OnMapReadyCal
     }
 
     @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String permissions[], @NonNull int[] grantResults) {
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         mLocationPermissionGranted = false;
         switch (requestCode) {
             case PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION: {
@@ -171,13 +219,96 @@ public class MapSearchActivity extends FragmentActivity implements OnMapReadyCal
 
         mGoogleMap = googleMap;
 
-        LatLng kelibia = new LatLng(36.85, 11.1);
-        mGoogleMap.addMarker(new MarkerOptions().position(kelibia).title("kelibia"));
-        mGoogleMap.moveCamera(CameraUpdateFactory.newLatLng(kelibia));
+        mGoogleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(sydney, 8.5f));
+
+        ApiUtil.getServiceClass().allPlageMap().enqueue(new Callback<List<PlageDetailsMap>>() {
+            @Override
+            public void onResponse(Call<List<PlageDetailsMap>> call, Response<List<PlageDetailsMap>> response) {
+                final List<PlageDetailsMap> mList = response.body();
+                for (int i = 0; i < mList.size(); i++) {
+                    PlageDetailsMap plageDetailsMap = mList.get(i);
+                    LatLng plageLatLng = new LatLng(plageDetailsMap.getLat(), plageDetailsMap.getLng());
+                    mGoogleMap.addMarker(new MarkerOptions().position(plageLatLng).title(plageDetailsMap.getNom()));
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<PlageDetailsMap>> call, Throwable t) {
+
+            }
+        });
+
+        init();
 
         if (checkSelfPermission(Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && checkSelfPermission(Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             return;
         }
         mGoogleMap.setMyLocationEnabled(true);
+
+        // Set a listener for marker click.
+        mGoogleMap.setOnMarkerClickListener(this);
     }
+
+    @Override
+    public boolean onMarkerClick(Marker marker) {
+        return false;
+    }
+
+    private void init() {
+
+
+        /*
+        mGoogleApiClient = new GoogleApiClient
+                .Builder(this)
+                .addApi(Places.GEO_DATA_API)
+                .addApi(Places.PLACE_DETECTION_API)
+                .enableAutoManage(this, this)
+                .build();
+
+        mPlaceAutocompleteAdapter = new PlaceAutocompleteAdapter(this, mGoogleApiClient, LAT_LNG_BOUNDS, null);
+
+        searshBarMapEt.setAdapter(mPlaceAutocompleteAdapter);
+
+        searshBarMapEt.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView textView, int actionId, KeyEvent keyEvent) {
+                if (actionId == EditorInfo.IME_ACTION_SEARCH
+                        || actionId == EditorInfo.IME_ACTION_DONE
+                        || keyEvent.getAction() == KeyEvent.ACTION_DOWN
+                        || keyEvent.getAction() == KeyEvent.KEYCODE_ENTER) {
+
+                    geoLocate();
+                }
+                return false;
+            }
+        });*/
+
+    }
+
+    void geoLocate() {
+        String searshText = searshBarMapEt.getText().toString();
+        Geocoder geocoder = new Geocoder(MapSearchActivity.this);
+        List<Address> list = new ArrayList<>();
+
+        try {
+            list = geocoder.getFromLocationName(searshText, 2);
+        } catch (IOException e) {
+            Toast.makeText(this, e.getMessage(), Toast.LENGTH_SHORT).show();
+        }
+
+        if (list.size() > 0) {
+            Address address = list.get(0);
+            LatLng location = new LatLng(address.getLatitude(), address.getLongitude());
+
+            mGoogleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(location, 10));
+            // Zoom in, animating the camera.
+            mGoogleMap.animateCamera(CameraUpdateFactory.zoomIn());
+        }
+    }
+
+    @Override
+    public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
+
+    }
+
 }

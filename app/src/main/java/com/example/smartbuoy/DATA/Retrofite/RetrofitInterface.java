@@ -2,6 +2,7 @@ package com.example.smartbuoy.DATA.Retrofite;
 
 import com.example.smartbuoy.DATA.Models.ItemHomePlage;
 import com.example.smartbuoy.DATA.Models.Plage;
+import com.example.smartbuoy.DATA.Models.PlageDetailsMap;
 import com.example.smartbuoy.DATA.Models.User;
 import com.google.gson.JsonObject;
 
@@ -35,6 +36,9 @@ public interface RetrofitInterface {
 
     @GET("mob/plage/")
     public Call<List<ItemHomePlage>> allplage();
+
+    @GET("mob/plage/location")
+    public Call<List<PlageDetailsMap>> allPlageMap();
 
     @GET("mob/plage/{id}")
     public Call<Plage> getPlageById(@Path("id") String id);
