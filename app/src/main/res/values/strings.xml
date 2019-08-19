@@ -1,6 +1,8 @@
 <resources>
     <string name="app_name">SMART BUOY</string>
 
+    <string name="google_map_API_key">AIzaSyAVxkPYgPzm_5yNKdjVEKFQrB9gtQ_y1v8</string>
+
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
 

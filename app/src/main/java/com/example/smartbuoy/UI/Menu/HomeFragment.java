@@ -1,11 +1,14 @@
 package com.example.smartbuoy.UI.Menu;
 
 
+import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.Toast;
 
 import androidx.fragment.app.Fragment;
@@ -17,6 +20,9 @@ import com.example.smartbuoy.DATA.Models.ItemHomePlage;
 import com.example.smartbuoy.DATA.Retrofite.ApiUtil;
 import com.example.smartbuoy.R;
 import com.example.smartbuoy.UI.DetailPlageActivity;
+import com.example.smartbuoy.UI.MapSearchActivity;
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.GoogleApiAvailability;
 
 import java.util.List;
 
@@ -31,6 +37,9 @@ public class HomeFragment extends Fragment {
     private RecyclerView mRecyclerView;
     private HomePlageAdapter mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
+
+    private static final String TAG = "HomeFragment";
+    private static final int ERROR_DIALOG_REQUEST = 9001;
 
 
     public HomeFragment() {
@@ -48,6 +57,15 @@ public class HomeFragment extends Fragment {
         mRecyclerView.setHasFixedSize(true);
 
         listePlage();
+
+        Button mapBtn = view.findViewById(R.id.btnToMap);
+        mapBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getContext(),MapSearchActivity.class);
+                startActivity(intent);
+            }
+        });
 
         return view;
     }
@@ -83,6 +101,35 @@ public class HomeFragment extends Fragment {
             }
         });
 
+    }
+
+    public boolean isServiceOk(){
+        Log.d(TAG,"isServiceOk: cheking google service version");
+        int available = GoogleApiAvailability.getInstance().isGooglePlayServicesAvailable(getActivity());
+
+        if (available == ConnectionResult.SUCCESS){
+            //every thing is ok
+            Log.d(TAG,"isServiceOk: cheking google service is working");
+            return true;
+        }else if (GoogleApiAvailability.getInstance().isUserResolvableError(available)){
+            //an error eccured
+            Dialog dialog = GoogleApiAvailability.getInstance().getErrorDialog(getActivity(),available,ERROR_DIALOG_REQUEST);
+            dialog.show();
+        }else {
+            Toast.makeText(getContext(), "can't make map", Toast.LENGTH_SHORT).show();
+        }
+        return false;
+    }
+
+    public void init(View view){
+        Button mapBtn = view.findViewById(R.id.btnToMap);
+        mapBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getContext(),MapSearchActivity.class);
+                startActivity(intent);
+            }
+        });
     }
 
 }

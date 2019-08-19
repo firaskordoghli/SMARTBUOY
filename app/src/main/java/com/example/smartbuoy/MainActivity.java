@@ -2,13 +2,11 @@ package com.example.smartbuoy;
 
 import android.os.Bundle;
 import android.view.MenuItem;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 
-import com.example.smartbuoy.DATA.Models.User;
 import com.example.smartbuoy.DATA.UserSessionManager;
 import com.example.smartbuoy.UI.Menu.EventsFragment;
 import com.example.smartbuoy.UI.Menu.ExploreFragment;
@@ -20,6 +18,8 @@ import com.google.gson.Gson;
 public class MainActivity extends AppCompatActivity {
     // User Session Manager Class
     UserSessionManager session;
+    private boolean mLocationPermissionGranted = false;
+
 
     private BottomNavigationView.OnNavigationItemSelectedListener navListener =
             new BottomNavigationView.OnNavigationItemSelectedListener() {
@@ -62,7 +62,7 @@ public class MainActivity extends AppCompatActivity {
         // Check user login (this is the important point)
         // If User is not logged in , This will redirect user to LoginActivity
         // and finish current activity from activity stack.
-        if(session.checkLogin())
+        if (session.checkLogin())
             finish();
 
         Gson gson = new Gson();
