@@ -11,30 +11,29 @@ import com.example.smartbuoy.DATA.UserSessionManager;
 import com.example.smartbuoy.UI.Menu.EventsFragment;
 import com.example.smartbuoy.UI.Menu.ExploreFragment;
 import com.example.smartbuoy.UI.Menu.HomeFragment;
-import com.example.smartbuoy.UI.Menu.ProfileFragment;
+import com.example.smartbuoy.UI.Menu.Profile.ProfileFragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.gson.Gson;
 
 public class MainActivity extends AppCompatActivity {
     // User Session Manager Class
     UserSessionManager session;
-    private boolean mLocationPermissionGranted = false;
-
 
     private BottomNavigationView.OnNavigationItemSelectedListener navListener =
             new BottomNavigationView.OnNavigationItemSelectedListener() {
                 @Override
                 public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
-                    Fragment selectedFragment = new ExploreFragment();
+                    Fragment selectedFragment = new HomeFragment();
 
                     switch (menuItem.getItemId()) {
+                        case R.id.home:
+                            selectedFragment = new HomeFragment();
+                            break;
+
                         case R.id.explore:
                             selectedFragment = new ExploreFragment();
                             break;
 
-                        case R.id.home:
-                            selectedFragment = new HomeFragment();
-                            break;
 
                         case R.id.profile:
                             selectedFragment = new ProfileFragment();
@@ -76,7 +75,7 @@ public class MainActivity extends AppCompatActivity {
         BottomNavigationView bottomNavigationView = findViewById(R.id.bottomNavigationView);
         bottomNavigationView.setOnNavigationItemSelectedListener(navListener);
 
-        getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new ExploreFragment()).commit();
+        getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new HomeFragment()).commit();
 
     }
 }

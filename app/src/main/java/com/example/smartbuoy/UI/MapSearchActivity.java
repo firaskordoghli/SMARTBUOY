@@ -7,16 +7,10 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.location.Address;
-import android.location.Geocoder;
 import android.location.LocationManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.KeyEvent;
-import android.view.inputmethod.EditorInfo;
-import android.widget.AutoCompleteTextView;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -25,15 +19,12 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.FragmentActivity;
 
-import com.example.smartbuoy.DATA.Adapters.PlaceAutocompleteAdapter;
 import com.example.smartbuoy.DATA.Models.PlageDetailsMap;
 import com.example.smartbuoy.DATA.Retrofite.ApiUtil;
 import com.example.smartbuoy.R;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GoogleApiAvailability;
 import com.google.android.gms.common.api.GoogleApiClient;
-import com.google.android.gms.common.api.Status;
-import com.google.android.gms.location.places.Places;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapFragment;
@@ -42,13 +33,7 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
-import com.google.android.libraries.places.compat.Place;
-import com.google.android.libraries.places.compat.ui.PlaceAutocompleteFragment;
-import com.google.android.libraries.places.compat.ui.PlaceSelectionListener;
 
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 import retrofit2.Call;
@@ -68,12 +53,9 @@ public class MapSearchActivity extends FragmentActivity implements OnMapReadyCal
 
     private GoogleMap mGoogleMap;
     private boolean mLocationPermissionGranted = false;
-    private AutoCompleteTextView searshBarMapEt;
-    private PlaceAutocompleteAdapter mPlaceAutocompleteAdapter;
     private GoogleApiClient mGoogleApiClient;
     private MapFragment mapFragment;
 
-    private HashMap<Object, PlageDetailsMap> plageMarkerMap = new HashMap<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -82,27 +64,7 @@ public class MapSearchActivity extends FragmentActivity implements OnMapReadyCal
 
         mapFragment = (MapFragment) getFragmentManager().findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
-        searshBarMapEt = findViewById(R.id.etSearshBarMap);
 
-        //setupAutoCompleteFragment();
-
-    }
-
-    private void setupAutoCompleteFragment() {
-        PlaceAutocompleteFragment autocompleteFragment = (PlaceAutocompleteFragment)
-                getFragmentManager().findFragmentById(R.id.place_autocomplete_fragment);
-        autocompleteFragment.setOnPlaceSelectedListener(new PlaceSelectionListener() {
-            @Override
-            public void onPlaceSelected(Place place) {
-
-                mapFragment.getMapAsync(MapSearchActivity.this);
-            }
-
-            @Override
-            public void onError(Status status) {
-                Log.e("Error", status.getStatusMessage());
-            }
-        });
     }
 
     private boolean checkMapServices() {
@@ -244,14 +206,11 @@ public class MapSearchActivity extends FragmentActivity implements OnMapReadyCal
 
                     LatLng plageLatLng = new LatLng(plageDetailsMap.getLat(), plageDetailsMap.getLng());
 
-                    //mGoogleMap.addMarker(new MarkerOptions().position(plageLatLng).title(plageDetailsMap.getNom()));
-
                     Marker CustomMarker = mGoogleMap.addMarker(new MarkerOptions()
                             .position(plageLatLng)
                             .title(plageDetailsMap.getNom()));
                     CustomMarker.setTag(plageDetailsMap);
 
-                    //plageMarkerMap.put(CustomMarker.getTag(), plageDetailsMap);
                 }
             }
 
@@ -260,8 +219,6 @@ public class MapSearchActivity extends FragmentActivity implements OnMapReadyCal
 
             }
         });
-
-        init();
 
         if (checkSelfPermission(Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && checkSelfPermission(Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             return;
@@ -282,36 +239,7 @@ public class MapSearchActivity extends FragmentActivity implements OnMapReadyCal
 
         return false;
     }
-
-    private void init() {
-
-        mGoogleApiClient = new GoogleApiClient
-                .Builder(this)
-                .addApi(Places.GEO_DATA_API)
-                .addApi(Places.PLACE_DETECTION_API)
-                .enableAutoManage(this, this)
-                .build();
-
-        mPlaceAutocompleteAdapter = new PlaceAutocompleteAdapter(this, mGoogleApiClient, LAT_LNG_BOUNDS, null);
-
-        searshBarMapEt.setAdapter(mPlaceAutocompleteAdapter);
-
-        searshBarMapEt.setOnEditorActionListener(new TextView.OnEditorActionListener() {
-            @Override
-            public boolean onEditorAction(TextView textView, int actionId, KeyEvent keyEvent) {
-                if (actionId == EditorInfo.IME_ACTION_SEARCH
-                        || actionId == EditorInfo.IME_ACTION_DONE
-                        || keyEvent.getAction() == KeyEvent.ACTION_DOWN
-                        || keyEvent.getAction() == KeyEvent.KEYCODE_ENTER) {
-
-                    geoLocate();
-                }
-                return false;
-            }
-        });
-
-    }
-
+/*
     void geoLocate() {
         String searshText = searshBarMapEt.getText().toString();
         Geocoder geocoder = new Geocoder(MapSearchActivity.this);
@@ -332,6 +260,6 @@ public class MapSearchActivity extends FragmentActivity implements OnMapReadyCal
             mGoogleMap.animateCamera(CameraUpdateFactory.zoomIn());
         }
     }
-
+*/
 
 }

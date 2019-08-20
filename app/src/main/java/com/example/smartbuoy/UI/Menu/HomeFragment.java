@@ -9,6 +9,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.Toast;
 
 import androidx.fragment.app.Fragment;
@@ -37,6 +39,7 @@ public class HomeFragment extends Fragment {
     private RecyclerView mRecyclerView;
     private HomePlageAdapter mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
+    private EditText toSearshEditText;
 
     private static final String TAG = "HomeFragment";
     private static final int ERROR_DIALOG_REQUEST = 9001;
@@ -53,13 +56,13 @@ public class HomeFragment extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_home, container, false);
 
+        toSearshEditText = view.findViewById(R.id.etToSearsh);
         mRecyclerView = view.findViewById(R.id.rvHome);
         mRecyclerView.setHasFixedSize(true);
 
         listePlage();
 
-        Button mapBtn = view.findViewById(R.id.btnToMap);
-        mapBtn.setOnClickListener(new View.OnClickListener() {
+        toSearshEditText.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(getContext(),MapSearchActivity.class);
@@ -67,6 +70,15 @@ public class HomeFragment extends Fragment {
             }
         });
 
+        ImageButton mapIbtn = view.findViewById(R.id.ibtnToMap);
+
+        mapIbtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getContext(),MapSearchActivity.class);
+                startActivity(intent);
+            }
+        });
         return view;
     }
 
@@ -101,19 +113,6 @@ public class HomeFragment extends Fragment {
             }
         });
 
-    }
-
-
-
-    public void init(View view){
-        Button mapBtn = view.findViewById(R.id.btnToMap);
-        mapBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(getContext(),MapSearchActivity.class);
-                startActivity(intent);
-            }
-        });
     }
 
 }

@@ -57,8 +57,4 @@ dependencies {
     implementation 'com.google.android.libraries.places:places-compat:2.0.0'
 
 
-
-
-
-
 }
