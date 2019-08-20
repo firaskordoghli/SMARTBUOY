@@ -59,4 +59,15 @@ public class PlageDetailsMap {
     public void setLng(Double lng) {
         this.lng = lng;
     }
+
+    @Override
+    public String toString() {
+        return "PlageDetailsMap{" +
+                "id='" + id + '\'' +
+                ", nom='" + nom + '\'' +
+                ", ville='" + ville + '\'' +
+                ", lat=" + lat +
+                ", lng=" + lng +
+                '}';
+    }
 }

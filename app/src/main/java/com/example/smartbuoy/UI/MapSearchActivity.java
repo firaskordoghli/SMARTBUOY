@@ -48,6 +48,7 @@ import com.google.android.libraries.places.compat.ui.PlaceSelectionListener;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import retrofit2.Call;
@@ -59,18 +60,20 @@ import static com.example.smartbuoy.DATA.Constants.PERMISSIONS_REQUEST_ACCESS_FI
 import static com.example.smartbuoy.DATA.Constants.PERMISSIONS_REQUEST_ENABLE_GPS;
 
 
-public class MapSearchActivity extends FragmentActivity implements OnMapReadyCallback, GoogleMap.OnMarkerClickListener, GoogleApiClient.OnConnectionFailedListener {
+public class MapSearchActivity extends FragmentActivity implements OnMapReadyCallback, GoogleMap.OnMarkerClickListener, GoogleApiClient.OnConnectionFailedListener, GoogleMap.OnInfoWindowClickListener {
 
     private static final String TAG = "MapSearchActivity";
     private static final LatLngBounds LAT_LNG_BOUNDS = new LatLngBounds(
             new LatLng(-40, -168), new LatLng(71, 136));
-    private LatLng sydney = new LatLng(-8.579892, 116.095239);
+
     private GoogleMap mGoogleMap;
     private boolean mLocationPermissionGranted = false;
     private AutoCompleteTextView searshBarMapEt;
     private PlaceAutocompleteAdapter mPlaceAutocompleteAdapter;
     private GoogleApiClient mGoogleApiClient;
     private MapFragment mapFragment;
+
+    private HashMap<Object, PlageDetailsMap> plageMarkerMap = new HashMap<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -81,7 +84,7 @@ public class MapSearchActivity extends FragmentActivity implements OnMapReadyCal
         mapFragment.getMapAsync(this);
         searshBarMapEt = findViewById(R.id.etSearshBarMap);
 
-        setupAutoCompleteFragment();
+        //setupAutoCompleteFragment();
 
     }
 
@@ -91,7 +94,7 @@ public class MapSearchActivity extends FragmentActivity implements OnMapReadyCal
         autocompleteFragment.setOnPlaceSelectedListener(new PlaceSelectionListener() {
             @Override
             public void onPlaceSelected(Place place) {
-                sydney = place.getLatLng();
+
                 mapFragment.getMapAsync(MapSearchActivity.this);
             }
 
@@ -213,13 +216,24 @@ public class MapSearchActivity extends FragmentActivity implements OnMapReadyCal
         }
     }
 
+    @Override
+    public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
+
+    }
+
+    @Override
+    public void onInfoWindowClick(Marker marker) {
+
+    }
+
     @RequiresApi(api = Build.VERSION_CODES.M)
     @Override
     public void onMapReady(GoogleMap googleMap) {
 
         mGoogleMap = googleMap;
 
-        mGoogleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(sydney, 8.5f));
+        mGoogleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(36.85, 11.1), 8.0f));
+
 
         ApiUtil.getServiceClass().allPlageMap().enqueue(new Callback<List<PlageDetailsMap>>() {
             @Override
@@ -227,8 +241,17 @@ public class MapSearchActivity extends FragmentActivity implements OnMapReadyCal
                 final List<PlageDetailsMap> mList = response.body();
                 for (int i = 0; i < mList.size(); i++) {
                     PlageDetailsMap plageDetailsMap = mList.get(i);
+
                     LatLng plageLatLng = new LatLng(plageDetailsMap.getLat(), plageDetailsMap.getLng());
-                    mGoogleMap.addMarker(new MarkerOptions().position(plageLatLng).title(plageDetailsMap.getNom()));
+
+                    //mGoogleMap.addMarker(new MarkerOptions().position(plageLatLng).title(plageDetailsMap.getNom()));
+
+                    Marker CustomMarker = mGoogleMap.addMarker(new MarkerOptions()
+                            .position(plageLatLng)
+                            .title(plageDetailsMap.getNom()));
+                    CustomMarker.setTag(plageDetailsMap);
+
+                    //plageMarkerMap.put(CustomMarker.getTag(), plageDetailsMap);
                 }
             }
 
@@ -251,13 +274,17 @@ public class MapSearchActivity extends FragmentActivity implements OnMapReadyCal
 
     @Override
     public boolean onMarkerClick(Marker marker) {
+        PlageDetailsMap plageDetailsMap = (PlageDetailsMap) marker.getTag();
+
+        Intent intent = new Intent(getApplicationContext(), DetailPlageActivity.class);
+        intent.putExtra("idPlageFromHome", plageDetailsMap.getId());
+        startActivity(intent);
+
         return false;
     }
 
     private void init() {
 
-
-        /*
         mGoogleApiClient = new GoogleApiClient
                 .Builder(this)
                 .addApi(Places.GEO_DATA_API)
@@ -281,7 +308,7 @@ public class MapSearchActivity extends FragmentActivity implements OnMapReadyCal
                 }
                 return false;
             }
-        });*/
+        });
 
     }
 
@@ -306,9 +333,5 @@ public class MapSearchActivity extends FragmentActivity implements OnMapReadyCal
         }
     }
 
-    @Override
-    public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
-
-    }
 
 }
