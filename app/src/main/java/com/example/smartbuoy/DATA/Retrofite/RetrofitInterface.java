@@ -1,5 +1,6 @@
 package com.example.smartbuoy.DATA.Retrofite;
 
+import com.example.smartbuoy.DATA.Models.Event;
 import com.example.smartbuoy.DATA.Models.ItemHomePlage;
 import com.example.smartbuoy.DATA.Models.Plage;
 import com.example.smartbuoy.DATA.Models.PlageDetailsMap;
@@ -46,6 +47,9 @@ public interface RetrofitInterface {
 
     @GET("mob/user/going/future/{id}")
     public Call<List<Plan>> getPlan(@Path("id") String id);
+
+    @GET("mob/event")
+    public Call<List<Event>> allEvents();
 
 
 

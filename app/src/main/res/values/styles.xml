@@ -30,7 +30,7 @@
     </style>
 
     <style name="itemPlageCity">
-        <item name="android:textSize">14sp</item>
+        <item name="android:textSize">12sp</item>
         <item name="android:textColor">#FFFFFF</item>
         <item name="android:textStyle">normal</item>
         <!-- <item name="android:typeface">Montserrat</item> -->
@@ -60,6 +60,27 @@
     <style name="IntupEditText">
         <item name="android:textSize">14sp</item>
         <item name="android:textColor">#CBCBCB</item>
+        <item name="android:textStyle">normal</item>
+        <!-- <item name="android:typeface">Montserrat</item> -->
+    </style>
+
+    <style name="itemEventTitle">
+        <item name="android:textSize">18sp</item>
+        <item name="android:textColor">#FFFFFF</item>
+        <item name="android:textStyle">bold</item>
+        <!-- <item name="android:typeface">Montserrat</item> -->
+    </style>
+
+    <style name="itemEventNumber">
+        <item name="android:textSize">14sp</item>
+        <item name="android:textColor">#FFFFFF</item>
+        <item name="android:textStyle">normal</item>
+        <!-- <item name="android:typeface">Montserrat</item> -->
+    </style>
+
+    <style name="itemEventDate">
+        <item name="android:textSize">14sp</item>
+        <item name="android:textColor">#FFFFFF</item>
         <item name="android:textStyle">normal</item>
         <!-- <item name="android:typeface">Montserrat</item> -->
     </style>

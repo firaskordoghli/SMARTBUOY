@@ -4,17 +4,32 @@ package com.example.smartbuoy.UI.Menu.Event;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.example.smartbuoy.DATA.Adapters.UpComingEventsAdapter;
+import com.example.smartbuoy.DATA.Models.Event;
+import com.example.smartbuoy.DATA.Retrofite.ApiUtil;
 import com.example.smartbuoy.R;
+
+import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 /**
  * A simple {@link Fragment} subclass.
  */
 public class UpcomingEventsFragment extends Fragment {
+
+    private RecyclerView mRecycleView;
+    private UpComingEventsAdapter eventAdapter;
+    private RecyclerView.LayoutManager mLayoutManager;
 
 
     public UpcomingEventsFragment() {
@@ -26,7 +41,33 @@ public class UpcomingEventsFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_upcoming_events, container, false);
+        View view = inflater.inflate(R.layout.fragment_upcoming_events, container, false);
+        
+        mRecycleView = view.findViewById(R.id.rvUpcomingEvents);
+        mRecycleView.setHasFixedSize(true);
+        
+        listEvent();
+        return view;
+    }
+
+    private void listEvent() {
+        ApiUtil.getServiceClass().allEvents().enqueue(new Callback<List<Event>>() {
+            @Override
+            public void onResponse(Call<List<Event>> call, Response<List<Event>> response) {
+                List<Event> listEvent = response.body();
+
+                mLayoutManager = new LinearLayoutManager(getContext());
+                eventAdapter = new UpComingEventsAdapter(listEvent);
+
+                mRecycleView.setLayoutManager(mLayoutManager);
+                mRecycleView.setAdapter(eventAdapter);
+            }
+
+            @Override
+            public void onFailure(Call<List<Event>> call, Throwable t) {
+
+            }
+        });
     }
 
 }

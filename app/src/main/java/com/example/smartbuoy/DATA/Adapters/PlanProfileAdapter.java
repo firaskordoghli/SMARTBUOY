@@ -34,6 +34,7 @@ public class PlanProfileAdapter extends RecyclerView.Adapter<PlanProfileAdapter.
     @Override
     public void onBindViewHolder(@NonNull PlanViewHolder holder, int position) {
         Plan plan = mPlanList.get(position);
+
         Picasso.get().load(plan.getMainImage()).into(holder.planIv);
 
         holder.planPlageNameTextView.setText(plan.getNomPlage());
