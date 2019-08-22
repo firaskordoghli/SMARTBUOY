@@ -17,10 +17,12 @@ import java.util.List;
 
 public class HomePlageAdapter extends RecyclerView.Adapter<HomePlageAdapter.HomePlageViewHolder> {
     private List<ItemHomePlage> mHomePlagesList;
+    private List<ItemHomePlage> mHomePlagesListFull;
     private OnItemClickListener mListener;
 
     public HomePlageAdapter(List<ItemHomePlage> itemHomePlages) {
         mHomePlagesList = itemHomePlages;
+
     }
 
     public void setOnItemClickListener(OnItemClickListener listener) {

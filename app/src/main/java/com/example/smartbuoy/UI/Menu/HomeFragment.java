@@ -29,6 +29,7 @@ import com.example.smartbuoy.DATA.UserSessionManager;
 import com.example.smartbuoy.R;
 import com.example.smartbuoy.UI.DetailPlageActivity;
 import com.example.smartbuoy.UI.MapSearchActivity;
+import com.example.smartbuoy.UI.SearshActivity;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GoogleApiAvailability;
 import com.google.gson.Gson;
@@ -88,7 +89,7 @@ public class HomeFragment extends Fragment {
         toSearshEditText.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(getContext(),MapSearchActivity.class);
+                Intent intent = new Intent(getContext(), SearshActivity.class);
                 startActivity(intent);
             }
         });
