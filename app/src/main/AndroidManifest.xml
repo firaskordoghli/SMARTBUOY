@@ -36,8 +36,12 @@
         <activity android:name=".UI.MapSearchActivity" />
         <activity android:name=".UI.DetailPlageActivity" />
         <activity android:name=".UI.SignUp.SignUpStep3Activity" />
-        <activity android:name=".UI.SignUp.SignUpStep2Activity" />
-        <activity android:name=".UI.SignUp.SignUpStep1Activity" />
+        <activity android:name=".UI.SignUp.SignUpStep2Activity">
+
+        </activity>
+        <activity android:name=".UI.SignUp.SignUpStep1Activity">
+
+        </activity>
         <activity android:name=".UI.LoginActivity" />
         <activity android:name=".MainActivity">
             <intent-filter>

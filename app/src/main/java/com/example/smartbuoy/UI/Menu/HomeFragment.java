@@ -11,6 +11,8 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.fragment.app.Fragment;
@@ -18,13 +20,19 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.smartbuoy.DATA.Adapters.HomePlageAdapter;
+import com.example.smartbuoy.DATA.Adapters.PlanProfileAdapter;
 import com.example.smartbuoy.DATA.Models.ItemHomePlage;
+import com.example.smartbuoy.DATA.Models.Plan;
+import com.example.smartbuoy.DATA.Models.User;
 import com.example.smartbuoy.DATA.Retrofite.ApiUtil;
+import com.example.smartbuoy.DATA.UserSessionManager;
 import com.example.smartbuoy.R;
 import com.example.smartbuoy.UI.DetailPlageActivity;
 import com.example.smartbuoy.UI.MapSearchActivity;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GoogleApiAvailability;
+import com.google.gson.Gson;
+import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
@@ -40,6 +48,9 @@ public class HomeFragment extends Fragment {
     private HomePlageAdapter mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
     private EditText toSearshEditText;
+
+    ImageView planImageView;
+    TextView planDateTextView,planPlageTextView,planCityTextView;
 
     private static final String TAG = "HomeFragment";
     private static final int ERROR_DIALOG_REQUEST = 9001;
@@ -57,10 +68,22 @@ public class HomeFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_home, container, false);
 
         toSearshEditText = view.findViewById(R.id.etToSearsh);
+
+        planImageView = view.findViewById(R.id.ivPlanHome);
+        planDateTextView = view.findViewById(R.id.tvDatePlanHome);
+        planPlageTextView = view.findViewById(R.id.tvNamePlagePlanHome);
+        planCityTextView = view.findViewById(R.id.tvCityPlanHome);
+
         mRecyclerView = view.findViewById(R.id.rvHome);
         mRecyclerView.setHasFixedSize(true);
 
         listePlage();
+
+        UserSessionManager session = new UserSessionManager(getContext());
+        Gson gson = new Gson();
+        User currentUser = gson.fromJson(session.getUserDetails(), User.class);
+
+        listPlan(currentUser.getId());
 
         toSearshEditText.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -113,6 +136,28 @@ public class HomeFragment extends Fragment {
             }
         });
 
+    }
+
+    private void listPlan(String id) {
+        ApiUtil.getServiceClass().getPlan(id).enqueue(new Callback<List<Plan>>() {
+            @Override
+            public void onResponse(Call<List<Plan>> call, Response<List<Plan>> response) {
+                List<Plan> mList = response.body();
+                Plan firstPlan = mList.get(0);
+
+                Picasso.get().load(firstPlan.getMainImage()).into(planImageView);
+                planDateTextView.setText(firstPlan.getDate());
+                planPlageTextView.setText(firstPlan.getNomPlage());
+                planCityTextView.setText(firstPlan.getVillePlage());
+
+
+            }
+
+            @Override
+            public void onFailure(Call<List<Plan>> call, Throwable t) {
+
+            }
+        });
     }
 
 }

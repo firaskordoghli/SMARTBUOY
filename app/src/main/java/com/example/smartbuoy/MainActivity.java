@@ -8,7 +8,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 
 import com.example.smartbuoy.DATA.UserSessionManager;
-import com.example.smartbuoy.UI.Menu.EventsFragment;
+import com.example.smartbuoy.UI.Menu.Event.EventsFragment;
 import com.example.smartbuoy.UI.Menu.ExploreFragment;
 import com.example.smartbuoy.UI.Menu.HomeFragment;
 import com.example.smartbuoy.UI.Menu.Profile.ProfileFragment;
