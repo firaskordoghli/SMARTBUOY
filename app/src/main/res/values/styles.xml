@@ -16,6 +16,10 @@
         <item name="windowNoTitle">true</item>
     </style>
 
+    <style name="HeaderBar">
+        <item name="android:background">@color/colorPrimary</item>
+    </style>
+
     <style name="Base.Widget.Design.TabLayout" parent="android:Widget">
         <item name="tabBackground">@drawable/tab_background</item>
         <item name="tabIndicatorColor">#FFFFFF</item>
