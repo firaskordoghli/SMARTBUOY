@@ -38,11 +38,21 @@ public class SearshActivity extends AppCompatActivity {
 
         searshTopToolbar = (androidx.appcompat.widget.Toolbar) findViewById(R.id.searsh_toolbar);
         setSupportActionBar(searshTopToolbar);
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
+
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
 
         mRecyclerView = findViewById(R.id.rvSearsh);
         mRecyclerView.setHasFixedSize(true);
 
         listePlage();
+    }
+
+    @Override
+    public boolean onSupportNavigateUp() {
+        onBackPressed();
+        return true;
     }
 
     void listePlage() {
@@ -80,10 +90,24 @@ public class SearshActivity extends AppCompatActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
+
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.searsh_menu,menu);
 
         MenuItem searchItem = menu.findItem(R.id.actionSearch);
+        MenuItem mapItem = menu.findItem(R.id.actionBarMap);
+
+        mapItem.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
+
+            @Override
+            public boolean onMenuItemClick(MenuItem menuItem) {
+                Intent intent = new Intent(getApplicationContext(), MapSearchActivity.class);
+                startActivity(intent);
+                return false;
+            }
+        });
+
+
         SearchView searchView = (SearchView) searchItem.getActionView();
 
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {

@@ -1,14 +1,12 @@
 package com.example.smartbuoy.UI.Menu;
 
 
-import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
+import android.view.animation.Animation;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -20,7 +18,6 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.smartbuoy.DATA.Adapters.HomePlageAdapter;
-import com.example.smartbuoy.DATA.Adapters.PlanProfileAdapter;
 import com.example.smartbuoy.DATA.Models.ItemHomePlage;
 import com.example.smartbuoy.DATA.Models.Plan;
 import com.example.smartbuoy.DATA.Models.User;
@@ -30,8 +27,7 @@ import com.example.smartbuoy.R;
 import com.example.smartbuoy.UI.DetailPlageActivity;
 import com.example.smartbuoy.UI.MapSearchActivity;
 import com.example.smartbuoy.UI.SearshActivity;
-import com.google.android.gms.common.ConnectionResult;
-import com.google.android.gms.common.GoogleApiAvailability;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.gson.Gson;
 import com.squareup.picasso.Picasso;
 
@@ -41,21 +37,21 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
+
 /**
  * A simple {@link Fragment} subclass.
  */
 public class HomeFragment extends Fragment {
+    private static final String TAG = "HomeFragment";
+    private static final int ERROR_DIALOG_REQUEST = 9001;
+    private ImageView planImageView;
+    private TextView planDateTextView, planPlageTextView, planCityTextView;
     private RecyclerView mRecyclerView;
     private HomePlageAdapter mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
-    private EditText toSearshEditText;
+    private FloatingActionButton floatingActionButton, fabEvent, fabPlan;
 
-    ImageView planImageView;
-    TextView planDateTextView,planPlageTextView,planCityTextView;
-
-    private static final String TAG = "HomeFragment";
-    private static final int ERROR_DIALOG_REQUEST = 9001;
-
+    private boolean isFABOpen = false;
 
     public HomeFragment() {
         // Required empty public constructor
@@ -68,7 +64,7 @@ public class HomeFragment extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_home, container, false);
 
-        toSearshEditText = view.findViewById(R.id.etToSearsh);
+        EditText toSearshEditText = view.findViewById(R.id.etToSearsh);
 
         planImageView = view.findViewById(R.id.ivPlanHome);
         planDateTextView = view.findViewById(R.id.tvDatePlanHome);
@@ -77,6 +73,36 @@ public class HomeFragment extends Fragment {
 
         mRecyclerView = view.findViewById(R.id.rvHome);
         mRecyclerView.setHasFixedSize(true);
+
+        floatingActionButton = (FloatingActionButton) view.findViewById(R.id.floating_action_button);
+        fabEvent = (FloatingActionButton) view.findViewById(R.id.floating_action_button_event);
+        fabPlan = (FloatingActionButton) view.findViewById(R.id.floating_action_button2);
+
+
+        floatingActionButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (!isFABOpen) {
+                    showFABMenu();
+                } else {
+                    closeFABMenu();
+                }
+            }
+        });
+
+        fabEvent.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Toast.makeText(getContext(), "event", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        fabPlan.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Toast.makeText(getContext(), "plan", Toast.LENGTH_SHORT).show();
+            }
+        });
 
         listePlage();
 
@@ -99,14 +125,27 @@ public class HomeFragment extends Fragment {
         mapIbtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(getContext(),MapSearchActivity.class);
+                Intent intent = new Intent(getContext(), MapSearchActivity.class);
                 startActivity(intent);
             }
         });
         return view;
     }
 
-    void listePlage() {
+    private void showFABMenu() {
+        isFABOpen = true;
+        fabEvent.animate().translationY(-getResources().getDimension(R.dimen.standard_55));
+        fabPlan.animate().translationY(-getResources().getDimension(R.dimen.standard_105));
+    }
+
+    private void closeFABMenu() {
+        isFABOpen = false;
+        fabEvent.animate().translationY(0);
+        fabPlan.animate().translationY(0);
+
+    }
+
+    private void listePlage() {
         ApiUtil.getServiceClass().allplage().enqueue(new Callback<List<ItemHomePlage>>() {
             @Override
             public void onResponse(Call<List<ItemHomePlage>> call, Response<List<ItemHomePlage>> response) {
@@ -144,12 +183,19 @@ public class HomeFragment extends Fragment {
             @Override
             public void onResponse(Call<List<Plan>> call, Response<List<Plan>> response) {
                 List<Plan> mList = response.body();
-                Plan firstPlan = mList.get(0);
 
-                Picasso.get().load(firstPlan.getMainImage()).into(planImageView);
-                planDateTextView.setText(firstPlan.getDate());
-                planPlageTextView.setText(firstPlan.getNomPlage());
-                planCityTextView.setText(firstPlan.getVillePlage());
+                if (mList.size()!= 0){
+                    Plan firstPlan = mList.get(0);
+                    Picasso.get().load(firstPlan.getMainImage()).into(planImageView);
+                    planDateTextView.setText(firstPlan.getDate());
+                    planPlageTextView.setText(firstPlan.getNomPlage());
+                    planCityTextView.setText(firstPlan.getVillePlage());
+                }
+
+                else {
+                    Toast.makeText(getContext(), "plan empty", Toast.LENGTH_SHORT).show();
+                }
+
 
 
             }
