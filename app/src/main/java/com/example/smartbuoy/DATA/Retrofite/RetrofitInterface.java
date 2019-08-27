@@ -51,6 +51,10 @@ public interface RetrofitInterface {
     @GET("mob/event")
     public Call<List<Event>> allEvents();
 
+    @Headers("Content-Type: application/json")
+    @POST("mob/event")
+    public Call<JsonObject> addEvent (@Body Event event);
+
 
 
 }

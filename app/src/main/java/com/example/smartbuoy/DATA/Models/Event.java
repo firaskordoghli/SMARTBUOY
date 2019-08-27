@@ -22,6 +22,9 @@ public class Event {
     @SerializedName("date")
     @Expose
     private String date;
+    @SerializedName("type")
+    @Expose
+    private String type;
     @SerializedName("image")
     @Expose
     private String image;
@@ -34,6 +37,16 @@ public class Event {
     @SerializedName("__v")
     @Expose
     private Integer v;
+
+    public Event(String titre, String desc, String date, String type, String image, String plage, String user) {
+        this.titre = titre;
+        this.desc = desc;
+        this.date = date;
+        this.type = type;
+        this.image = image;
+        this.plage = plage;
+        this.user = user;
+    }
 
     public List<Object> getParticipants() {
         return participants;
@@ -107,6 +120,14 @@ public class Event {
         this.v = v;
     }
 
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
+
     @Override
     public String toString() {
         return "Event{" +
@@ -115,6 +136,7 @@ public class Event {
                 ", titre='" + titre + '\'' +
                 ", desc='" + desc + '\'' +
                 ", date='" + date + '\'' +
+                ", type='" + type + '\'' +
                 ", image='" + image + '\'' +
                 ", plage='" + plage + '\'' +
                 ", user='" + user + '\'' +
