@@ -56,5 +56,8 @@ public interface RetrofitInterface {
     @PUT("mob/user/follow")
     public  Call<JsonObject> followPlage(@Body JsonObject object);
 
+    @GET("mob/user/follows/{id}")
+    public Call<List<ItemHomePlage>> getListFavoris(@Path("id") String id);
+
 
 }

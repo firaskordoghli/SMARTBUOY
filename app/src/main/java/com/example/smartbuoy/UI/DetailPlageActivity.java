@@ -63,8 +63,6 @@ public class DetailPlageActivity extends AppCompatActivity {
 
     void getPlageById(String id, String idUser) {
         ApiUtil.getServiceClass().getPlageById(id, idUser).enqueue(new Callback<Plage>() {
-
-
             @Override
             public void onResponse(Call<Plage> call, Response<Plage> response) {
 
