@@ -74,7 +74,8 @@ public class HomePlageAdapter extends RecyclerView.Adapter<HomePlageAdapter.Home
         Picasso.get().load(itemHomePlage.getImage()).into(holder.imagePlage);
         holder.nomPlage.setText(itemHomePlage.getName());
         holder.villePlage.setText(itemHomePlage.getVille());
-//        holder.ratingPlage.setText(itemHomePlage.getRating());
+
+        holder.ratingPlage.setText(itemHomePlage.getRating());
 
 
     }
@@ -104,7 +105,7 @@ public class HomePlageAdapter extends RecyclerView.Adapter<HomePlageAdapter.Home
             imagePlage = itemView.findViewById(R.id.imagePlage);
             nomPlage = itemView.findViewById(R.id.tvNomPlage);
             villePlage = itemView.findViewById(R.id.tvVillePlage);
-            //ratingPlage = itemView.findViewById(R.id.tvRatingPlage);
+            ratingPlage = itemView.findViewById(R.id.tvRatingPlage);
 
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override

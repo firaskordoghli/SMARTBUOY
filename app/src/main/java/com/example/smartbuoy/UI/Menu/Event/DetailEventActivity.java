@@ -1,13 +1,13 @@
 package com.example.smartbuoy.UI.Menu.Event;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.smartbuoy.DATA.Models.Event;
 import com.example.smartbuoy.DATA.Models.Plage;
@@ -23,10 +23,11 @@ public class DetailEventActivity extends AppCompatActivity {
 
     private ImageView eventImage;
     private ImageView eventSimilaireImage;
-    private TextView eventTitleTextView,eventTypeTextView,eventDateTextView,eventLocationTextView,eventDescriptiontextView,eventNumberTextView;
-    private TextView eventTitleSimilaireTextView,eventDateSimilaireTextView,eventLocationSimilaireTextView;
+    private TextView eventTitleTextView, eventTypeTextView, eventDateTextView, eventLocationTextView, eventDescriptiontextView, eventNumberTextView;
+    private TextView eventTitleSimilaireTextView, eventDateSimilaireTextView, eventLocationSimilaireTextView;
     private Button joinEventbtn;
-    private Plage newPlage ;
+    private Plage newPlage;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -64,7 +65,7 @@ public class DetailEventActivity extends AppCompatActivity {
 
     }
 
-    public void getEventById(String id ){
+    public void getEventById(String id) {
         ApiUtil.getServiceClass().getEvent(id).enqueue(new Callback<Event>() {
             @Override
             public void onResponse(Call<Event> call, Response<Event> response) {
@@ -83,8 +84,6 @@ public class DetailEventActivity extends AppCompatActivity {
                 eventDateSimilaireTextView.setText(newEvent.getSimEvent().getDate());
                 eventTitleSimilaireTextView.setText(newEvent.getSimEvent().getTitre());
                 eventLocationSimilaireTextView.setText(newEvent.getSimEvent().getPlage());
-
-                Toast.makeText(DetailEventActivity.this, newEvent.getSimEvent().toString(), Toast.LENGTH_SHORT).show();
 
             }
 

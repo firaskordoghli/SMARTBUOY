@@ -1,23 +1,23 @@
 package com.example.smartbuoy.UI;
 
+import android.content.Intent;
+import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
+import android.widget.EditText;
+import android.widget.Toast;
+
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.content.Intent;
-import android.os.Bundle;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
-import android.widget.SearchView;
-import android.widget.Toast;
-import android.widget.Toolbar;
-
 import com.example.smartbuoy.DATA.Adapters.HomePlageAdapter;
 import com.example.smartbuoy.DATA.Models.ItemHomePlage;
+import com.example.smartbuoy.DATA.Models.Plage;
 import com.example.smartbuoy.DATA.Retrofite.ApiUtil;
 import com.example.smartbuoy.R;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import retrofit2.Call;
@@ -28,32 +28,40 @@ public class SearshActivity extends AppCompatActivity {
     private RecyclerView mRecyclerView;
     private HomePlageAdapter mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
-
-    private androidx.appcompat.widget.Toolbar searshTopToolbar;
+    private EditText searchBarEditText;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_searsh);
 
-        searshTopToolbar = (androidx.appcompat.widget.Toolbar) findViewById(R.id.searsh_toolbar);
-        setSupportActionBar(searshTopToolbar);
-        getSupportActionBar().setDisplayShowTitleEnabled(false);
-
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setDisplayShowHomeEnabled(true);
 
         mRecyclerView = findViewById(R.id.rvSearsh);
+        searchBarEditText = findViewById(R.id.etSearshBar);
+
         mRecyclerView.setHasFixedSize(true);
 
         listePlage();
+
+        searchBarEditText.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+                mAdapter.getFilter().filter(editable.toString());
+            }
+        });
     }
 
-    @Override
-    public boolean onSupportNavigateUp() {
-        onBackPressed();
-        return true;
-    }
+
 
     void listePlage() {
         ApiUtil.getServiceClass().allplage().enqueue(new Callback<List<ItemHomePlage>>() {
@@ -88,56 +96,4 @@ public class SearshActivity extends AppCompatActivity {
 
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-
-        MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.searsh_menu,menu);
-
-        MenuItem searchItem = menu.findItem(R.id.actionSearch);
-        MenuItem mapItem = menu.findItem(R.id.actionBarMap);
-
-        mapItem.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
-
-            @Override
-            public boolean onMenuItemClick(MenuItem menuItem) {
-                Intent intent = new Intent(getApplicationContext(), MapSearchActivity.class);
-                startActivity(intent);
-                return false;
-            }
-        });
-
-
-        SearchView searchView = (SearchView) searchItem.getActionView();
-
-        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
-            @Override
-            public boolean onQueryTextSubmit(String s) {
-                return false;
-            }
-
-            @Override
-            public boolean onQueryTextChange(String s) {
-                mAdapter.getFilter().filter(s);
-                return false;
-            }
-        });
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.actionSearch) {
-            Toast.makeText(SearshActivity.this, "Action clicked", Toast.LENGTH_LONG).show();
-            return true;
-        }
-
-        return super.onOptionsItemSelected(item);
-    }
 }

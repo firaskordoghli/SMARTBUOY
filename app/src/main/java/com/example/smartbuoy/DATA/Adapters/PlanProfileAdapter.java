@@ -35,7 +35,7 @@ public class PlanProfileAdapter extends RecyclerView.Adapter<PlanProfileAdapter.
     public void onBindViewHolder(@NonNull PlanViewHolder holder, int position) {
         Plan plan = mPlanList.get(position);
 
-        Picasso.get().load(plan.getMainImage()).into(holder.planIv);
+        //Picasso.get().load(plan.getMainImage()).into(holder.planIv);
 
         holder.planPlageNameTextView.setText(plan.getNomPlage());
         holder.planeDateTextView.setText(plan.getDate());
@@ -62,7 +62,7 @@ public class PlanProfileAdapter extends RecyclerView.Adapter<PlanProfileAdapter.
         public PlanViewHolder(@NonNull View itemView) {
             super(itemView);
 
-            planIv = itemView.findViewById(R.id.ivPlan);
+            planIv = itemView.findViewById(R.id.ivPlanProfile);
             planCityTextView = itemView.findViewById(R.id.tvCityPlan);
             planeDateTextView = itemView.findViewById(R.id.tvDatePlan);
             planPlageNameTextView = itemView.findViewById(R.id.tvNamePlagePlan);
