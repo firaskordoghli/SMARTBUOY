@@ -46,6 +46,9 @@ public class Plage {
     @SerializedName("meteo")
     @Expose
     private Meteo meteo;
+        @SerializedName("favoris")
+    @Expose
+    private Boolean favoris;
 
     public Detail getDetail() {
         return detail;
@@ -151,4 +154,11 @@ public class Plage {
         this.meteo = meteo;
     }
 
+    public Boolean getFavoris() {
+        return favoris;
+    }
+
+    public void setFavoris(Boolean favoris) {
+        this.favoris = favoris;
+    }
 }

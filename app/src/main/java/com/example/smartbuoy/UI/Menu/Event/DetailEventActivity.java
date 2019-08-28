@@ -94,22 +94,4 @@ public class DetailEventActivity extends AppCompatActivity {
         });
     }
 
-    public Plage getPlageById(String id) {
-
-
-        ApiUtil.getServiceClass().getPlageById(id).enqueue(new Callback<Plage>() {
-            @Override
-            public void onResponse(Call<Plage> call, Response<Plage> response) {
-                newPlage = response.body();
-
-
-            }
-
-            @Override
-            public void onFailure(Call<Plage> call, Throwable t) {
-
-            }
-        });
-        return newPlage;
-    }
 }
