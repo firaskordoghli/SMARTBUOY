@@ -37,6 +37,9 @@ public class Event {
     @SerializedName("__v")
     @Expose
     private Integer v;
+    @SerializedName("simEvent")
+    @Expose
+    private Event simEvent;
 
     public Event(String titre, String desc, String date, String type, String image, String plage, String user) {
         this.titre = titre;
@@ -46,6 +49,17 @@ public class Event {
         this.image = image;
         this.plage = plage;
         this.user = user;
+    }
+
+    public Event(String titre, String desc, String date, String type, String image, String plage, String user, Event simEvent) {
+        this.titre = titre;
+        this.desc = desc;
+        this.date = date;
+        this.type = type;
+        this.image = image;
+        this.plage = plage;
+        this.user = user;
+        this.simEvent = simEvent;
     }
 
     public List<Object> getParticipants() {
@@ -128,6 +142,14 @@ public class Event {
         this.type = type;
     }
 
+    public Event getSimEvent() {
+        return simEvent;
+    }
+
+    public void setSimEvent(Event simEvent) {
+        this.simEvent = simEvent;
+    }
+
     @Override
     public String toString() {
         return "Event{" +
@@ -141,6 +163,7 @@ public class Event {
                 ", plage='" + plage + '\'' +
                 ", user='" + user + '\'' +
                 ", v=" + v +
+                ", simEvent=" + simEvent +
                 '}';
     }
 }

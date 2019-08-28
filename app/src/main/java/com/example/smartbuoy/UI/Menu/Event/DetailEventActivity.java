@@ -3,12 +3,14 @@ package com.example.smartbuoy.UI.Menu.Event;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
+import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.smartbuoy.DATA.Models.Event;
+import com.example.smartbuoy.DATA.Models.Plage;
 import com.example.smartbuoy.DATA.Retrofite.ApiUtil;
 import com.example.smartbuoy.R;
 import com.squareup.picasso.Picasso;
@@ -20,9 +22,11 @@ import retrofit2.Response;
 public class DetailEventActivity extends AppCompatActivity {
 
     private ImageView eventImage;
+    private ImageView eventSimilaireImage;
     private TextView eventTitleTextView,eventTypeTextView,eventDateTextView,eventLocationTextView,eventDescriptiontextView,eventNumberTextView;
+    private TextView eventTitleSimilaireTextView,eventDateSimilaireTextView,eventLocationSimilaireTextView;
     private Button joinEventbtn;
-
+    private Plage newPlage ;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -43,7 +47,19 @@ public class DetailEventActivity extends AppCompatActivity {
         eventNumberTextView = findViewById(R.id.tvDetailEventNumber);
         joinEventbtn = findViewById(R.id.btnJoinEvent);
 
+        eventTitleSimilaireTextView = findViewById(R.id.evenementTitleSimilaire);
+        eventDateSimilaireTextView = findViewById(R.id.evenementDateSimilaire);
+        eventLocationSimilaireTextView = findViewById(R.id.evenementLocationSimilaire);
+        eventSimilaireImage = findViewById(R.id.evenementSimilaireImage);
+
         getEventById(idEventFromUpcoming);
+
+        joinEventbtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Toast.makeText(DetailEventActivity.this, "join event", Toast.LENGTH_SHORT).show();
+            }
+        });
 
 
     }
@@ -63,6 +79,13 @@ public class DetailEventActivity extends AppCompatActivity {
                 eventDescriptiontextView.setText(newEvent.getDesc());
                 eventNumberTextView.setText(newEvent.getParticipants().size() + " people are going");
 
+                Picasso.get().load(newEvent.getSimEvent().getImage()).into(eventSimilaireImage);
+                eventDateSimilaireTextView.setText(newEvent.getSimEvent().getDate());
+                eventTitleSimilaireTextView.setText(newEvent.getSimEvent().getTitre());
+                eventLocationSimilaireTextView.setText(newEvent.getSimEvent().getPlage());
+
+                Toast.makeText(DetailEventActivity.this, newEvent.getSimEvent().toString(), Toast.LENGTH_SHORT).show();
+
             }
 
             @Override
@@ -70,5 +93,24 @@ public class DetailEventActivity extends AppCompatActivity {
 
             }
         });
+    }
+
+    public Plage getPlageById(String id) {
+
+
+        ApiUtil.getServiceClass().getPlageById(id).enqueue(new Callback<Plage>() {
+            @Override
+            public void onResponse(Call<Plage> call, Response<Plage> response) {
+                newPlage = response.body();
+
+
+            }
+
+            @Override
+            public void onFailure(Call<Plage> call, Throwable t) {
+
+            }
+        });
+        return newPlage;
     }
 }

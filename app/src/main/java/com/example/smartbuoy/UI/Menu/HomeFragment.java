@@ -141,7 +141,7 @@ public class HomeFragment extends Fragment {
 
                 try {
                     Plan firstPlan = mList.get(0);
-                    Picasso.get().load(firstPlan.getMainImage()).into(planImageView);
+                    //Picasso.get().load(firstPlan.getMainImage()).into(planImageView);
                     planDateTextView.setText(firstPlan.getDate());
                     planPlageTextView.setText(firstPlan.getNomPlage());
                     planCityTextView.setText(firstPlan.getVillePlage());
