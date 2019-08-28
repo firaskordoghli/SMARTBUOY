@@ -44,13 +44,21 @@ public class PlanProfileAdapter extends RecyclerView.Adapter<PlanProfileAdapter.
 
     @Override
     public int getItemCount() {
-        return mPlanList.size();
+        try {
+            return mPlanList.size();
+        } catch (Exception e) {
+
+            System.out.println("Error " + e.getMessage());
+            return 0;
+
+        }
     }
 
 
-    public static class PlanViewHolder extends RecyclerView.ViewHolder{
+    public static class PlanViewHolder extends RecyclerView.ViewHolder {
         public ImageView planIv;
-        public TextView planeDateTextView,planPlageNameTextView,planCityTextView;
+        public TextView planeDateTextView, planPlageNameTextView, planCityTextView;
+
         public PlanViewHolder(@NonNull View itemView) {
             super(itemView);
 

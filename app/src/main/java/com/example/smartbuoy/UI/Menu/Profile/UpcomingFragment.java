@@ -2,15 +2,13 @@ package com.example.smartbuoy.UI.Menu.Profile;
 
 
 import android.os.Bundle;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
 
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.Toast;
 
 import com.example.smartbuoy.DATA.Adapters.PlanProfileAdapter;
 import com.example.smartbuoy.DATA.Models.Plan;
@@ -51,9 +49,9 @@ public class UpcomingFragment extends Fragment {
         UserSessionManager session = new UserSessionManager(getContext());
         Gson gson = new Gson();
         User currentUser = gson.fromJson(session.getUserDetails(), User.class);
-        
+
         listPlan(currentUser.getId());
-        
+
         return view;
     }
 
@@ -63,11 +61,18 @@ public class UpcomingFragment extends Fragment {
             public void onResponse(Call<List<Plan>> call, Response<List<Plan>> response) {
                 List<Plan> mList = response.body();
 
-                mLayoutManager = new LinearLayoutManager(getContext());
-                planProfileAdapter = new PlanProfileAdapter(mList);
+                try {
+                    mLayoutManager = new LinearLayoutManager(getContext());
+                    planProfileAdapter = new PlanProfileAdapter(mList);
 
-                mRecycleView.setLayoutManager(mLayoutManager);
-                mRecycleView.setAdapter(planProfileAdapter);
+                    mRecycleView.setLayoutManager(mLayoutManager);
+                    mRecycleView.setAdapter(planProfileAdapter);
+                } catch (Exception e) {
+
+                    System.out.println("Error " + e.getMessage());
+
+                }
+
             }
 
             @Override

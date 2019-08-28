@@ -6,7 +6,6 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.animation.Animation;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -27,7 +26,6 @@ import com.example.smartbuoy.R;
 import com.example.smartbuoy.UI.DetailPlageActivity;
 import com.example.smartbuoy.UI.MapSearchActivity;
 import com.example.smartbuoy.UI.SearshActivity;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.gson.Gson;
 import com.squareup.picasso.Picasso;
 
@@ -49,9 +47,7 @@ public class HomeFragment extends Fragment {
     private RecyclerView mRecyclerView;
     private HomePlageAdapter mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
-    private FloatingActionButton floatingActionButton, fabEvent, fabPlan;
 
-    private boolean isFABOpen = false;
 
     public HomeFragment() {
         // Required empty public constructor
@@ -74,35 +70,6 @@ public class HomeFragment extends Fragment {
         mRecyclerView = view.findViewById(R.id.rvHome);
         mRecyclerView.setHasFixedSize(true);
 
-        floatingActionButton = (FloatingActionButton) view.findViewById(R.id.floating_action_button);
-        fabEvent = (FloatingActionButton) view.findViewById(R.id.floating_action_button_event);
-        fabPlan = (FloatingActionButton) view.findViewById(R.id.floating_action_button2);
-
-
-        floatingActionButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (!isFABOpen) {
-                    showFABMenu();
-                } else {
-                    closeFABMenu();
-                }
-            }
-        });
-
-        fabEvent.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Toast.makeText(getContext(), "event", Toast.LENGTH_SHORT).show();
-            }
-        });
-
-        fabPlan.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Toast.makeText(getContext(), "plan", Toast.LENGTH_SHORT).show();
-            }
-        });
 
         listePlage();
 
@@ -132,18 +99,6 @@ public class HomeFragment extends Fragment {
         return view;
     }
 
-    private void showFABMenu() {
-        isFABOpen = true;
-        fabEvent.animate().translationY(-getResources().getDimension(R.dimen.standard_55));
-        fabPlan.animate().translationY(-getResources().getDimension(R.dimen.standard_105));
-    }
-
-    private void closeFABMenu() {
-        isFABOpen = false;
-        fabEvent.animate().translationY(0);
-        fabPlan.animate().translationY(0);
-
-    }
 
     private void listePlage() {
         ApiUtil.getServiceClass().allplage().enqueue(new Callback<List<ItemHomePlage>>() {
@@ -160,7 +115,7 @@ public class HomeFragment extends Fragment {
                 mAdapter.setOnItemClickListener(new HomePlageAdapter.OnItemClickListener() {
                     @Override
                     public void onItemClick(int position) {
-                        Toast.makeText(getContext(), mlist.get(position).getId(), Toast.LENGTH_SHORT).show();
+                        //Toast.makeText(getContext(), mlist.get(position).getId(), Toast.LENGTH_SHORT).show();
 
                         Intent intent = new Intent(getContext(), DetailPlageActivity.class);
                         intent.putExtra("idPlageFromHome", mlist.get(position).getId());
@@ -184,19 +139,17 @@ public class HomeFragment extends Fragment {
             public void onResponse(Call<List<Plan>> call, Response<List<Plan>> response) {
                 List<Plan> mList = response.body();
 
-                if (mList.size()!= 0){
+                try {
                     Plan firstPlan = mList.get(0);
                     Picasso.get().load(firstPlan.getMainImage()).into(planImageView);
                     planDateTextView.setText(firstPlan.getDate());
                     planPlageTextView.setText(firstPlan.getNomPlage());
                     planCityTextView.setText(firstPlan.getVillePlage());
-                }
-
-                else {
+                } catch (Exception e) {
+                    // This will catch any exception, because they are all descended from Exception
+                    System.out.println("Error " + e.getMessage());
                     Toast.makeText(getContext(), "plan empty", Toast.LENGTH_SHORT).show();
                 }
-
-
 
             }
 

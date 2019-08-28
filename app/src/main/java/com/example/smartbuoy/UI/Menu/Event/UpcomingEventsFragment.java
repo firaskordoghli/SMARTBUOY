@@ -1,6 +1,7 @@
 package com.example.smartbuoy.UI.Menu.Event;
 
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -10,6 +11,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.example.smartbuoy.DATA.Adapters.UpComingEventsAdapter;
 import com.example.smartbuoy.DATA.Models.Event;
@@ -54,13 +56,24 @@ public class UpcomingEventsFragment extends Fragment {
         ApiUtil.getServiceClass().allEvents().enqueue(new Callback<List<Event>>() {
             @Override
             public void onResponse(Call<List<Event>> call, Response<List<Event>> response) {
-                List<Event> listEvent = response.body();
+                final List<Event> listEvent = response.body();
 
                 mLayoutManager = new LinearLayoutManager(getContext());
                 eventAdapter = new UpComingEventsAdapter(listEvent);
 
                 mRecycleView.setLayoutManager(mLayoutManager);
                 mRecycleView.setAdapter(eventAdapter);
+
+                eventAdapter.setOnItemClickListener(new UpComingEventsAdapter.OnItemClickListener() {
+                    @Override
+                    public void onItemClick(int position) {
+                        //Toast.makeText(getContext(), listEvent.get(position).getId(), Toast.LENGTH_SHORT).show();
+
+                        Intent intent = new Intent(getContext(), DetailEventActivity.class);
+                        intent.putExtra("idEventFromUpcoming", listEvent.get(position).getId());
+                        startActivity(intent);
+                    }
+                });
             }
 
             @Override

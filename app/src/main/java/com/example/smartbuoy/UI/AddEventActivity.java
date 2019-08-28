@@ -1,7 +1,9 @@
 package com.example.smartbuoy.UI;
 
 import android.app.DatePickerDialog;
+import android.app.ProgressDialog;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
@@ -17,6 +19,7 @@ import com.example.smartbuoy.DATA.Models.User;
 import com.example.smartbuoy.DATA.Retrofite.ApiUtil;
 import com.example.smartbuoy.DATA.UserSessionManager;
 import com.example.smartbuoy.R;
+import com.example.smartbuoy.UI.SignUp.SignUpStep1Activity;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 
@@ -31,6 +34,7 @@ public class AddEventActivity extends AppCompatActivity {
     DatePickerDialog datePickerDialog;
     UserSessionManager session;
 
+    private ProgressDialog pDialog;
     private ImageView eventImageView;
     private TextView eventNameTextView, eventDescriptionTextView, eventPlage, eventDate;
     private Button addEventBtn;
@@ -78,6 +82,8 @@ public class AddEventActivity extends AppCompatActivity {
         addEventBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                displayLoader();
+
                 newEvent = new Event(
                         eventNameTextView.getText().toString()
                         , eventDescriptionTextView.getText().toString()
@@ -96,6 +102,12 @@ public class AddEventActivity extends AppCompatActivity {
         ApiUtil.getServiceClass().addEvent(event).enqueue(new Callback<JsonObject>() {
             @Override
             public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
+                Handler handler = new Handler();
+                handler.postDelayed(new Runnable() {
+                    public void run() {
+                        pDialog.dismiss();
+                    }
+                }, 1000);
                 Toast.makeText(AddEventActivity.this, "success" + event, Toast.LENGTH_SHORT).show();
             }
 
@@ -105,5 +117,13 @@ public class AddEventActivity extends AppCompatActivity {
 
             }
         });
+    }
+
+    private void displayLoader() {
+        pDialog = new ProgressDialog(AddEventActivity.this);
+        pDialog.setMessage("Please wait...");
+        pDialog.setIndeterminate(false);
+        pDialog.setCancelable(false);
+        pDialog.show();
     }
 }

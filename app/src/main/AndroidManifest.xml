@@ -20,13 +20,8 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme.NoActionBar"
         android:usesCleartextTraffic="true">
-        <activity android:name=".UI.AddEventActivity">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
+        <activity android:name=".UI.Menu.Event.DetailEventActivity"></activity>
+        <activity android:name=".UI.AddEventActivity"></activity>
         <activity android:name=".UI.SearshActivity" />
 
         <meta-data
@@ -43,8 +38,8 @@
         <activity android:name=".UI.MapSearchActivity" />
         <activity android:name=".UI.DetailPlageActivity" />
         <activity android:name=".UI.SignUp.SignUpStep3Activity" />
-        <activity android:name=".UI.SignUp.SignUpStep2Activity"></activity>
-        <activity android:name=".UI.SignUp.SignUpStep1Activity"></activity>
+        <activity android:name=".UI.SignUp.SignUpStep2Activity" />
+        <activity android:name=".UI.SignUp.SignUpStep1Activity" />
         <activity android:name=".UI.LoginActivity" />
         <activity android:name=".MainActivity">
             <intent-filter>
