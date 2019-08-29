@@ -11,8 +11,12 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.smartbuoy.DATA.Models.Event;
 import com.example.smartbuoy.DATA.Models.Plage;
+import com.example.smartbuoy.DATA.Models.User;
 import com.example.smartbuoy.DATA.Retrofite.ApiUtil;
+import com.example.smartbuoy.DATA.UserSessionManager;
 import com.example.smartbuoy.R;
+import com.google.gson.Gson;
+import com.google.gson.JsonObject;
 import com.squareup.picasso.Picasso;
 
 import retrofit2.Call;
@@ -27,6 +31,10 @@ public class DetailEventActivity extends AppCompatActivity {
     private TextView eventTitleSimilaireTextView, eventDateSimilaireTextView, eventLocationSimilaireTextView;
     private Button joinEventbtn;
     private Plage newPlage;
+    private UserSessionManager session;
+
+    String idEventFromUpcoming = "null";
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,7 +42,7 @@ public class DetailEventActivity extends AppCompatActivity {
         setContentView(R.layout.activity_detail_event);
 
         Bundle extras = getIntent().getExtras();
-        String idEventFromUpcoming = "null";
+
         if (extras != null) {
             idEventFromUpcoming = extras.getString("idEventFromUpcoming");
         }
@@ -58,7 +66,10 @@ public class DetailEventActivity extends AppCompatActivity {
         joinEventbtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(DetailEventActivity.this, "join event", Toast.LENGTH_SHORT).show();
+                session = new UserSessionManager(getApplicationContext());
+                Gson gson = new Gson();
+                final User currentUser = gson.fromJson(session.getUserDetails(), User.class);
+                joinEvent(idEventFromUpcoming,currentUser.getId());
             }
         });
 
@@ -76,7 +87,9 @@ public class DetailEventActivity extends AppCompatActivity {
                 eventTitleTextView.setText(newEvent.getTitre());
                 eventTypeTextView.setText(newEvent.getType());
                 eventDateTextView.setText(newEvent.getDate());
-                eventLocationTextView.setText(newEvent.getPlage());
+
+                //eventLocationTextView.setText(newEvent.getPlage());
+
                 eventDescriptiontextView.setText(newEvent.getDesc());
                 eventNumberTextView.setText(newEvent.getParticipants().size() + " people are going");
 
@@ -84,6 +97,12 @@ public class DetailEventActivity extends AppCompatActivity {
                 eventDateSimilaireTextView.setText(newEvent.getSimEvent().getDate());
                 eventTitleSimilaireTextView.setText(newEvent.getSimEvent().getTitre());
                 eventLocationSimilaireTextView.setText(newEvent.getSimEvent().getPlage());
+
+                session = new UserSessionManager(getApplicationContext());
+                Gson gson = new Gson();
+                final User currentUser = gson.fromJson(session.getUserDetails(), User.class);
+
+                getPlageById(newEvent.getPlage(),currentUser.getId() );
 
             }
 
@@ -93,5 +112,41 @@ public class DetailEventActivity extends AppCompatActivity {
             }
         });
     }
+
+    public void getPlageById(String id, String idUser) {
+        ApiUtil.getServiceClass().getPlageById(id, idUser).enqueue(new Callback<Plage>() {
+            @Override
+            public void onResponse(Call<Plage> call, Response<Plage> response) {
+
+                Plage responsePlage = response.body();
+                eventLocationTextView.setText(responsePlage.getNom());
+            }
+
+            @Override
+            public void onFailure(Call<Plage> call, Throwable t) {
+
+            }
+        });
+    }
+
+    public void joinEvent(String idEvent,String idUser){
+        JsonObject object = new JsonObject();
+        object.addProperty("user", idUser);
+        object.addProperty("event", idEvent);
+
+        ApiUtil.getServiceClass().joinEvent(object).enqueue(new Callback<Event>() {
+            @Override
+            public void onResponse(Call<Event> call, Response<Event> response) {
+                Toast.makeText(DetailEventActivity.this, "joined", Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onFailure(Call<Event> call, Throwable t) {
+                Toast.makeText(DetailEventActivity.this, "error", Toast.LENGTH_SHORT).show();
+
+            }
+        });
+    }
+
 
 }

@@ -1,5 +1,6 @@
 package com.example.smartbuoy.UI;
 
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
@@ -22,11 +23,11 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class DetailPlageActivity extends AppCompatActivity {
-    ImageView detailPlageIv,favorisImageView;
-    TextView detailPlagetv;
-    UserSessionManager session;
+    private ImageView detailPlageIv, favorisImageView;
+    private TextView detailPlageNomtv, detailPlageVilletv;
+    private UserSessionManager session;
 
-    String idPlageFromHome = "null";
+    private String idPlageFromHome = "null";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,11 +40,11 @@ public class DetailPlageActivity extends AppCompatActivity {
             idPlageFromHome = extras.getString("idPlageFromHome");
         }
 
-        detailPlagetv = findViewById(R.id.tvNomPlageDetail);
+        detailPlageNomtv = findViewById(R.id.tvNomPlageDetail);
         detailPlageIv = findViewById(R.id.imagePlageDetail);
+        detailPlageVilletv = findViewById(R.id.tvVillePlageDetail);
 
-        favorisImageView= findViewById(R.id.ivFavoris);
-
+        favorisImageView = findViewById(R.id.ivFavoris);
 
 
         session = new UserSessionManager(getApplicationContext());
@@ -53,7 +54,7 @@ public class DetailPlageActivity extends AppCompatActivity {
         favorisImageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                followPlage(currentUser.getId(),idPlageFromHome);
+                followPlage(currentUser.getId(), idPlageFromHome);
             }
         });
 
@@ -68,7 +69,8 @@ public class DetailPlageActivity extends AppCompatActivity {
 
                 Plage responsePlage = response.body();
                 Picasso.get().load(responsePlage.getMainImage()).into(detailPlageIv);
-                detailPlagetv.setText(responsePlage.getNom());
+                detailPlageNomtv.setText(responsePlage.getNom());
+                detailPlageVilletv.setText(responsePlage.getVille());
             }
 
             @Override
@@ -80,8 +82,8 @@ public class DetailPlageActivity extends AppCompatActivity {
 
     public void followPlage(String idUser, String idPlage) {
         JsonObject object = new JsonObject();
-        object.addProperty("idPlage",idPlage);
-        object.addProperty("idUser",idUser);
+        object.addProperty("idPlage", idPlage);
+        object.addProperty("idUser", idUser);
 
         ApiUtil.getServiceClass().followPlage(object).enqueue(new Callback<JsonObject>() {
             @Override
@@ -89,12 +91,25 @@ public class DetailPlageActivity extends AppCompatActivity {
                 JsonObject responseObject = new JsonObject();
                 responseObject = response.body();
 
+                Drawable addFavoris = getResources().getDrawable(R.drawable.ic_favoris_added);
+                favorisImageView.setImageDrawable(addFavoris);
                 Toast.makeText(DetailPlageActivity.this, responseObject.get("msg").toString(), Toast.LENGTH_SHORT).show();
+/*
+                if (responseObject.get("msg").toString().equals("added")) {
+                    Drawable addFavoris = getResources().getDrawable(R.drawable.ic_favoris);
+                    favorisImageView.setImageDrawable(addFavoris);
+                    Toast.makeText(DetailPlageActivity.this, responseObject.get("msg").toString(), Toast.LENGTH_SHORT).show();
+                } else if (responseObject.get("msg").toString().equals("deleted")) {
+                    Drawable addFavoris = getResources().getDrawable(R.drawable.ic_favoris_added);
+                    favorisImageView.setImageDrawable(addFavoris);
+                    Toast.makeText(DetailPlageActivity.this, responseObject.get("msg").toString(), Toast.LENGTH_SHORT).show();
+                }
+                */
             }
 
             @Override
             public void onFailure(Call<JsonObject> call, Throwable t) {
-                Toast.makeText(DetailPlageActivity.this, "te7che", Toast.LENGTH_SHORT).show();
+                Toast.makeText(DetailPlageActivity.this, "mamchetesh", Toast.LENGTH_SHORT).show();
             }
         });
     }

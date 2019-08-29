@@ -59,5 +59,8 @@ public interface RetrofitInterface {
     @GET("mob/user/follows/{id}")
     public Call<List<ItemHomePlage>> getListFavoris(@Path("id") String id);
 
+    @PUT("mob/event/participer")
+    public  Call<Event> joinEvent(@Body JsonObject object);
+
 
 }
