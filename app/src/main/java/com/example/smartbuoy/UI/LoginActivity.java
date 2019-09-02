@@ -28,8 +28,8 @@ public class LoginActivity extends AppCompatActivity {
 
     //private static final String TAG = "LoginActivity";
 
-    Button toSignUpBtn, loginBtn;
-    EditText emailEditText, passwordEditText;
+    private Button toSignUpBtn, loginBtn;
+    private EditText emailEditText, passwordEditText;
     private ProgressDialog pDialog;
 
     // User Session Manager Class

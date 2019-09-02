@@ -79,11 +79,11 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="24dp"
-            android:layout_marginBottom="8dp"
+            android:layout_marginBottom="16dp"
             android:background="@drawable/rounded_corner_yello"
             android:text="TextView"
             android:textAppearance="@style/itemEventDate"
-            android:textColor="@color/colorSecondaryTextDefaultMaterialDark"
+            android:textColor="@color/ms_white"
             app:layout_constraintBottom_toBottomOf="@+id/view"
             app:layout_constraintStart_toStartOf="parent" />
 

@@ -74,8 +74,14 @@ public class HomePlageAdapter extends RecyclerView.Adapter<HomePlageAdapter.Home
         Picasso.get().load(itemHomePlage.getImage()).into(holder.imagePlage);
         holder.nomPlage.setText(itemHomePlage.getName());
         holder.villePlage.setText(itemHomePlage.getVille());
-
         holder.ratingPlage.setText(itemHomePlage.getRating());
+
+/*
+        if (itemHomePlage.getRating().length()>3){
+            holder.ratingPlage.setText(itemHomePlage.getRating().substring(0,3));
+        } else {
+            holder.ratingPlage.setText(itemHomePlage.getRating());
+        }*/
 
 
     }

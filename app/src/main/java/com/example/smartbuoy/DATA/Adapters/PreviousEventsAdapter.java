@@ -15,13 +15,13 @@ import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
-public class UpComingEventsAdapter extends RecyclerView.Adapter<UpComingEventsAdapter.EventViewHolder> {
+public class PreviousEventsAdapter extends RecyclerView.Adapter<PreviousEventsAdapter.EventViewHolder> {
 
     private List<Event> mEventList;
     private UpComingEventsAdapter.OnItemClickListener mListener;
 
 
-    public UpComingEventsAdapter(List<Event> mEventList) {
+    public PreviousEventsAdapter(List<Event> mEventList) {
         this.mEventList = mEventList;
     }
 

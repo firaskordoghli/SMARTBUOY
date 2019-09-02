@@ -43,15 +43,21 @@ public interface RetrofitInterface {
     @GET("mob/user/going/future/{id}")
     public Call<List<Plan>> getPlan(@Path("id") String id);
 
-    @GET("mob/event")
-    public Call<List<Event>> allEvents();
+    @GET("mob/event/upcome")
+    public Call<List<Event>> eventUpcoming();
+
+    @GET("mob/event/prev")
+    public Call<List<Event>> eventsPrevious();
+
+    @GET("mob/event/prev")
+    public Call<List<Event>> events();
 
     @Headers("Content-Type: application/json")
     @POST("mob/event")
     public Call<JsonObject> addEvent(@Body Event event);
 
-    @GET("mob/event/{id}")
-    public Call<Event> getEvent(@Path("id") String id);
+    @GET("mob/event/{id}/{idUser}")
+    public Call<Event> getEvent(@Path("id") String id,@Path("idUser") String idUser);
 
     @PUT("mob/user/follow")
     public  Call<JsonObject> followPlage(@Body JsonObject object);

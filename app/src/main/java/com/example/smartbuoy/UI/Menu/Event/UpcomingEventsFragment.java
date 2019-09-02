@@ -53,7 +53,7 @@ public class UpcomingEventsFragment extends Fragment {
     }
 
     private void listEvent() {
-        ApiUtil.getServiceClass().allEvents().enqueue(new Callback<List<Event>>() {
+        ApiUtil.getServiceClass().eventUpcoming().enqueue(new Callback<List<Event>>() {
             @Override
             public void onResponse(Call<List<Event>> call, Response<List<Event>> response) {
                 final List<Event> listEvent = response.body();

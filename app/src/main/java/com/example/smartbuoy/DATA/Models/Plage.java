@@ -46,7 +46,7 @@ public class Plage {
     @SerializedName("meteo")
     @Expose
     private Meteo meteo;
-        @SerializedName("favoris")
+    @SerializedName("favoris")
     @Expose
     private Boolean favoris;
 

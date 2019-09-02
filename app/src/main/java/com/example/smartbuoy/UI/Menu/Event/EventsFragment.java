@@ -104,8 +104,8 @@ public class EventsFragment extends Fragment {
 
     private void setUpViewPager(ViewPager viewPager) {
         SectionPagerAdapter adapter = new SectionPagerAdapter(getChildFragmentManager());
-        adapter.addFragment(new UpcomingEventsFragment(), "Upcoming events");
-        adapter.addFragment(new PreviousEventsFragment(), "Previous events");
+        adapter.addFragment(new UpcomingEventsFragment(), "Upcoming");
+        adapter.addFragment(new PreviousEventsFragment(), "Previous");
 
         viewPager.setAdapter(adapter);
     }

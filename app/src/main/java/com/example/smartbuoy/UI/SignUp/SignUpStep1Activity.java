@@ -24,7 +24,7 @@ import retrofit2.Response;
 public class SignUpStep1Activity extends AppCompatActivity {
 
     Button step1btn;
-    EditText emailEditText, passwordEditText, verifPasswordEditText;
+    EditText emailEditText, passwordEditText, verifPasswordEditText,userNameEditText;
     private ProgressDialog pDialog;
 
     @Override
@@ -37,6 +37,7 @@ public class SignUpStep1Activity extends AppCompatActivity {
         emailEditText = findViewById(R.id.etSignUpEmail);
         passwordEditText = findViewById(R.id.etSignUpPassword);
         verifPasswordEditText = findViewById(R.id.etSignUpPasswordVerif);
+        userNameEditText = findViewById(R.id.etUserName);
 
 
         step1btn.setOnClickListener(new View.OnClickListener() {
@@ -77,8 +78,9 @@ public class SignUpStep1Activity extends AppCompatActivity {
 
                                         newUser.setEmail(emailEditText.getText().toString());
                                         newUser.setPassword(passwordEditText.getText().toString());
+                                        newUser.setUsername(userNameEditText.getText().toString());
 
-                                        Intent intent = new Intent(getApplicationContext(), SignUpStep2Activity.class);
+                                        Intent intent = new Intent(getApplicationContext(), SignUpStep3Activity.class);
                                         intent.putExtra("UserStep1", newUser);
                                         startActivity(intent);
                                     }

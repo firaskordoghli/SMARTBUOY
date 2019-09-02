@@ -7,33 +7,30 @@ import java.io.Serializable;
 import java.util.List;
 
 public class User implements Serializable {
+    @SerializedName("image")
+    @Expose
+    private String image;
+    @SerializedName("role")
+    @Expose
+    private String role;
+    @SerializedName("interest")
+    @Expose
+    private List<String> interest = null;
     @SerializedName("_id")
     @Expose
     private String id;
     @SerializedName("username")
     @Expose
     private String username;
+    @SerializedName("password")
+    @Expose
+    private String password;
     @SerializedName("email")
     @Expose
     private String email;
-    @SerializedName("image")
+    @SerializedName("goings")
     @Expose
-    private String image;
-    @SerializedName("password")
-    @Expose
-    private Object password;
-    @SerializedName("age")
-    @Expose
-    private Integer age;
-    @SerializedName("lat")
-    @Expose
-    private String lat;
-    @SerializedName("lng")
-    @Expose
-    private String lng;
-    @SerializedName("type")
-    @Expose
-    private String type;
+    private List<Object> goings = null;
     @SerializedName("follows")
     @Expose
     private List<Object> follows = null;
@@ -44,17 +41,38 @@ public class User implements Serializable {
     @Expose
     private Integer v;
 
-    public User(String username, String email, Object password, Integer age, String lat, String lng, String type) {
-        this.username = username;
-        this.email = email;
-        this.password = password;
-        this.age = age;
-        this.lat = lat;
-        this.lng = lng;
-        this.type = type;
+    public User() {
     }
 
-    public User() {
+    public User(List<String> interest, String username, String password, String email) {
+        this.interest = interest;
+        this.username = username;
+        this.password = password;
+        this.email = email;
+    }
+
+    public String getImage() {
+        return image;
+    }
+
+    public void setImage(String image) {
+        this.image = image;
+    }
+
+    public String getRole() {
+        return role;
+    }
+
+    public void setRole(String role) {
+        this.role = role;
+    }
+
+    public List<String> getInterest() {
+        return interest;
+    }
+
+    public void setInterest(List<String> interest) {
+        this.interest = interest;
     }
 
     public String getId() {
@@ -73,6 +91,14 @@ public class User implements Serializable {
         this.username = username;
     }
 
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
     public String getEmail() {
         return email;
     }
@@ -81,52 +107,12 @@ public class User implements Serializable {
         this.email = email;
     }
 
-    public String getImage() {
-        return image;
+    public List<Object> getGoings() {
+        return goings;
     }
 
-    public void setImage(String image) {
-        this.image = image;
-    }
-
-    public Object getPassword() {
-        return password;
-    }
-
-    public void setPassword(Object password) {
-        this.password = password;
-    }
-
-    public Integer getAge() {
-        return age;
-    }
-
-    public void setAge(Integer age) {
-        this.age = age;
-    }
-
-    public String getLat() {
-        return lat;
-    }
-
-    public void setLat(String lat) {
-        this.lat = lat;
-    }
-
-    public String getLng() {
-        return lng;
-    }
-
-    public void setLng(String lng) {
-        this.lng = lng;
-    }
-
-    public String getType() {
-        return type;
-    }
-
-    public void setType(String type) {
-        this.type = type;
+    public void setGoings(List<Object> goings) {
+        this.goings = goings;
     }
 
     public List<Object> getFollows() {
@@ -156,15 +142,14 @@ public class User implements Serializable {
     @Override
     public String toString() {
         return "User{" +
-                "id='" + id + '\'' +
+                "image='" + image + '\'' +
+                ", role='" + role + '\'' +
+                ", interest='" + interest + '\'' +
+                ", id='" + id + '\'' +
                 ", username='" + username + '\'' +
+                ", password='" + password + '\'' +
                 ", email='" + email + '\'' +
-                ", image='" + image + '\'' +
-                ", password=" + password +
-                ", age=" + age +
-                ", lat='" + lat + '\'' +
-                ", lng='" + lng + '\'' +
-                ", type='" + type + '\'' +
+                ", goings=" + goings +
                 ", follows=" + follows +
                 ", date='" + date + '\'' +
                 ", v=" + v +

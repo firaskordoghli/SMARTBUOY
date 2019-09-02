@@ -45,6 +45,7 @@ public class DetailEventActivity extends AppCompatActivity {
 
         if (extras != null) {
             idEventFromUpcoming = extras.getString("idEventFromUpcoming");
+            Toast.makeText(this, idEventFromUpcoming, Toast.LENGTH_SHORT).show();
         }
 
         eventImage = findViewById(R.id.ivDetailEvent);
@@ -61,14 +62,16 @@ public class DetailEventActivity extends AppCompatActivity {
         eventLocationSimilaireTextView = findViewById(R.id.evenementLocationSimilaire);
         eventSimilaireImage = findViewById(R.id.evenementSimilaireImage);
 
-        getEventById(idEventFromUpcoming);
+        session = new UserSessionManager(getApplicationContext());
+        Gson gson = new Gson();
+        final User currentUser = gson.fromJson(session.getUserDetails(), User.class);
+
+        getEventById(idEventFromUpcoming,currentUser.getId());
 
         joinEventbtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                session = new UserSessionManager(getApplicationContext());
-                Gson gson = new Gson();
-                final User currentUser = gson.fromJson(session.getUserDetails(), User.class);
+
                 joinEvent(idEventFromUpcoming,currentUser.getId());
             }
         });
@@ -76,17 +79,17 @@ public class DetailEventActivity extends AppCompatActivity {
 
     }
 
-    public void getEventById(String id) {
-        ApiUtil.getServiceClass().getEvent(id).enqueue(new Callback<Event>() {
+    public void getEventById(String id,String idUser) {
+        ApiUtil.getServiceClass().getEvent(id,idUser).enqueue(new Callback<Event>() {
             @Override
             public void onResponse(Call<Event> call, Response<Event> response) {
                 Event newEvent = response.body();
-                //Toast.makeText(DetailEventActivity.this, newEvent.toString(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(DetailEventActivity.this, newEvent.toString(), Toast.LENGTH_SHORT).show();
 
                 Picasso.get().load(newEvent.getImage()).into(eventImage);
                 eventTitleTextView.setText(newEvent.getTitre());
                 eventTypeTextView.setText(newEvent.getType());
-                eventDateTextView.setText(newEvent.getDate());
+                eventDateTextView.setText(newEvent.getDate().substring(0,10));
 
                 //eventLocationTextView.setText(newEvent.getPlage());
 
@@ -94,7 +97,7 @@ public class DetailEventActivity extends AppCompatActivity {
                 eventNumberTextView.setText(newEvent.getParticipants().size() + " people are going");
 
                 Picasso.get().load(newEvent.getSimEvent().getImage()).into(eventSimilaireImage);
-                eventDateSimilaireTextView.setText(newEvent.getSimEvent().getDate());
+                eventDateSimilaireTextView.setText(newEvent.getSimEvent().getDate().substring(0,10));
                 eventTitleSimilaireTextView.setText(newEvent.getSimEvent().getTitre());
                 eventLocationSimilaireTextView.setText(newEvent.getSimEvent().getPlage());
 

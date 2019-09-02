@@ -56,8 +56,8 @@ public class SignUpStep2Activity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
-                newUser.setAge(agePicker.getValue());
-                newUser.setType(userType[typePicker.getValue()]);
+                //newUser.setAge(agePicker.getValue());
+                //newUser.setType(userType[typePicker.getValue()]);
 
                 Intent intent = new Intent(getApplicationContext(), SignUpStep3Activity.class);
                 intent.putExtra("UserStep2", newUser);
