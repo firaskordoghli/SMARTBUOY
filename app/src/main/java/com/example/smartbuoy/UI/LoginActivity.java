@@ -28,12 +28,11 @@ public class LoginActivity extends AppCompatActivity {
 
     //private static final String TAG = "LoginActivity";
 
+    // User Session Manager Class
+    UserSessionManager session;
     private Button toSignUpBtn, loginBtn;
     private EditText emailEditText, passwordEditText;
     private ProgressDialog pDialog;
-
-    // User Session Manager Class
-    UserSessionManager session;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,7 +51,7 @@ public class LoginActivity extends AppCompatActivity {
         loginBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (validateInputs()){
+                if (validateInputs()) {
                     login();
                 }
 
@@ -100,39 +99,36 @@ public class LoginActivity extends AppCompatActivity {
         ApiUtil.getServiceClass().login(object).enqueue(new Callback<JsonObject>() {
             @Override
             public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
+                if (response.body().has("errors")) {
+                    Handler handler = new Handler();
+                    handler.postDelayed(new Runnable() {
+                        public void run() {
+                            pDialog.dismiss();
+                            Toast.makeText(LoginActivity.this, "wrong email or password", Toast.LENGTH_SHORT).show();
+                            System.out.println("wrong email or password");
+                        }
+                    }, 1000);
+                } else {
+                    Gson gson = new Gson();
+                    User responseUser = gson.fromJson(response.body(), User.class);
+                    session.createUserLoginSession(gson.toJson(responseUser));
+                    Handler handler = new Handler();
+                    handler.postDelayed(new Runnable() {
+                        public void run() {
+                            pDialog.dismiss();
+                            Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                            startActivity(intent);
+                            finish();
+                        }
+                    }, 1000);
 
-                    if (response.body().has("user")) {
-
-                        Gson gson = new Gson();
-                        User responseUser = gson.fromJson(response.body().get("user"), User.class);
-
-                        // Creating user login session
-                        session.createUserLoginSession(gson.toJson(responseUser));
-
-                        Handler handler = new Handler();
-                        handler.postDelayed(new Runnable() {
-                            public void run() {
-                                pDialog.dismiss();
-
-                                Intent intent = new Intent(getApplicationContext(), MainActivity.class);
-                                startActivity(intent);
-                            }
-                        }, 1000);
-
-                    } else if(response.body().has("errors")) {
-                        //JsonObject userJsonResponse = (JsonObject) response.body().get("errors");
-                        Handler handler = new Handler();
-                        handler.postDelayed(new Runnable() {
-                            public void run() {
-                                pDialog.dismiss();
-                                Toast.makeText(LoginActivity.this, "wrong email or password", Toast.LENGTH_SHORT).show();
-                            }
-                        }, 1000);
-                    }
+                    System.out.println(session.getUserDetails());
+                }
             }
 
             @Override
             public void onFailure(Call<JsonObject> call, Throwable t) {
+                System.out.println(t.getMessage());
                 Handler handler = new Handler();
                 handler.postDelayed(new Runnable() {
                     public void run() {

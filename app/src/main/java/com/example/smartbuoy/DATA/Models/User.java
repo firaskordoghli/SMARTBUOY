@@ -44,10 +44,31 @@ public class User implements Serializable {
     public User() {
     }
 
+    public User(String image, String role, List<String> interest, String id, String username, String password, String email, List<Object> goings, List<Object> follows, String date, Integer v) {
+        this.image = image;
+        this.role = role;
+        this.interest = interest;
+        this.id = id;
+        this.username = username;
+        this.password = password;
+        this.email = email;
+        this.goings = goings;
+        this.follows = follows;
+        this.date = date;
+        this.v = v;
+    }
+
     public User(List<String> interest, String username, String password, String email) {
         this.interest = interest;
         this.username = username;
         this.password = password;
+        this.email = email;
+    }
+
+    public User(String image, String id, String username, String email) {
+        this.image = image;
+        this.id = id;
+        this.username = username;
         this.email = email;
     }
 

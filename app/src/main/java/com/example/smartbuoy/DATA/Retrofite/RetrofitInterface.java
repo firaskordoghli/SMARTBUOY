@@ -49,8 +49,8 @@ public interface RetrofitInterface {
     @GET("mob/event/prev")
     public Call<List<Event>> eventsPrevious();
 
-    @GET("mob/event/prev")
-    public Call<List<Event>> events();
+    @GET("mob/event/my/{id}")
+    public Call<List<Event>> myEvents(@Path("id") String id);
 
     @Headers("Content-Type: application/json")
     @POST("mob/event")

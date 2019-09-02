@@ -25,6 +25,7 @@ import retrofit2.Response;
 
 public class DetailEventActivity extends AppCompatActivity {
 
+    String idEventFromUpcoming = "null";
     private ImageView eventImage;
     private ImageView eventSimilaireImage;
     private TextView eventTitleTextView, eventTypeTextView, eventDateTextView, eventLocationTextView, eventDescriptiontextView, eventNumberTextView;
@@ -32,9 +33,6 @@ public class DetailEventActivity extends AppCompatActivity {
     private Button joinEventbtn;
     private Plage newPlage;
     private UserSessionManager session;
-
-    String idEventFromUpcoming = "null";
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,7 +43,6 @@ public class DetailEventActivity extends AppCompatActivity {
 
         if (extras != null) {
             idEventFromUpcoming = extras.getString("idEventFromUpcoming");
-            Toast.makeText(this, idEventFromUpcoming, Toast.LENGTH_SHORT).show();
         }
 
         eventImage = findViewById(R.id.ivDetailEvent);
@@ -66,30 +63,48 @@ public class DetailEventActivity extends AppCompatActivity {
         Gson gson = new Gson();
         final User currentUser = gson.fromJson(session.getUserDetails(), User.class);
 
-        getEventById(idEventFromUpcoming,currentUser.getId());
+        getEventById(idEventFromUpcoming, currentUser.getId());
+
+        System.out.println();
 
         joinEventbtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
-                joinEvent(idEventFromUpcoming,currentUser.getId());
+                joinEvent(idEventFromUpcoming, currentUser.getId());
             }
         });
 
 
     }
 
-    public void getEventById(String id,String idUser) {
-        ApiUtil.getServiceClass().getEvent(id,idUser).enqueue(new Callback<Event>() {
+    /*
+        public void getEventById(String id,String idUser) {
+            ApiUtil.getServiceClass().getEvent(id,idUser).enqueue(new Callback<Event>() {
+                @Override
+                public void onResponse(Call<Event> call, Response<Event> response) {
+                    Event newEvent = response.body();
+                    Toast.makeText(DetailEventActivity.this, newEvent.toString(), Toast.LENGTH_SHORT).show();
+                    System.out.println("new event"+newEvent);
+                }
+
+                @Override
+                public void onFailure(Call<Event> call, Throwable t) {
+                    Toast.makeText(DetailEventActivity.this, t.getMessage(), Toast.LENGTH_SHORT).show();
+                    System.out.println("error"+t.getMessage());
+                }
+            });
+        }
+     */
+    public void getEventById(String id, String idUser) {
+        ApiUtil.getServiceClass().getEvent(id, idUser).enqueue(new Callback<Event>() {
             @Override
             public void onResponse(Call<Event> call, Response<Event> response) {
                 Event newEvent = response.body();
-                Toast.makeText(DetailEventActivity.this, newEvent.toString(), Toast.LENGTH_SHORT).show();
-
                 Picasso.get().load(newEvent.getImage()).into(eventImage);
                 eventTitleTextView.setText(newEvent.getTitre());
                 eventTypeTextView.setText(newEvent.getType());
-                eventDateTextView.setText(newEvent.getDate().substring(0,10));
+                eventDateTextView.setText(newEvent.getDate().substring(0, 10));
 
                 //eventLocationTextView.setText(newEvent.getPlage());
 
@@ -97,7 +112,7 @@ public class DetailEventActivity extends AppCompatActivity {
                 eventNumberTextView.setText(newEvent.getParticipants().size() + " people are going");
 
                 Picasso.get().load(newEvent.getSimEvent().getImage()).into(eventSimilaireImage);
-                eventDateSimilaireTextView.setText(newEvent.getSimEvent().getDate().substring(0,10));
+                eventDateSimilaireTextView.setText(newEvent.getSimEvent().getDate().substring(0, 10));
                 eventTitleSimilaireTextView.setText(newEvent.getSimEvent().getTitre());
                 eventLocationSimilaireTextView.setText(newEvent.getSimEvent().getPlage());
 
@@ -105,7 +120,7 @@ public class DetailEventActivity extends AppCompatActivity {
                 Gson gson = new Gson();
                 final User currentUser = gson.fromJson(session.getUserDetails(), User.class);
 
-                getPlageById(newEvent.getPlage(),currentUser.getId() );
+                getPlageById(newEvent.getPlage(), currentUser.getId());
 
             }
 
@@ -120,7 +135,6 @@ public class DetailEventActivity extends AppCompatActivity {
         ApiUtil.getServiceClass().getPlageById(id, idUser).enqueue(new Callback<Plage>() {
             @Override
             public void onResponse(Call<Plage> call, Response<Plage> response) {
-
                 Plage responsePlage = response.body();
                 eventLocationTextView.setText(responsePlage.getNom());
             }
@@ -132,7 +146,7 @@ public class DetailEventActivity extends AppCompatActivity {
         });
     }
 
-    public void joinEvent(String idEvent,String idUser){
+    public void joinEvent(String idEvent, String idUser) {
         JsonObject object = new JsonObject();
         object.addProperty("user", idUser);
         object.addProperty("event", idEvent);
