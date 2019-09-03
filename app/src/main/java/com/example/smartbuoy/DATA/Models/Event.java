@@ -40,6 +40,21 @@ public class Event {
     @SerializedName("simEvent")
     @Expose
     private Event simEvent;
+    @SerializedName("joined")
+    @Expose
+    private Boolean joined;
+
+    public Event(String titre, String desc, String date, String type, String image, String plage, String user, Event simEvent, Boolean joined) {
+        this.titre = titre;
+        this.desc = desc;
+        this.date = date;
+        this.type = type;
+        this.image = image;
+        this.plage = plage;
+        this.user = user;
+        this.simEvent = simEvent;
+        this.joined = joined;
+    }
 
     public Event(String titre, String desc, String date, String type, String image, String plage, String user) {
         this.titre = titre;
@@ -150,6 +165,14 @@ public class Event {
         this.simEvent = simEvent;
     }
 
+    public Boolean getJoined() {
+        return joined;
+    }
+
+    public void setJoined(Boolean joined) {
+        this.joined = joined;
+    }
+
     @Override
     public String toString() {
         return "Event{" +
@@ -164,6 +187,7 @@ public class Event {
                 ", user='" + user + '\'' +
                 ", v=" + v +
                 ", simEvent=" + simEvent +
+                ", joined=" + joined +
                 '}';
     }
 }

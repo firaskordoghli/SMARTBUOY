@@ -75,7 +75,7 @@ public interface RetrofitInterface {
     public Call<List<ItemHomePlage>> getListFavoris(@Path("id") String id);
 
     @PUT("mob/event/participer")
-    public  Call<Event> joinEvent(@Body JsonObject object);
+    public  Call<String> joinEvent(@Body JsonObject object);
 
 
 }

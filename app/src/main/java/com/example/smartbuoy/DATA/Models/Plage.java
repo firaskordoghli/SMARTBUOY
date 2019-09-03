@@ -13,9 +13,12 @@ public class Plage {
     @SerializedName("images")
     @Expose
     private List<Object> images = null;
+    @SerializedName("events")
+    @Expose
+    private List<Object> events = null;
     @SerializedName("buoys")
     @Expose
-    private List<String> buoys = null;
+    private List<Object> buoys = null;
     @SerializedName("_id")
     @Expose
     private String id;
@@ -28,6 +31,12 @@ public class Plage {
     @SerializedName("etat")
     @Expose
     private String etat;
+    @SerializedName("lat")
+    @Expose
+    private Double lat;
+    @SerializedName("lng")
+    @Expose
+    private Double lng;
     @SerializedName("capacite")
     @Expose
     private Integer capacite;
@@ -37,9 +46,6 @@ public class Plage {
     @SerializedName("rates")
     @Expose
     private List<Object> rates = null;
-    @SerializedName("events")
-    @Expose
-    private List<Object> events = null;
     @SerializedName("__v")
     @Expose
     private Integer v;
@@ -66,11 +72,19 @@ public class Plage {
         this.images = images;
     }
 
-    public List<String> getBuoys() {
+    public List<Object> getEvents() {
+        return events;
+    }
+
+    public void setEvents(List<Object> events) {
+        this.events = events;
+    }
+
+    public List<Object> getBuoys() {
         return buoys;
     }
 
-    public void setBuoys(List<String> buoys) {
+    public void setBuoys(List<Object> buoys) {
         this.buoys = buoys;
     }
 
@@ -106,6 +120,22 @@ public class Plage {
         this.etat = etat;
     }
 
+    public Double getLat() {
+        return lat;
+    }
+
+    public void setLat(Double lat) {
+        this.lat = lat;
+    }
+
+    public Double getLng() {
+        return lng;
+    }
+
+    public void setLng(Double lng) {
+        this.lng = lng;
+    }
+
     public Integer getCapacite() {
         return capacite;
     }
@@ -128,14 +158,6 @@ public class Plage {
 
     public void setRates(List<Object> rates) {
         this.rates = rates;
-    }
-
-    public List<Object> getEvents() {
-        return events;
-    }
-
-    public void setEvents(List<Object> events) {
-        this.events = events;
     }
 
     public Integer getV() {
@@ -161,4 +183,5 @@ public class Plage {
     public void setFavoris(Boolean favoris) {
         this.favoris = favoris;
     }
+
 }

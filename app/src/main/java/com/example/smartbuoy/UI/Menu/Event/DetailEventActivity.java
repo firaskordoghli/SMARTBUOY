@@ -9,7 +9,6 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.LocationManager;
 import android.net.Uri;
-import android.nfc.Tag;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
@@ -27,12 +26,10 @@ import androidx.core.content.ContextCompat;
 
 import com.example.smartbuoy.DATA.Models.Event;
 import com.example.smartbuoy.DATA.Models.Plage;
-import com.example.smartbuoy.DATA.Models.PlageDetailsMap;
 import com.example.smartbuoy.DATA.Models.User;
 import com.example.smartbuoy.DATA.Retrofite.ApiUtil;
 import com.example.smartbuoy.DATA.UserSessionManager;
 import com.example.smartbuoy.R;
-import com.example.smartbuoy.UI.MapSearchActivity;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GoogleApiAvailability;
 import com.google.android.gms.common.api.GoogleApiClient;
@@ -41,14 +38,11 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapFragment;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.squareup.picasso.Picasso;
-
-import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -75,7 +69,8 @@ public class DetailEventActivity extends AppCompatActivity implements OnMapReady
     private GoogleApiClient mGoogleApiClient;
     private MapFragment mapFragment;
 
-    private LatLng plageLatLng ;
+    private LatLng plageLatLng;
+    private User currentUser;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -106,53 +101,24 @@ public class DetailEventActivity extends AppCompatActivity implements OnMapReady
         mapFragment.getMapAsync(this);
 
 
-
         session = new UserSessionManager(DetailEventActivity.this);
         Gson gson = new Gson();
-        final User currentUser = gson.fromJson(session.getUserDetails(), User.class);
+        currentUser = gson.fromJson(session.getUserDetails(), User.class);
 
-        getEventById(idEventFromUpcoming, currentUser.getId());
 
         System.out.println();
+
 
         joinEventbtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
-                Uri gmmIntentUri = Uri.parse("geo:37.7749,-122.4194?q=37.7749,-122.4194");
-                Intent mapIntent = new Intent(Intent.ACTION_VIEW, gmmIntentUri);
-                mapIntent.setPackage("com.google.android.apps.maps");
-                if (mapIntent.resolveActivity(getPackageManager()) != null) {
-                    startActivity(mapIntent);
-                }
-
-                //joinEvent(idEventFromUpcoming, currentUser.getId());
+                joinEvent(idEventFromUpcoming, currentUser.getId());
             }
         });
 
 
     }
 
-
-
-    /*
-        public void getEventById(String id,String idUser) {
-            ApiUtil.getServiceClass().getEvent(id,idUser).enqueue(new Callback<Event>() {
-                @Override
-                public void onResponse(Call<Event> call, Response<Event> response) {
-                    Event newEvent = response.body();
-                    Toast.makeText(DetailEventActivity.this, newEvent.toString(), Toast.LENGTH_SHORT).show();
-                    System.out.println("new event"+newEvent);
-                }
-
-                @Override
-                public void onFailure(Call<Event> call, Throwable t) {
-                    Toast.makeText(DetailEventActivity.this, t.getMessage(), Toast.LENGTH_SHORT).show();
-                    System.out.println("error"+t.getMessage());
-                }
-            });
-        }
-     */
     public void getEventById(String id, String idUser) {
         ApiUtil.getServiceClass().getEvent(id, idUser).enqueue(new Callback<Event>() {
             @Override
@@ -162,6 +128,12 @@ public class DetailEventActivity extends AppCompatActivity implements OnMapReady
                 eventTitleTextView.setText(newEvent.getTitre());
                 eventTypeTextView.setText(newEvent.getType());
                 eventDateTextView.setText(newEvent.getDate().substring(0, 10));
+
+                if (newEvent.getJoined()){
+                    joinEventbtn.setText("annuler");
+                }else {
+                    joinEventbtn.setText("join");
+                }
 
                 //eventLocationTextView.setText(newEvent.getPlage());
 
@@ -192,9 +164,23 @@ public class DetailEventActivity extends AppCompatActivity implements OnMapReady
         ApiUtil.getServiceClass().getPlageById(id, idUser).enqueue(new Callback<Plage>() {
             @Override
             public void onResponse(Call<Plage> call, Response<Plage> response) {
-                Plage responsePlage = response.body();
+                final Plage responsePlage = response.body();
                 eventLocationTextView.setText(responsePlage.getNom());
-                //plageLatLng = new LatLng(responsePlage.get)
+                plageLatLng = new LatLng(responsePlage.getLng(), responsePlage.getLat());
+                mGoogleMap.addMarker(new MarkerOptions().position(plageLatLng));
+                mGoogleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(plageLatLng, 8.0f));
+
+                mGoogleMap.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
+                    @Override
+                    public void onMapClick(LatLng latLng) {
+                        Uri gmmIntentUri = Uri.parse("geo:" + responsePlage.getLng() + "," + responsePlage.getLat() + "?q=" + responsePlage.getLng() + "," + responsePlage.getLat());
+                        Intent mapIntent = new Intent(Intent.ACTION_VIEW, gmmIntentUri);
+                        mapIntent.setPackage("com.google.android.apps.maps");
+                        if (mapIntent.resolveActivity(getPackageManager()) != null) {
+                            startActivity(mapIntent);
+                        }
+                    }
+                });
             }
 
             @Override
@@ -209,15 +195,26 @@ public class DetailEventActivity extends AppCompatActivity implements OnMapReady
         object.addProperty("user", idUser);
         object.addProperty("event", idEvent);
 
-        ApiUtil.getServiceClass().joinEvent(object).enqueue(new Callback<Event>() {
+        ApiUtil.getServiceClass().joinEvent(object).enqueue(new Callback<String>() {
             @Override
-            public void onResponse(Call<Event> call, Response<Event> response) {
-                Toast.makeText(DetailEventActivity.this, "joined", Toast.LENGTH_SHORT).show();
+            public void onResponse(Call<String> call, Response<String> response) {
+
+                if (response.body().equals("participe")){
+                    joinEventbtn.setText("annuler");
+                    Toast.makeText(DetailEventActivity.this, "joined", Toast.LENGTH_SHORT).show();
+                    System.out.println(response.body());
+                }else if (response.body().equals("annuler")){
+                    joinEventbtn.setText("join");
+                    Toast.makeText(DetailEventActivity.this, "annuer", Toast.LENGTH_SHORT).show();
+                    System.out.println(response.body());
+                }
+
             }
 
             @Override
-            public void onFailure(Call<Event> call, Throwable t) {
+            public void onFailure(Call<String> call, Throwable t) {
                 Toast.makeText(DetailEventActivity.this, "error", Toast.LENGTH_SHORT).show();
+                System.out.println(t.getMessage());
 
             }
         });
@@ -351,12 +348,13 @@ public class DetailEventActivity extends AppCompatActivity implements OnMapReady
 
         mGoogleMap = googleMap;
 
-        mGoogleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(36.85, 11.1), 8.0f));
+        mGoogleMap.getUiSettings().setAllGesturesEnabled(false);
 
         if (checkSelfPermission(Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && checkSelfPermission(Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             return;
         }
         mGoogleMap.setMyLocationEnabled(true);
+        getEventById(idEventFromUpcoming, currentUser.getId());
 
     }
 
