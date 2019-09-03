@@ -38,7 +38,7 @@ public class PlanProfileAdapter extends RecyclerView.Adapter<PlanProfileAdapter.
         //Picasso.get().load(plan.getMainImage()).into(holder.planIv);
 
         holder.planPlageNameTextView.setText(plan.getNomPlage());
-        holder.planeDateTextView.setText(plan.getDate());
+        holder.planeDateTextView.setText(plan.getDate().substring(0,10));
         holder.planCityTextView.setText(plan.getVillePlage());
     }
 

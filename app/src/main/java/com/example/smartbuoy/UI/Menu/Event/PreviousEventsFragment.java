@@ -18,6 +18,7 @@ import com.example.smartbuoy.DATA.Adapters.UpComingEventsAdapter;
 import com.example.smartbuoy.DATA.Models.Event;
 import com.example.smartbuoy.DATA.Retrofite.ApiUtil;
 import com.example.smartbuoy.R;
+import com.facebook.shimmer.ShimmerFrameLayout;
 
 import java.util.List;
 
@@ -34,6 +35,9 @@ public class PreviousEventsFragment extends Fragment {
     private PreviousEventsAdapter eventAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
 
+    private ShimmerFrameLayout mShimmerViewContainer;
+
+
 
     public PreviousEventsFragment() {
         // Required empty public constructor
@@ -49,6 +53,9 @@ public class PreviousEventsFragment extends Fragment {
         mRecycleView = view.findViewById(R.id.rvPreviousEvents);
         mRecycleView.setHasFixedSize(true);
 
+        mShimmerViewContainer = view.findViewById(R.id.previousEventShimmer);
+
+
         listPreviousEvent();
         return view;
     }
@@ -58,6 +65,10 @@ public class PreviousEventsFragment extends Fragment {
             @Override
             public void onResponse(Call<List<Event>> call, Response<List<Event>> response) {
                 final List<Event> listEvent = response.body();
+
+                // Stopping Shimmer Effect's animation after data is loaded to ListView
+                mShimmerViewContainer.stopShimmerAnimation();
+                mShimmerViewContainer.setVisibility(View.GONE);
 
                 mLayoutManager = new LinearLayoutManager(getContext());
                 eventAdapter = new PreviousEventsAdapter(listEvent);
@@ -82,6 +93,18 @@ public class PreviousEventsFragment extends Fragment {
 
             }
         });
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        mShimmerViewContainer.startShimmerAnimation();
+    }
+
+    @Override
+    public void onPause() {
+        mShimmerViewContainer.stopShimmerAnimation();
+        super.onPause();
     }
 
 }

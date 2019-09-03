@@ -81,6 +81,7 @@ public class DetailPlageActivity extends AppCompatActivity {
     }
 
     public void followPlage(String idUser, String idPlage) {
+
         JsonObject object = new JsonObject();
         object.addProperty("idPlage", idPlage);
         object.addProperty("idUser", idUser);

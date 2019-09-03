@@ -17,7 +17,7 @@ import com.google.gson.Gson;
 
 public class MainActivity extends AppCompatActivity {
     // User Session Manager Class
-    UserSessionManager session;
+    private UserSessionManager session;
 
     private BottomNavigationView.OnNavigationItemSelectedListener navListener =
             new BottomNavigationView.OnNavigationItemSelectedListener() {

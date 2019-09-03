@@ -3,14 +3,14 @@ package com.example.smartbuoy.UI.Menu.Event;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.TextView;
 
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
 
 import com.example.smartbuoy.DATA.Adapters.PreviousEventsAdapter;
 import com.example.smartbuoy.DATA.Adapters.UpComingEventsAdapter;
@@ -19,6 +19,7 @@ import com.example.smartbuoy.DATA.Models.User;
 import com.example.smartbuoy.DATA.Retrofite.ApiUtil;
 import com.example.smartbuoy.DATA.UserSessionManager;
 import com.example.smartbuoy.R;
+import com.facebook.shimmer.ShimmerFrameLayout;
 import com.google.gson.Gson;
 
 import java.util.List;
@@ -32,11 +33,14 @@ import retrofit2.Response;
  */
 public class MyEventsFragment extends Fragment {
 
+    private TextView emptyEditText;
+
     private RecyclerView mRecycleView;
     private PreviousEventsAdapter eventAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
     private UserSessionManager session;
 
+    private ShimmerFrameLayout mShimmerViewContainer;
 
 
     public MyEventsFragment() {
@@ -53,6 +57,10 @@ public class MyEventsFragment extends Fragment {
         mRecycleView = view.findViewById(R.id.rvMyEvents);
         mRecycleView.setHasFixedSize(true);
 
+        emptyEditText = view.findViewById(R.id.etEmptyMyEvent);
+
+        mShimmerViewContainer = view.findViewById(R.id.myEventShimmer);
+
         session = new UserSessionManager(getContext());
         Gson gson = new Gson();
         final User currentUser = gson.fromJson(session.getUserDetails(), User.class);
@@ -68,22 +76,30 @@ public class MyEventsFragment extends Fragment {
             public void onResponse(Call<List<Event>> call, Response<List<Event>> response) {
                 final List<Event> listEvent = response.body();
 
-                mLayoutManager = new LinearLayoutManager(getContext());
-                eventAdapter = new PreviousEventsAdapter(listEvent);
+                // Stopping Shimmer Effect's animation after data is loaded to ListView
+                mShimmerViewContainer.stopShimmerAnimation();
+                mShimmerViewContainer.setVisibility(View.GONE);
 
-                mRecycleView.setLayoutManager(mLayoutManager);
-                mRecycleView.setAdapter(eventAdapter);
+                if (listEvent.size() == 0) {
+                    emptyEditText.setText("no events");
+                } else {
+                    mLayoutManager = new LinearLayoutManager(getContext());
+                    eventAdapter = new PreviousEventsAdapter(listEvent);
 
-                eventAdapter.setOnItemClickListener(new UpComingEventsAdapter.OnItemClickListener() {
-                    @Override
-                    public void onItemClick(int position) {
-                        //Toast.makeText(getContext(), listEvent.get(position).getId(), Toast.LENGTH_SHORT).show();
+                    mRecycleView.setLayoutManager(mLayoutManager);
+                    mRecycleView.setAdapter(eventAdapter);
 
-                        Intent intent = new Intent(getContext(), DetailEventActivity.class);
-                        intent.putExtra("idEventFromUpcoming", listEvent.get(position).getId());
-                        startActivity(intent);
-                    }
-                });
+                    eventAdapter.setOnItemClickListener(new UpComingEventsAdapter.OnItemClickListener() {
+                        @Override
+                        public void onItemClick(int position) {
+                            //Toast.makeText(getContext(), listEvent.get(position).getId(), Toast.LENGTH_SHORT).show();
+
+                            Intent intent = new Intent(getContext(), DetailEventActivity.class);
+                            intent.putExtra("idEventFromUpcoming", listEvent.get(position).getId());
+                            startActivity(intent);
+                        }
+                    });
+                }
             }
 
             @Override
@@ -91,6 +107,18 @@ public class MyEventsFragment extends Fragment {
 
             }
         });
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        mShimmerViewContainer.startShimmerAnimation();
+    }
+
+    @Override
+    public void onPause() {
+        mShimmerViewContainer.stopShimmerAnimation();
+        super.onPause();
     }
 
 }
