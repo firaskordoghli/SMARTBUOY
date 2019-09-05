@@ -36,7 +36,6 @@
             android:layout_height="match_parent"
             android:background="@null"
             android:padding="5dp"
-
             android:src="@drawable/ic_groupe_349" />
 
     </LinearLayout>
@@ -49,7 +48,7 @@
         android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
         android:text="welcome frere"
-        android:textColor="#90EBC1"
+        android:textColor="@color/colorPrimary"
         android:textSize="20sp"
         android:textStyle="bold"
         app:layout_constraintStart_toStartOf="parent"
@@ -82,49 +81,13 @@
 
 
         <androidx.constraintlayout.widget.ConstraintLayout
-            android:layout_width="393dp"
+            android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:elevation="50dp"
             app:layout_constraintBottom_toBottomOf="parent">
 
-            <TextView
-                android:id="@+id/tvDatePlanHome"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="24dp"
-                android:layout_marginTop="8dp"
-                android:text="Date"
-                android:textAppearance="@style/itemPlanPlageDate"
-                app:layout_constraintBottom_toTopOf="@+id/tvNamePlagePlanHome"
-                app:layout_constraintStart_toEndOf="@+id/linearLayout2"
-                app:layout_constraintTop_toTopOf="parent" />
-
-            <TextView
-                android:id="@+id/tvNamePlagePlanHome"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="24dp"
-                android:layout_marginTop="8dp"
-                android:text="plage name"
-                android:textAppearance="@style/itemPlanPlageName"
-                app:layout_constraintBottom_toTopOf="@+id/tvCityPlanHome"
-                app:layout_constraintStart_toEndOf="@+id/linearLayout2"
-                app:layout_constraintTop_toBottomOf="@+id/tvDatePlanHome" />
-
-            <TextView
-                android:id="@+id/tvCityPlanHome"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="24dp"
-                android:layout_marginBottom="8dp"
-                android:text="city"
-                android:textAppearance="@style/itemPlanPlageCity"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toEndOf="@+id/linearLayout2"
-                app:layout_constraintTop_toBottomOf="@+id/tvNamePlagePlanHome" />
-
             <LinearLayout
-                android:id="@+id/linearLayout2"
+                android:id="@+id/linearLayoutPlanHome"
                 android:layout_width="wrap_content"
                 android:layout_height="0dp"
                 android:layout_marginStart="32dp"
@@ -151,16 +114,71 @@
             </LinearLayout>
 
             <TextView
-                android:id="@+id/textView9"
+                android:id="@+id/tvNamePlagePlanHome"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:layout_marginBottom="8dp"
+                android:layout_marginStart="24dp"
+                android:layout_marginTop="24dp"
+                android:text="plage name"
+                android:textAppearance="@style/itemPlanPlageName"
+                app:layout_constraintBottom_toTopOf="@+id/tvCityPlanHome"
+                app:layout_constraintStart_toEndOf="@+id/linearLayoutPlanHome"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/tvCityPlanHome"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="24dp"
+                android:layout_marginBottom="24dp"
+                android:text="city"
+                android:textAppearance="@style/itemPlanPlageCity"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                tools:layout_editor_absoluteX="166dp" />
+                app:layout_constraintStart_toEndOf="@+id/linearLayoutPlanHome"
+                app:layout_constraintTop_toBottomOf="@+id/tvNamePlagePlanHome" />
+
+
+            <LinearLayout
+                android:id="@+id/linearLayoutPlanHomeDate"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="32dp"
+                android:background="@drawable/rounded_corner_date"
+                android:orientation="vertical"
+                android:padding="10dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <TextView
+                    android:id="@+id/tvDayPlanHome"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/colorPrimaryDark"
+                    android:text="TextView"
+                    android:textColor="@color/ms_white" />
+
+                <TextView
+                    android:id="@+id/tvDatePlanHome"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@color/colorPrimaryDark"
+                    android:text="Date"
+                    android:textAppearance="@style/itemPlanPlageDate"
+                    android:textColor="@color/ms_white"
+                    tools:layout_editor_absoluteX="323dp" />
+
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/textView9"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginEnd="8dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

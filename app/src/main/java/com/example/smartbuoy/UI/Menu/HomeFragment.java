@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -31,11 +32,16 @@ import com.facebook.shimmer.ShimmerFrameLayout;
 import com.google.gson.Gson;
 import com.squareup.picasso.Picasso;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+
+import static android.view.View.INVISIBLE;
 
 
 /**
@@ -45,10 +51,12 @@ public class HomeFragment extends Fragment {
     private static final String TAG = "HomeFragment";
     private static final int ERROR_DIALOG_REQUEST = 9001;
     private ImageView planImageView;
-    private TextView planDateTextView, planPlageTextView, planCityTextView,welcomeTextView,recommendedTextView,nearYouTextView,fishingTextView,othresTextView,emptyPlanTextView;
+    private TextView planDateTextView,planDayTextView, planPlageTextView, planCityTextView,welcomeTextView,recommendedTextView,nearYouTextView,fishingTextView,othresTextView,emptyPlanTextView;
     private RecyclerView mRecyclerView;
     private HomePlageAdapter mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
+
+    private LinearLayout dateLinearLayout,iconLinearLayout;
 
     private UserSessionManager session;
 
@@ -78,6 +86,7 @@ public class HomeFragment extends Fragment {
 
         planImageView = view.findViewById(R.id.ivPlanHome);
         planDateTextView = view.findViewById(R.id.tvDatePlanHome);
+        planDayTextView = view.findViewById(R.id.tvDayPlanHome);
         planPlageTextView = view.findViewById(R.id.tvNamePlagePlanHome);
         planCityTextView = view.findViewById(R.id.tvCityPlanHome);
         welcomeTextView = view.findViewById(R.id.tvWelcome);
@@ -89,6 +98,11 @@ public class HomeFragment extends Fragment {
         othresTextView = view.findViewById(R.id.textView9efef);
 
         mShimmerViewContainer = view.findViewById(R.id.shimmer_view_container);
+
+        iconLinearLayout = view.findViewById(R.id.linearLayoutPlanHome);
+        dateLinearLayout = view.findViewById(R.id.linearLayoutPlanHomeDate);
+
+
 
 
         recommendedTextView.setOnClickListener(new View.OnClickListener() {
@@ -288,15 +302,33 @@ public class HomeFragment extends Fragment {
 
                 try {
                     Plan firstPlan = mList.get(0);
+                    SimpleDateFormat inFormat = new SimpleDateFormat("dd-MM-yyyy");
+                    Date date = inFormat.parse(firstPlan.getDate());
+                    SimpleDateFormat outFormat = new SimpleDateFormat("EEEE");
+                    String goal = outFormat.format(date);
+                    System.out.println(goal);
                     //Picasso.get().load(firstPlan.getMainImage()).into(planImageView);
-                    planDateTextView.setText(firstPlan.getDate().substring(0,10));
+                    planDateTextView.setText(firstPlan.getDate().substring(5,10));
+                    planDayTextView.setText(goal);
                     planPlageTextView.setText(firstPlan.getNomPlage());
                     planCityTextView.setText(firstPlan.getVillePlage());
+/*
+                    System.out.println(firstPlan.getDate());
+                    SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'");
+                    SimpleDateFormat format2 = new SimpleDateFormat("E");
+                    Date date = format.parse(firstPlan.getDate());
+                    String res = format2.format(date);
+                    //String stringDate = DateFormat.getDateTimeInstance().format(format);
+                    Toast.makeText(getContext(), res, Toast.LENGTH_SHORT).show();*/
+
+
+
                 } catch (Exception e) {
-                    planDateTextView.setText("");
-                    planPlageTextView.setText("");
-                    planCityTextView.setText("");
-                    emptyPlanTextView.setText("you have no plans");
+                    dateLinearLayout.setVisibility(INVISIBLE);
+                    planPlageTextView.setVisibility(INVISIBLE);
+                    planCityTextView.setVisibility(INVISIBLE);
+                    iconLinearLayout.setVisibility(INVISIBLE);
+                    emptyPlanTextView.setText("Nothing is scheduled yet, Add Plans in the beach of your choosing");
                     // This will catch any exception, because they are all descended from Exception
                     System.out.println("Error " + e.getMessage());
                     Toast.makeText(getContext(), "plan empty", Toast.LENGTH_SHORT).show();

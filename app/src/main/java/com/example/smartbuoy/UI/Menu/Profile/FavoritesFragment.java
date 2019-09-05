@@ -4,12 +4,15 @@ package com.example.smartbuoy.UI.Menu.Profile;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
+import com.example.smartbuoy.DATA.Adapters.FavorisAdapter;
 import com.example.smartbuoy.DATA.Models.Event;
 import com.example.smartbuoy.DATA.Models.ItemHomePlage;
 import com.example.smartbuoy.DATA.Models.Plage;
@@ -31,6 +34,10 @@ import retrofit2.Response;
 public class FavoritesFragment extends Fragment {
     UserSessionManager session;
 
+    private RecyclerView mRecyclerView;
+    private FavorisAdapter mAdapter;
+    private RecyclerView.LayoutManager mLayoutManager;
+
 
     public FavoritesFragment() {
         // Required empty public constructor
@@ -50,6 +57,8 @@ public class FavoritesFragment extends Fragment {
 
         getListFavoris(currentUser.getId());
 
+        mRecyclerView = view.findViewById(R.id.rvFavoris);
+
         return view;
     }
 
@@ -60,6 +69,12 @@ public class FavoritesFragment extends Fragment {
                 final List<ItemHomePlage> mlist = response.body();
                 System.out.println("$$$$$$$$$$$$"+mlist.size());
                 //Toast.makeText(getContext(), mlist.size(), Toast.LENGTH_SHORT).show();
+
+                mLayoutManager = new LinearLayoutManager(getContext());
+                mAdapter = new FavorisAdapter(mlist);
+
+                mRecyclerView.setLayoutManager(mLayoutManager);
+                mRecyclerView.setAdapter(mAdapter);
             }
 
             @Override

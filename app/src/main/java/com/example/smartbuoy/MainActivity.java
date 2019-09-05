@@ -9,7 +9,7 @@ import androidx.fragment.app.Fragment;
 
 import com.example.smartbuoy.DATA.UserSessionManager;
 import com.example.smartbuoy.UI.Menu.Event.EventsFragment;
-import com.example.smartbuoy.UI.Menu.ExploreFragment;
+import com.example.smartbuoy.UI.Menu.NotificationFragment;
 import com.example.smartbuoy.UI.Menu.HomeFragment;
 import com.example.smartbuoy.UI.Menu.Profile.ProfileFragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -31,7 +31,7 @@ public class MainActivity extends AppCompatActivity {
                             break;
 
                         case R.id.explore:
-                            selectedFragment = new ExploreFragment();
+                            selectedFragment = new NotificationFragment();
                             break;
 
 
