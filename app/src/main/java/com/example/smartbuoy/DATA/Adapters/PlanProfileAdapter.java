@@ -1,5 +1,6 @@
 package com.example.smartbuoy.DATA.Adapters;
 
+import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -7,19 +8,20 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.smartbuoy.DATA.Models.Plan;
 import com.example.smartbuoy.R;
-import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
 public class PlanProfileAdapter extends RecyclerView.Adapter<PlanProfileAdapter.PlanViewHolder> {
 
     private List<Plan> mPlanList;
+    private Context context;
 
-    public PlanProfileAdapter(List<Plan> mPlanList) {
+    public PlanProfileAdapter(Context context, List<Plan> mPlanList) {
         this.mPlanList = mPlanList;
     }
 
@@ -38,7 +40,7 @@ public class PlanProfileAdapter extends RecyclerView.Adapter<PlanProfileAdapter.
         //Picasso.get().load(plan.getMainImage()).into(holder.planIv);
 
         holder.planPlageNameTextView.setText(plan.getNomPlage());
-        holder.planeDateTextView.setText(plan.getDate().substring(0,10));
+        holder.planeDateTextView.setText(plan.getDate().substring(0, 10));
         holder.planCityTextView.setText(plan.getVillePlage());
     }
 
@@ -54,10 +56,21 @@ public class PlanProfileAdapter extends RecyclerView.Adapter<PlanProfileAdapter.
         }
     }
 
+    public void removeItem(int position) {
+        mPlanList.remove(position);
+        notifyItemRemoved(position);
+    }
+
+    public void restoreItem(Plan plan, int position) {
+        mPlanList.add(position,plan);
+        notifyItemInserted(position);
+    }
+
 
     public static class PlanViewHolder extends RecyclerView.ViewHolder {
         public ImageView planIv;
         public TextView planeDateTextView, planPlageNameTextView, planCityTextView;
+        public ConstraintLayout viewBackground,viewForeground;
 
         public PlanViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -66,6 +79,8 @@ public class PlanProfileAdapter extends RecyclerView.Adapter<PlanProfileAdapter.
             planCityTextView = itemView.findViewById(R.id.tvCityPlan);
             planeDateTextView = itemView.findViewById(R.id.tvDatePlan);
             planPlageNameTextView = itemView.findViewById(R.id.tvNamePlagePlan);
+            viewBackground = itemView.findViewById(R.id.viewBackground);
+            viewForeground = itemView.findViewById(R.id.viewForeground);
         }
     }
 }

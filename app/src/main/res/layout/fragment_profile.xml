@@ -7,6 +7,16 @@
     tools:context=".UI.Menu.Profile.ProfileFragment">
 
     <ImageView
+        android:id="@+id/imageView4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:layout_marginEnd="24dp"
+        android:src="@drawable/ic_edit_profile"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
         android:id="@+id/imageViewProfile"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -31,7 +41,6 @@
         app:layout_constraintTop_toBottomOf="@+id/imageViewProfile" />
 
     <com.google.android.material.appbar.AppBarLayout
-        app:elevation="0dp"
         android:id="@+id/appBarLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -59,54 +68,5 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/appBarLayout" />
-
-    <ImageView
-        android:id="@+id/imageView4"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="24dp"
-        android:layout_marginEnd="24dp"
-        android:src="@drawable/ic_edit_profile"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <androidx.drawerlayout.widget.DrawerLayout
-        android:id="@+id/drawer_layout"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
-        <!-- The navigation drawer that comes from the left -->
-        <!-- Note that `android:layout_gravity` needs to be set to 'start' -->
-        <com.google.android.material.navigation.NavigationView
-            android:id="@+id/nvView"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_gravity="start"
-            android:background="@android:color/white"
-            app:menu="@menu/drawer_view" />
-
-        <!-- This LinearLayout represents the contents of the screen  -->
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical">
-
-            <!-- The ActionBar displayed at the top -->
-            <include
-                layout="@layout/toolbar_drawer"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
-
-            <!-- The main content view where fragments are loaded -->
-            <FrameLayout
-                android:id="@+id/flContent"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                app:layout_behavior="@string/appbar_scrolling_view_behavior" />
-        </LinearLayout>
-
-    </androidx.drawerlayout.widget.DrawerLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

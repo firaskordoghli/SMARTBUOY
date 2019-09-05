@@ -26,10 +26,7 @@ public class EventsFragment extends Fragment {
     private ViewPager viewPager;
     private TabLayout tabLayout;
 
-    private FloatingActionButton floatingActionButton, fabEvent, fabPlan;
-
-    private boolean isFABOpen = false;
-
+    private com.github.clans.fab.FloatingActionButton fabEvent;
 
     public EventsFragment() {
         // Required empty public constructor
@@ -44,35 +41,14 @@ public class EventsFragment extends Fragment {
         viewPager = view.findViewById(R.id.viewEventPager);
         tabLayout = view.findViewById(R.id.tabEventLayout);
 
-        floatingActionButton = (FloatingActionButton) view.findViewById(R.id.floating_action_button);
-        fabEvent = (FloatingActionButton) view.findViewById(R.id.floating_action_button_event);
-        fabPlan = (FloatingActionButton) view.findViewById(R.id.floating_action_button2);
-
-
-        floatingActionButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (!isFABOpen) {
-                    showFABMenu();
-                } else {
-                    closeFABMenu();
-                }
-            }
-        });
+        fabEvent = view.findViewById(R.id.menu_item_add_event);
 
         fabEvent.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(getContext(), "event", Toast.LENGTH_SHORT).show();
+                //Toast.makeText(getContext(), "event", Toast.LENGTH_SHORT).show();
                 Intent intent = new Intent(getContext(), AddEventActivity.class);
                 startActivity(intent);
-            }
-        });
-
-        fabPlan.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Toast.makeText(getContext(), "plan", Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -109,19 +85,6 @@ public class EventsFragment extends Fragment {
         adapter.addFragment(new MyEventsFragment(), "My events");
 
         viewPager.setAdapter(adapter);
-    }
-
-    private void showFABMenu() {
-        isFABOpen = true;
-        fabEvent.animate().translationY(-getResources().getDimension(R.dimen.standard_55));
-        fabPlan.animate().translationY(-getResources().getDimension(R.dimen.standard_105));
-    }
-
-    private void closeFABMenu() {
-        isFABOpen = false;
-        fabEvent.animate().translationY(0);
-        fabPlan.animate().translationY(0);
-
     }
 
 }

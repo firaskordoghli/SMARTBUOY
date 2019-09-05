@@ -2,9 +2,13 @@ package com.example.smartbuoy.UI;
 
 import android.app.DatePickerDialog;
 import android.app.ProgressDialog;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.ImageView;
@@ -13,33 +17,43 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
 
 import com.example.smartbuoy.DATA.Models.Event;
+import com.example.smartbuoy.DATA.Models.ItemHomePlage;
 import com.example.smartbuoy.DATA.Models.User;
+import com.example.smartbuoy.DATA.PictureUploader;
 import com.example.smartbuoy.DATA.Retrofite.ApiUtil;
 import com.example.smartbuoy.DATA.UserSessionManager;
 import com.example.smartbuoy.R;
-import com.example.smartbuoy.UI.SignUp.SignUpStep1Activity;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
 public class AddEventActivity extends AppCompatActivity {
-    Calendar calendar;
-    DatePickerDialog datePickerDialog;
-    UserSessionManager session;
 
+    private Calendar calendar;
+    private DatePickerDialog datePickerDialog;
+    private UserSessionManager session;
     private ProgressDialog pDialog;
     private ImageView eventImageView;
-    private TextView eventNameTextView, eventDescriptionTextView, eventPlage, eventDate;
+    private TextView eventNameTextView, eventDescriptionTextView, eventDate;
+    private AutoCompleteTextView eventPlage;
     private Button addEventBtn;
     private Spinner eventType;
     private Event newEvent;
+    private ArrayList<String> plageNameList = new ArrayList<String>();
+    private Map plageNameMap = new HashMap();
+    private String namePlageFromAutoComplete;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,7 +71,18 @@ public class AddEventActivity extends AppCompatActivity {
 
         session = new UserSessionManager(getApplicationContext());
         Gson gson = new Gson();
-        User currentUser = gson.fromJson(session.getUserDetails(), User.class);
+        final User currentUser = gson.fromJson(session.getUserDetails(), User.class);
+
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, plageNameList);
+        eventPlage.setAdapter(adapter);
+        eventPlage.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                namePlageFromAutoComplete = (String) adapterView.getItemAtPosition(i);
+            }
+        });
+
+        listePlage();
 
         eventDate.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -79,23 +104,25 @@ public class AddEventActivity extends AppCompatActivity {
             }
         });
 
+
         addEventBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                displayLoader();
 
+                displayLoader();
                 newEvent = new Event(
                         eventNameTextView.getText().toString()
                         , eventDescriptionTextView.getText().toString()
                         , eventDate.getText().toString()
                         , eventType.getSelectedItem().toString()
                         , "https://www.teskerti.tn/wp-content/uploads/2019/08/IMG_0368-1024x576.jpg"
-                        , "5d55b1533a2d0c236c12290b"
-                        , "5d5a988e907f7824384470bb");
-
+                        , plageNameMap.get(namePlageFromAutoComplete).toString()
+                        , currentUser.getId());
                 addEvent(newEvent);
+                System.out.println("new user " + newEvent);
             }
         });
+
     }
 
     public void addEvent(final Event event) {
@@ -117,6 +144,26 @@ public class AddEventActivity extends AppCompatActivity {
 
             }
         });
+    }
+
+    private void listePlage() {
+        ApiUtil.getServiceClass().allplage().enqueue(new Callback<List<ItemHomePlage>>() {
+            @Override
+            public void onResponse(Call<List<ItemHomePlage>> call, Response<List<ItemHomePlage>> response) {
+                final List<ItemHomePlage> mlist = response.body();
+                for (int i = 0; i < mlist.size(); i++) {
+                    plageNameList.add(mlist.get(i).getName());
+                    plageNameMap.put(mlist.get(i).getName(), mlist.get(i).getId());
+                    System.out.println(plageNameMap.get(plageNameList.get(i)));
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<ItemHomePlage>> call, Throwable t) {
+
+            }
+        });
+
     }
 
     private void displayLoader() {

@@ -40,6 +40,60 @@
 
     </LinearLayout>
 
+    <HorizontalScrollView
+        android:id="@+id/horizontalScrollView"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:scrollbars="none"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent">
+
+            <TextView
+                android:id="@+id/etSearchRecommended"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/rounded_corner"
+                android:text="All"
+                android:textColor="@color/ms_white"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/etSearchNearYou"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/rounded_corner_transparent"
+                android:text="Near you"
+                android:textColor="#CBCBCB"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/etSearchFishingSpots"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/rounded_corner_transparent"
+                android:text="fishing spots"
+                android:textColor="#CBCBCB"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/textView9efefef"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/rounded_corner_transparent"
+                android:text="others"
+                android:textColor="#CBCBCB"
+                android:textStyle="bold" />
+        </LinearLayout>
+    </HorizontalScrollView>
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rvSearsh"
         android:layout_width="0dp"
@@ -51,5 +105,5 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/linearLayout" />
+        app:layout_constraintTop_toBottomOf="@+id/horizontalScrollView" />
 </androidx.constraintlayout.widget.ConstraintLayout>
