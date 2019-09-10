@@ -34,8 +34,8 @@ public interface RetrofitInterface {
     @GET("mob/plage/")
     public Call<List<ItemHomePlage>> allplage();
 
-    @GET("mob/plage/nearyou/{lat}/{lng}")
-    public Call<List<ItemHomePlage>> plageNearYou(@Path("id") String lat,@Path("id") String lng);
+    @GET("mob/plage/nearyou/{lat}/{lng}/{distance}")
+    public Call<List<ItemHomePlage>> plageNearYou(@Path("lat") String lat,@Path("lng") String lng,@Path("distance") String distance);
 
     @GET("mob/plage/recommanded/{id}")
     public Call<List<ItemHomePlage>> plageRecommended(@Path("id") String id);

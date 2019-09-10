@@ -30,9 +30,7 @@ import com.example.smartbuoy.UI.MapSearchActivity;
 import com.example.smartbuoy.UI.SearshActivity;
 import com.facebook.shimmer.ShimmerFrameLayout;
 import com.google.gson.Gson;
-import com.squareup.picasso.Picasso;
 
-import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
@@ -51,19 +49,18 @@ public class HomeFragment extends Fragment {
     private static final String TAG = "HomeFragment";
     private static final int ERROR_DIALOG_REQUEST = 9001;
     private ImageView planImageView;
-    private TextView planDateTextView,planDayTextView, planPlageTextView, planCityTextView,welcomeTextView,recommendedTextView,nearYouTextView,fishingTextView,othresTextView,emptyPlanTextView;
+    private TextView planDateTextView, planDayTextView, planPlageTextView, planCityTextView, welcomeTextView, recommendedTextView, nearYouTextView, fishingTextView, othresTextView, emptyPlanTextView;
     private RecyclerView mRecyclerView;
     private HomePlageAdapter mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
 
-    private LinearLayout dateLinearLayout,iconLinearLayout;
+    private LinearLayout dateLinearLayout, iconLinearLayout;
 
     private UserSessionManager session;
 
     private ShimmerFrameLayout mShimmerViewContainer;
 
     private User currentUser;
-
 
 
     public HomeFragment() {
@@ -103,8 +100,6 @@ public class HomeFragment extends Fragment {
         dateLinearLayout = view.findViewById(R.id.linearLayoutPlanHomeDate);
 
 
-
-
         recommendedTextView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -121,18 +116,20 @@ public class HomeFragment extends Fragment {
                 othresTextView.setTextColor(Color.parseColor("#CBCBCB"));
 
                 Toast.makeText(getContext(), "recommended list", Toast.LENGTH_LONG).show();
+                recommendedPlage(currentUser.getId());
             }
         });
 
         nearYouTextView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                mShimmerViewContainer.startShimmerAnimation();
+
                 nearYouTextView.setBackgroundResource(R.drawable.rounded_corner);
                 nearYouTextView.setTextColor(Color.parseColor("#FFFFFF"));
 
                 recommendedTextView.setBackgroundResource(R.drawable.rounded_corner_transparent);
                 recommendedTextView.setTextColor(Color.parseColor("#CBCBCB"));
-
 
 
                 fishingTextView.setBackgroundResource(R.drawable.rounded_corner_transparent);
@@ -141,7 +138,7 @@ public class HomeFragment extends Fragment {
                 othresTextView.setBackgroundResource(R.drawable.rounded_corner_transparent);
                 othresTextView.setTextColor(Color.parseColor("#CBCBCB"));
 
-                recommendedPlage(currentUser.getId());
+                nearPlage("36.858197","11.135506","5");
             }
         });
 
@@ -184,14 +181,13 @@ public class HomeFragment extends Fragment {
         });
 
 
-
-        welcomeTextView.setText("Welcome "+ currentUser.getUsername() );
+        welcomeTextView.setText("Welcome " + currentUser.getUsername());
 
         mRecyclerView = view.findViewById(R.id.rvHome);
         mRecyclerView.setHasFixedSize(true);
 
 
-        listePlage();
+        recommendedPlage(currentUser.getId());
 
 
         listPlan(currentUser.getId());
@@ -294,6 +290,45 @@ public class HomeFragment extends Fragment {
 
     }
 
+    private void nearPlage(String lat, String lng, String ditance) {
+        ApiUtil.getServiceClass().plageNearYou(lat,lng,ditance).enqueue(new Callback<List<ItemHomePlage>>() {
+            @Override
+            public void onResponse(Call<List<ItemHomePlage>> call, Response<List<ItemHomePlage>> response) {
+                final List<ItemHomePlage> mlist = response.body();
+
+                // Stopping Shimmer Effect's animation after data is loaded to ListView
+                mShimmerViewContainer.stopShimmerAnimation();
+                mShimmerViewContainer.setVisibility(View.GONE);
+
+                Toast.makeText(getContext(), "rec", Toast.LENGTH_SHORT).show();
+
+                mLayoutManager = new LinearLayoutManager(getContext());
+                mAdapter = new HomePlageAdapter(mlist);
+
+                mRecyclerView.setLayoutManager(mLayoutManager);
+                mRecyclerView.setAdapter(mAdapter);
+
+                mAdapter.setOnItemClickListener(new HomePlageAdapter.OnItemClickListener() {
+                    @Override
+                    public void onItemClick(int position) {
+                        //Toast.makeText(getContext(), mlist.get(position).getId(), Toast.LENGTH_SHORT).show();
+
+                        Intent intent = new Intent(getContext(), DetailPlageActivity.class);
+                        intent.putExtra("idPlageFromHome", mlist.get(position).getId());
+                        startActivity(intent);
+
+                    }
+                });
+            }
+
+            @Override
+            public void onFailure(Call<List<ItemHomePlage>> call, Throwable t) {
+
+            }
+        });
+
+    }
+
     private void listPlan(String id) {
         ApiUtil.getServiceClass().getPlan(id).enqueue(new Callback<List<Plan>>() {
             @Override
@@ -308,7 +343,7 @@ public class HomeFragment extends Fragment {
                     String goal = outFormat.format(date);
                     System.out.println(goal);
                     //Picasso.get().load(firstPlan.getMainImage()).into(planImageView);
-                    planDateTextView.setText(firstPlan.getDate().substring(5,10));
+                    planDateTextView.setText(firstPlan.getDate().substring(5, 10));
                     planDayTextView.setText(goal);
                     planPlageTextView.setText(firstPlan.getNomPlage());
                     planCityTextView.setText(firstPlan.getVillePlage());
@@ -320,7 +355,6 @@ public class HomeFragment extends Fragment {
                     String res = format2.format(date);
                     //String stringDate = DateFormat.getDateTimeInstance().format(format);
                     Toast.makeText(getContext(), res, Toast.LENGTH_SHORT).show();*/
-
 
 
                 } catch (Exception e) {

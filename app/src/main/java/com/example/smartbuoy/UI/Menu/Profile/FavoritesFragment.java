@@ -3,6 +3,7 @@ package com.example.smartbuoy.UI.Menu.Profile;
 
 import android.os.Bundle;
 
+import androidx.appcompat.widget.PopupMenu;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -10,6 +11,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.example.smartbuoy.DATA.Adapters.FavorisAdapter;
@@ -39,6 +41,8 @@ public class FavoritesFragment extends Fragment {
     private RecyclerView.LayoutManager mLayoutManager;
 
 
+
+
     public FavoritesFragment() {
         // Required empty public constructor
     }
@@ -52,12 +56,15 @@ public class FavoritesFragment extends Fragment {
 
 
         session = new UserSessionManager(getContext());
-        Gson gson = new Gson();
+        final Gson gson = new Gson();
         final User currentUser = gson.fromJson(session.getUserDetails(), User.class);
 
         getListFavoris(currentUser.getId());
 
         mRecyclerView = view.findViewById(R.id.rvFavoris);
+
+
+
 
         return view;
     }
@@ -70,7 +77,7 @@ public class FavoritesFragment extends Fragment {
                 System.out.println("$$$$$$$$$$$$"+mlist.size());
                 //Toast.makeText(getContext(), mlist.size(), Toast.LENGTH_SHORT).show();
 
-                mLayoutManager = new LinearLayoutManager(getContext());
+                mLayoutManager = new LinearLayoutManager(getContext(),LinearLayoutManager.HORIZONTAL,false);
                 mAdapter = new FavorisAdapter(mlist);
 
                 mRecyclerView.setLayoutManager(mLayoutManager);
