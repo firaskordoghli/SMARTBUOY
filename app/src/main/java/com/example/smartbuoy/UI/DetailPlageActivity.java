@@ -1,8 +1,10 @@
 package com.example.smartbuoy.UI;
 
+import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -26,6 +28,7 @@ public class DetailPlageActivity extends AppCompatActivity {
     private ImageView detailPlageIv, favorisImageView;
     private TextView detailPlageNomtv, detailPlageVilletv;
     private UserSessionManager session;
+    private Button date1Button,date2Button,date3Button;
 
     private String idPlageFromHome = "null";
 
@@ -44,6 +47,10 @@ public class DetailPlageActivity extends AppCompatActivity {
         detailPlageIv = findViewById(R.id.imagePlageDetail);
         detailPlageVilletv = findViewById(R.id.tvVillePlageDetail);
 
+        date1Button = findViewById(R.id.date1btn);
+        date2Button = findViewById(R.id.date2btn);
+        date3Button = findViewById(R.id.date3btn);
+
         favorisImageView = findViewById(R.id.ivFavoris);
 
 
@@ -59,6 +66,14 @@ public class DetailPlageActivity extends AppCompatActivity {
         });
 
         getPlageById(idPlageFromHome, currentUser.getId());
+
+        date1Button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                date1Button.setBackgroundResource(R.drawable.edit_text_bottom_border);
+                date1Button.setTextColor(Color.parseColor("#000000"));
+            }
+        });
 
     }
 
