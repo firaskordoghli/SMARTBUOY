@@ -67,5 +67,10 @@ dependencies {
 
     implementation 'com.cloudinary:cloudinary-android:1.13.0'
 
+    //implementation 'com.tenclouds:fluid-bottom-navigation:1.1'
+    //implementation 'com.tenclouds.fluidbottomnavigation:fluid-bottom-navigation:1.0.0'
+    //compile group: 'com.tenclouds', name: 'fluid-bottom-navigation', version: '1.1'
+
+
 
 }

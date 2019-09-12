@@ -15,7 +15,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <com.tbuonomo.morphbottomnavigation.MorphBottomNavigationView
+    <com.tenclouds.fluidbottomnavigation.view.TopContainerView
         android:id="@+id/bottomNavigationView"
         android:layout_width="match_parent"
         android:layout_height="0dp"
@@ -28,5 +28,6 @@
         app:morphCornerRadius="128dp"
         app:morphItemRadius="64dp"
         app:morphVerticalOffset="18dp"/>
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

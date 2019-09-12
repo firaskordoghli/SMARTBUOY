@@ -6,6 +6,15 @@
     android:layout_height="match_parent"
     tools:context=".UI.Menu.HomeFragment">
 
+    <ImageView
+        android:id="@+id/imageView11"
+        android:layout_width="0dp"
+        android:layout_height="136dp"
+        android:src="@drawable/graphic_homexxxhdpi"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
     <LinearLayout
         android:id="@+id/linearLayout"
         android:layout_width="0dp"
@@ -26,9 +35,12 @@
             android:drawableLeft="@drawable/ic_search_black_24dp"
             android:drawablePadding="5dp"
             android:ems="10"
+            android:textSize="16sp"
+            android:textColor="#CBCBCB"
+            android:textColorHint="#CBCBCB"
             android:focusableInTouchMode="false"
             android:hint="Search"
-            android:padding="10dp" />
+            android:padding="12dp" />
 
         <ImageButton
             android:id="@+id/ibtnToMap"
@@ -36,6 +48,7 @@
             android:layout_height="match_parent"
             android:background="@null"
             android:padding="5dp"
+            android:layout_marginLeft="10dp"
             android:src="@drawable/ic_groupe_349" />
 
     </LinearLayout>
@@ -47,6 +60,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
+        android:fontFamily="@font/montserrat_regular"
         android:text="welcome frere"
         android:textColor="@color/colorPrimary"
         android:textSize="20sp"
@@ -142,7 +156,7 @@
                 android:id="@+id/linearLayoutPlanHomeDate"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginEnd="32dp"
+                android:layout_marginEnd="16dp"
                 android:background="@drawable/rounded_corner_date"
                 android:orientation="vertical"
                 android:padding="10dp"
@@ -287,9 +301,6 @@
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/horizontalScrollView" />
-
-
-
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

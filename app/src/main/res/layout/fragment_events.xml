@@ -47,11 +47,11 @@
         app:menu_animationDelayPerItem="50"
         app:menu_backgroundColor="@android:color/transparent"
         app:menu_buttonSpacing="0dp"
-        app:menu_colorNormal="#90EBC1"
-        app:menu_colorPressed="#90EBC1"
+        app:menu_colorNormal="#5CFFC6"
+        app:menu_colorPressed="#5CFFC6"
         app:menu_colorRipple="#99FFFFFF"
         app:menu_fab_size="normal"
-        app:menu_icon="@drawable/fab_add"
+        app:menu_icon="@drawable/ic_add"
         app:menu_labels_colorNormal="#333333"
         app:menu_labels_colorPressed="#444444"
         app:menu_labels_colorRipple="#66FFFFFF"
@@ -83,7 +83,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:src="@drawable/ic_calendar"
-            app:fab_colorNormal="#90EBC1"
+            app:fab_colorNormal="#5CFFC6"
             app:fab_label="Add event"
             app:fab_size="mini" />
 

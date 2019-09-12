@@ -9,8 +9,8 @@ import androidx.fragment.app.Fragment;
 
 import com.example.smartbuoy.DATA.UserSessionManager;
 import com.example.smartbuoy.UI.Menu.Event.EventsFragment;
-import com.example.smartbuoy.UI.Menu.NotificationFragment;
 import com.example.smartbuoy.UI.Menu.HomeFragment;
+import com.example.smartbuoy.UI.Menu.NotificationFragment;
 import com.example.smartbuoy.UI.Menu.Profile.ProfileFragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.gson.Gson;
@@ -72,9 +72,11 @@ public class MainActivity extends AppCompatActivity {
         User user = gson.fromJson(json,User.class);
         System.out.println("$$$$$$$$$$$$$$$$$"+user.toString());
         */
-        BottomNavigationView bottomNavigationView = findViewById(R.id.bottomNavigationView);
-        bottomNavigationView.setOnNavigationItemSelectedListener(navListener);
 
+        //BottomNavigationView bottomNavigationView = findViewById(R.id.bottomNavigationView);
+        //bottomNavigationView.setOnNavigationItemSelectedListener(navListener);
+
+        //IconView tech = findViewById()
         getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new HomeFragment()).commit();
 
     }

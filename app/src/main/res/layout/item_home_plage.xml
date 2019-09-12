@@ -5,7 +5,7 @@
     android:id="@+id/cardView"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginTop="7dp"
+    android:layout_marginTop="17dp"
     app:cardCornerRadius="10dp"
     app:cardElevation="5dp">
 
@@ -20,7 +20,7 @@
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:scaleType="centerCrop"
-            app:layout_constraintDimensionRatio="H,16:6"
+            app:layout_constraintDimensionRatio="H,16:7"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
@@ -50,8 +50,9 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
+            android:textStyle="bold"
+            android:textSize="20sp"
             android:text="@string/primary"
-            android:textAppearance="@style/itemPlageCity"
             android:textColor="@color/colorPrimaryTextDefaultMaterialDark"
             app:layout_constraintBottom_toTopOf="@+id/tvVillePlage"
             app:layout_constraintStart_toStartOf="parent" />
@@ -62,8 +63,8 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
             android:layout_marginBottom="8dp"
+            android:textSize="16sp"
             android:text="@string/subtext"
-            android:textAppearance="@style/itemPlageCity"
             android:textColor="@color/colorSecondaryTextDefaultMaterialDark"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent" />
