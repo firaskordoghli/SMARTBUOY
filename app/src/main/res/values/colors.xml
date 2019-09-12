@@ -11,4 +11,10 @@
 
     <color name="colorPrimaryTextDefaultMaterialDark">#FFFFFFFF</color>
     <color name="colorSecondaryTextDefaultMaterialDark">#B3FFFFFF</color>
+
+    <color name="accentColor">#303F9F</color>
+    <color name="backColor">#FFFFFF</color>
+    <color name="textColor">#303F9F</color>
+    <color name="iconColor">#3F51B5</color>
+    <color name="iconSelectedColor">#FFFFFF</color>
 </resources>

@@ -12,8 +12,12 @@ import com.example.smartbuoy.UI.Menu.Event.EventsFragment;
 import com.example.smartbuoy.UI.Menu.HomeFragment;
 import com.example.smartbuoy.UI.Menu.NotificationFragment;
 import com.example.smartbuoy.UI.Menu.Profile.ProfileFragment;
+import com.example.smartbuoy.lib.FluidBottomNavigation;
+import com.example.smartbuoy.lib.FluidBottomNavigationItem;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.gson.Gson;
+
+import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
     // User Session Manager Class
@@ -63,20 +67,23 @@ public class MainActivity extends AppCompatActivity {
         // and finish current activity from activity stack.
         if (session.checkLogin())
             finish();
-
+/*
         Gson gson = new Gson();
         // get user data from session
 
-        /*
         String json = session.getUserDetails();
         User user = gson.fromJson(json,User.class);
         System.out.println("$$$$$$$$$$$$$$$$$"+user.toString());
         */
 
-        //BottomNavigationView bottomNavigationView = findViewById(R.id.bottomNavigationView);
+         FluidBottomNavigation navigation = findViewById(R.id.bottomNavigationView);
         //bottomNavigationView.setOnNavigationItemSelectedListener(navListener);
-
-        //IconView tech = findViewById()
+        ArrayList<FluidBottomNavigationItem> array = new ArrayList<>();
+        array.add(new FluidBottomNavigationItem("Home", getDrawable(R.drawable.ic_home_black_24dp)));
+        array.add(new FluidBottomNavigationItem("Events", getDrawable(R.drawable.ic_event_bar)));
+        array.add(new FluidBottomNavigationItem("Notification", getDrawable(R.drawable.ic_notification)));
+        array.add(new FluidBottomNavigationItem("Profile", getDrawable(R.drawable.ic_profile_bar)));
+        navigation.setItems(array);
         getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new HomeFragment()).commit();
 
     }
