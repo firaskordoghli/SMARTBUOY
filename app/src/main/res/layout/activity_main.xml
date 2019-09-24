@@ -25,7 +25,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:accentColor="@color/colorPrimary"
         app:backColor="@color/backColor"
-        app:iconColor="@color/colorPrimary"
+        app:iconColor="#EAEAEA"
         app:iconSelectedColor="@color/backColor"
         app:textColor="@color/colorPrimary"/>
 

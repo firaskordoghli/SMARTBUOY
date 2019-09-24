@@ -9,8 +9,8 @@
     <dimen name="placeholderTextHeight">8dp</dimen>
     <dimen name="padding_10">10dp</dimen>
 
-    <dimen name="fluidBottomNavigationHeight">85dp</dimen>
-    <dimen name="fluidBottomNavigationHeightWithOpacity">80dp</dimen>
+    <dimen name="fluidBottomNavigationHeight">90dp</dimen>
+    <dimen name="fluidBottomNavigationHeightWithOpacity">90dp</dimen>
 
     <dimen name="fluidBottomNavigationTopContainerMarginLeftRight">1dp</dimen>
     <dimen name="fluidBottomNavigationTopContainerWidth">88dp</dimen>

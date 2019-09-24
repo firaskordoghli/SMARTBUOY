@@ -5,9 +5,6 @@ import com.google.gson.annotations.SerializedName;
 
 public class Meteo {
 
-    @SerializedName("_id")
-    @Expose
-    private String id;
     @SerializedName("temp")
     @Expose
     private Integer temp;
@@ -32,20 +29,18 @@ public class Meteo {
     @SerializedName("tempEau")
     @Expose
     private Integer tempEau;
-    @SerializedName("date")
+    @SerializedName("data")
     @Expose
     private String date;
-    @SerializedName("__v")
+    @SerializedName("flag")
     @Expose
-    private Integer v;
-
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
-    }
+    private Integer flag;
+    @SerializedName("cloudy")
+    @Expose
+    private Integer cloudy;
+    @SerializedName("crowded")
+    @Expose
+    private Integer crowded;
 
     public Integer getTemp() {
         return temp;
@@ -119,12 +114,45 @@ public class Meteo {
         this.date = date;
     }
 
-    public Integer getV() {
-        return v;
+    public Integer getFlag() {
+        return flag;
     }
 
-    public void setV(Integer v) {
-        this.v = v;
+    public void setFlag(Integer flag) {
+        this.flag = flag;
     }
 
+    public Integer getCloudy() {
+        return cloudy;
+    }
+
+    public void setCloudy(Integer cloudy) {
+        this.cloudy = cloudy;
+    }
+
+    public Integer getCrowded() {
+        return crowded;
+    }
+
+    public void setCrowded(Integer crowded) {
+        this.crowded = crowded;
+    }
+
+    @Override
+    public String toString() {
+        return "Meteo{" +
+                "temp=" + temp +
+                ", humi=" + humi +
+                ", press=" + press +
+                ", uv=" + uv +
+                ", diVent='" + diVent + '\'' +
+                ", viVent=" + viVent +
+                ", ph=" + ph +
+                ", tempEau=" + tempEau +
+                ", date='" + date + '\'' +
+                ", flag=" + flag +
+                ", cloudy=" + cloudy +
+                ", crowded=" + crowded +
+                '}';
+    }
 }

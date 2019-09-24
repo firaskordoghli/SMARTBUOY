@@ -36,8 +36,8 @@
         android:layout_marginTop="16dp"
         android:text="@string/primary"
         android:textColor="@color/colorPrimary"
+        android:fontFamily="@font/montserrat_bold"
         android:textSize="21sp"
-        android:textStyle="bold"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/imagePlageDetail" />
 
@@ -47,6 +47,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="24dp"
         android:text="@string/subtext"
+        android:fontFamily="@font/montserrat_regular"
         android:textSize="16sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tvNomPlageDetail" />
@@ -75,7 +76,7 @@
 
         <TextView
             android:id="@+id/tvRatingPlageDetail"
-            android:layout_width="5dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
             android:layout_marginTop="8dp"
@@ -91,54 +92,131 @@
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <LinearLayout
-        android:id="@+id/linearLayout7"
+        android:id="@+id/linearLayout11"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
+        android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
-        android:layout_marginEnd="8dp"
+        android:layout_marginEnd="16dp"
         android:background="@drawable/rounded_corner_white"
         android:orientation="horizontal"
+        android:gravity="center"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.161"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tvVillePlageDetail">
 
-        <Button
-            android:id="@+id/date1btn"
+        <LinearLayout
+            android:id="@+id/date1lin"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="5dp"
-            android:layout_marginRight="5dp"
-            android:layout_weight="1"
-            style="?android:attr/borderlessButtonStyle"
-            android:text="Today 14/08"
-            android:textColor="#CBCBCB"
-            android:textAllCaps="false" />
+            android:orientation="vertical"
+            android:gravity="center"
+            android:paddingRight="10dp"
+            >
 
-        <Button
-            android:id="@+id/date2btn"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="5dp"
-            android:layout_marginRight="5dp"
-            android:layout_weight="1"
-            style="?android:attr/borderlessButtonStyle"
-            android:text="Today 14/08"
-            android:textColor="#CBCBCB"
-            android:textAllCaps="false" />
+            <TextView
+                android:id="@+id/date1tv"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/montserrat_semibold"
+                android:text="Today "
+                android:textColor="#CBCBCB" />
 
-        <Button
-            android:id="@+id/date3btn"
+            <TextView
+                android:id="@+id/date1tvDate"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/montserrat_regular"
+                android:paddingBottom="5dp"
+                android:text="14/08"
+                android:textColor="#CBCBCB" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/date2lin"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="5dp"
-            android:layout_marginRight="5dp"
-            android:layout_weight="1"
-            style="?android:attr/borderlessButtonStyle"
-            android:text="Today 14/08"
-            android:textColor="#CBCBCB"
-            android:textAllCaps="false" />
+            android:orientation="vertical"
+            android:gravity="center"
+            android:paddingRight="10dp"
+            android:paddingLeft="10dp">
+
+            <TextView
+                android:id="@+id/date2tv"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/montserrat_semibold"
+                android:text="Today "
+                android:textColor="#CBCBCB" />
+
+            <TextView
+                android:id="@+id/date2tvDate"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/montserrat_regular"
+                android:paddingBottom="5dp"
+                android:text="14/08"
+                android:textColor="#CBCBCB" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/date3lin"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:gravity="center"
+            android:paddingRight="10dp"
+            android:paddingLeft="10dp">
+
+            <TextView
+                android:id="@+id/date3tv"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/montserrat_semibold"
+                android:text="Today "
+                android:textColor="#CBCBCB" />
+
+            <TextView
+                android:id="@+id/date3tvDate"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/montserrat_regular"
+                android:paddingBottom="5dp"
+                android:text="14/08"
+                android:textColor="#CBCBCB" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/date4lin"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:gravity="center"
+            android:paddingLeft="10dp">
+
+            <TextView
+                android:id="@+id/date4tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:fontFamily="@font/montserrat_semibold"
+                android:text="Today "
+                android:textAlignment="center"
+                android:textColor="#CBCBCB" />
+
+            <TextView
+                android:id="@+id/date4tvDate"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:fontFamily="@font/montserrat_regular"
+                android:paddingBottom="5dp"
+                android:text="14/08"
+                android:textAlignment="center"
+                android:textColor="#CBCBCB" />
+
+        </LinearLayout>
+
     </LinearLayout>
 
     <ScrollView
@@ -149,8 +227,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/linearLayout7"
-        app:layout_constraintVertical_bias="0.0">
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout11">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
@@ -164,7 +241,9 @@
                 android:layout_marginStart="32dp"
                 android:layout_marginEnd="16dp"
                 android:orientation="vertical"
+                android:gravity="center"
                 android:padding="10dp"
+                android:background="@drawable/rounded_corner_plage"
 
                 app:layout_constraintBottom_toBottomOf="@+id/linearLayout5"
                 app:layout_constraintEnd_toStartOf="@+id/linearLayout5"
@@ -172,15 +251,19 @@
                 app:layout_constraintTop_toTopOf="@+id/linearLayout5">
 
                 <ImageView
-                    android:id="@+id/imageView9"
+                    android:id="@+id/ivFlag"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     app:srcCompat="@drawable/ic_groupe_351" />
 
                 <TextView
-                    android:id="@+id/textView6"
-                    android:layout_width="match_parent"
+                    android:id="@+id/tvFlag"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:fontFamily="@font/montserrat_semibold"
+                    android:textSize="14sp"
+                    android:textColor="#686868"
                     android:text="TextView" />
             </LinearLayout>
 
@@ -192,22 +275,28 @@
                 android:layout_marginTop="16dp"
                 android:layout_marginEnd="16dp"
                 android:orientation="vertical"
+                android:gravity="center"
                 android:padding="10dp"
+                android:background="@drawable/rounded_corner_plage"
 
                 app:layout_constraintEnd_toStartOf="@+id/linearLayout6"
                 app:layout_constraintStart_toEndOf="@+id/linearLayout4"
                 app:layout_constraintTop_toTopOf="parent">
 
                 <ImageView
-                    android:id="@+id/imageView10"
+                    android:id="@+id/ivCloudy"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     app:srcCompat="@drawable/ic_groupe_366" />
 
                 <TextView
-                    android:id="@+id/textView20"
-                    android:layout_width="match_parent"
+                    android:id="@+id/tvCloudy"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:fontFamily="@font/montserrat_semibold"
+                    android:textSize="14sp"
+                    android:textColor="#686868"
                     android:text="TextView" />
             </LinearLayout>
 
@@ -218,28 +307,35 @@
                 android:layout_marginStart="16dp"
                 android:layout_marginEnd="32dp"
                 android:orientation="vertical"
+                android:gravity="center"
                 android:padding="10dp"
+                android:background="@drawable/rounded_corner_plage"
+
                 app:layout_constraintBottom_toBottomOf="@+id/linearLayout5"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/linearLayout5"
                 app:layout_constraintTop_toTopOf="@+id/linearLayout5">
 
                 <ImageView
-                    android:id="@+id/imageView11"
+                    android:id="@+id/ivCrouded"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     app:srcCompat="@drawable/ic_groupe_363" />
 
                 <TextView
-                    android:id="@+id/textView23"
-                    android:layout_width="match_parent"
+                    android:id="@+id/tvCrouded"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:fontFamily="@font/montserrat_semibold"
+                    android:textSize="14sp"
+                    android:textColor="#686868"
                     android:text="TextView" />
             </LinearLayout>
 
             <LinearLayout
                 android:id="@+id/linearLayout8"
-                android:layout_width="0dp"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="24dp"
                 android:layout_marginTop="24dp"
@@ -247,62 +343,70 @@
                 android:orientation="horizontal"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/textView27">
+                app:layout_constraintTop_toBottomOf="@+id/tvPlageDescription">
 
                 <ImageView
-                    android:id="@+id/imageView13"
+                    android:id="@+id/icBear"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
+                    android:visibility="gone"
                     app:srcCompat="@drawable/ic_alcohol_allowed_icon" />
 
                 <ImageView
-                    android:id="@+id/imageView14"
+                    android:id="@+id/icDog"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
+                    android:visibility="gone"
                     app:srcCompat="@drawable/ic_no_dogs_icon" />
 
                 <ImageView
-                    android:id="@+id/imageView26"
+                    android:id="@+id/icWc"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
+                    android:visibility="gone"
                     app:srcCompat="@drawable/ic_wc_icon" />
 
                 <ImageView
-                    android:id="@+id/imageView15"
+                    android:id="@+id/icParasol"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
+                    android:visibility="gone"
                     app:srcCompat="@drawable/ic_parasol_icon" />
 
                 <ImageView
-                    android:id="@+id/imageView16"
+                    android:id="@+id/icParking"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
+                    android:visibility="gone"
                     app:srcCompat="@drawable/ic_parking_icon_" />
 
                 <ImageView
-                    android:id="@+id/imageView17"
+                    android:id="@+id/icResto"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
+                    android:visibility="gone"
                     app:srcCompat="@drawable/ic_restaurant_icon_" />
 
                 <ImageView
-                    android:id="@+id/imageView18"
+                    android:id="@+id/icShower"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
+                    android:visibility="gone"
                     app:srcCompat="@drawable/ic_shower_icon" />
 
                 <ImageView
-                    android:id="@+id/imageView19"
+                    android:id="@+id/icSport"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
+                    android:visibility="gone"
                     app:srcCompat="@drawable/ic_sports_icon_" />
             </LinearLayout>
 
@@ -355,6 +459,17 @@
 
             </LinearLayout>
 
+            <RatingBar
+                android:id="@+id/ratingBar"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="32dp"
+                android:layout_marginTop="24dp"
+                android:layout_marginEnd="32dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/textView32" />
+
             <TextView
                 android:id="@+id/textView26"
                 android:layout_width="wrap_content"
@@ -362,18 +477,22 @@
                 android:layout_marginStart="24dp"
                 android:layout_marginTop="24dp"
                 android:text="About"
+                android:fontFamily="@font/montserrat_bold"
+                android:textSize="16sp"
                 android:textColor="#000000"
-                android:textStyle="bold"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/linearLayout4" />
 
             <TextView
-                android:id="@+id/textView27"
+                android:id="@+id/tvPlageDescription"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="24dp"
                 android:layout_marginTop="8dp"
                 android:layout_marginEnd="24dp"
+                android:fontFamily="@font/montserrat_regular"
+                android:textSize="14sp"
+                android:textColor="#686868"
                 android:text="Fatha beach is a coastal sandy beach, in a rural city of kelibia, Nabeul"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -386,8 +505,9 @@
                 android:layout_marginStart="24dp"
                 android:layout_marginTop="24dp"
                 android:text="Detailed"
+                android:fontFamily="@font/montserrat_bold"
                 android:textColor="#000000"
-                android:textStyle="bold"
+                android:textSize="16sp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/linearLayout8" />
 
@@ -398,8 +518,9 @@
                 android:layout_marginStart="24dp"
                 android:layout_marginTop="32dp"
                 android:text="Activities"
+                android:fontFamily="@font/montserrat_bold"
                 android:textColor="#000000"
-                android:textStyle="bold"
+                android:textSize="16sp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/textView29" />
 
@@ -409,23 +530,39 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="24dp"
                 android:layout_marginTop="24dp"
+                android:fontFamily="@font/montserrat_bold"
                 android:text="Get There"
                 android:textColor="#000000"
-                android:textStyle="bold"
+                android:textSize="16sp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/linearLayout9" />
+
+            <fragment
+                android:id="@+id/mapPlage"
+                android:name="com.google.android.gms.maps.MapFragment"
+                android:layout_width="0dp"
+                android:layout_height="150dp"
+
+                android:layout_marginStart="24dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="24dp"
+                app:layout_constraintBottom_toTopOf="@+id/textView32"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/textView31" />
 
             <TextView
                 android:id="@+id/textView32"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="24dp"
-                android:layout_marginTop="24dp"
+                android:layout_marginTop="16dp"
+                android:fontFamily="@font/montserrat_bold"
                 android:text="Rating"
                 android:textColor="#000000"
-                android:textStyle="bold"
+                android:textSize="16sp"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/textView31" />
+                app:layout_constraintTop_toBottomOf="@id/mapPlage" />
 
             <TextView
                 android:id="@+id/textView33"
@@ -434,21 +571,11 @@
                 android:layout_marginStart="24dp"
                 android:layout_marginTop="24dp"
                 android:text="Upcoming Events"
+                android:fontFamily="@font/montserrat_bold"
                 android:textColor="#000000"
-                android:textStyle="bold"
+                android:textSize="16sp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/ratingBar" />
-
-            <RatingBar
-                android:id="@+id/ratingBar"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="32dp"
-                android:layout_marginTop="24dp"
-                android:layout_marginEnd="32dp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/textView32" />
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>
 

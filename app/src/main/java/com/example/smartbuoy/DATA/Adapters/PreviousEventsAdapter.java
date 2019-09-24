@@ -1,5 +1,6 @@
 package com.example.smartbuoy.DATA.Adapters;
 
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,6 +14,9 @@ import com.example.smartbuoy.DATA.Models.Event;
 import com.example.smartbuoy.R;
 import com.squareup.picasso.Picasso;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 public class PreviousEventsAdapter extends RecyclerView.Adapter<PreviousEventsAdapter.EventViewHolder> {
@@ -44,7 +48,28 @@ public class PreviousEventsAdapter extends RecyclerView.Adapter<PreviousEventsAd
         holder.eventTitle.setText(event.getTitre());
         int particip = event.getParticipants().size();
         holder.eventLocation.setText(event.getPlage());
+
+        if (event.getType().equals("sport")){
+            holder.eventType.setTextColor(Color.parseColor("#F4AD1C"));
+            holder.eventType.setBackgroundResource(R.drawable.rounded_corner_event_type_yello);
+        }else if (event.getType().equals("cleaning")){
+            holder.eventType.setTextColor(Color.parseColor("#2262F8"));
+            holder.eventType.setBackgroundResource(R.drawable.rounded_corner_event_type_blue);
+        }
+
         holder.eventType.setText(event.getType());
+
+        SimpleDateFormat inFormat = new SimpleDateFormat("dd-MM-yyyy");
+        try {
+            Date date = inFormat.parse(event.getDate());
+            SimpleDateFormat outFormat = new SimpleDateFormat("EEEE");
+            String goal = outFormat.format(date);
+            holder.eventDateDay.setText(goal);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        holder.eventDate.setText(event.getDate().substring(5, 10));
+
     }
 
     @Override
@@ -58,7 +83,7 @@ public class PreviousEventsAdapter extends RecyclerView.Adapter<PreviousEventsAd
 
     public class EventViewHolder extends RecyclerView.ViewHolder {
         public ImageView eventImageView;
-        public TextView eventTitle, eventLocation, eventType;
+        public TextView eventTitle, eventLocation, eventType,eventDate,eventDateDay;
 
         public EventViewHolder(@NonNull View itemView, final UpComingEventsAdapter.OnItemClickListener listener) {
             super(itemView);
@@ -66,6 +91,8 @@ public class PreviousEventsAdapter extends RecyclerView.Adapter<PreviousEventsAd
             eventLocation = itemView.findViewById(R.id.evenementNumber);
             eventType = itemView.findViewById(R.id.evenementDate);
             eventImageView = itemView.findViewById(R.id.evenementImage);
+            eventDate = itemView.findViewById(R.id.tvDateEvent);
+            eventDateDay = itemView.findViewById(R.id.tvDayEvent);
 
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override

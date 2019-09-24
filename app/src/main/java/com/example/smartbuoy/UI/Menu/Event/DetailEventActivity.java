@@ -3,14 +3,17 @@ package com.example.smartbuoy.UI.Menu.Event;
 import android.Manifest;
 import android.app.AlertDialog;
 import android.app.Dialog;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Color;
 import android.location.LocationManager;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -30,6 +33,7 @@ import com.example.smartbuoy.DATA.Models.User;
 import com.example.smartbuoy.DATA.Retrofite.ApiUtil;
 import com.example.smartbuoy.DATA.UserSessionManager;
 import com.example.smartbuoy.R;
+import com.example.smartbuoy.UI.LoginActivity;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GoogleApiAvailability;
 import com.google.android.gms.common.api.GoogleApiClient;
@@ -60,7 +64,7 @@ public class DetailEventActivity extends AppCompatActivity implements OnMapReady
     private ImageView eventSimilaireImage;
     private TextView eventTitleTextView, eventTypeTextView, eventDateTextView, eventLocationTextView, eventDescriptiontextView, eventNumberTextView;
     private TextView eventTitleSimilaireTextView, eventDateSimilaireTextView, eventLocationSimilaireTextView;
-    private Button joinEventbtn;
+    private Button joinEventbtn,deleteEventbtn;
     private Plage newPlage;
     private UserSessionManager session;
 
@@ -68,9 +72,11 @@ public class DetailEventActivity extends AppCompatActivity implements OnMapReady
     private boolean mLocationPermissionGranted = false;
     private GoogleApiClient mGoogleApiClient;
     private MapFragment mapFragment;
-
     private LatLng plageLatLng;
+
     private User currentUser;
+
+    private ProgressDialog pDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -91,6 +97,7 @@ public class DetailEventActivity extends AppCompatActivity implements OnMapReady
         eventDescriptiontextView = findViewById(R.id.etDetailEventDescription);
         eventNumberTextView = findViewById(R.id.tvDetailEventNumber);
         joinEventbtn = findViewById(R.id.btnJoinEvent);
+        deleteEventbtn = findViewById(R.id.btnDeleteEvent);
 
         eventTitleSimilaireTextView = findViewById(R.id.evenementTitleSimilaire);
         eventDateSimilaireTextView = findViewById(R.id.evenementDateSimilaire);
@@ -115,11 +122,20 @@ public class DetailEventActivity extends AppCompatActivity implements OnMapReady
                 joinEvent(idEventFromUpcoming, currentUser.getId());
             }
         });
+        
+        deleteEventbtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Toast.makeText(DetailEventActivity.this, "deletre", Toast.LENGTH_SHORT).show();
+            }
+        });
 
 
     }
 
     public void getEventById(String id, String idUser) {
+        displayLoader();
+
         ApiUtil.getServiceClass().getEvent(id, idUser).enqueue(new Callback<Event>() {
             @Override
             public void onResponse(Call<Event> call, Response<Event> response) {
@@ -129,10 +145,26 @@ public class DetailEventActivity extends AppCompatActivity implements OnMapReady
                 eventTypeTextView.setText(newEvent.getType());
                 eventDateTextView.setText(newEvent.getDate().substring(0, 10));
 
+                if (newEvent.getType().equals("sport")){
+                    eventTypeTextView.setTextColor(Color.parseColor("#F4AD1C"));
+                    eventTypeTextView.setBackgroundResource(R.drawable.rounded_corner_event_type_yello);
+                }else if (newEvent.getType().equals("cleaning")){
+                    eventTypeTextView.setTextColor(Color.parseColor("#2262F8"));
+                    eventTypeTextView.setBackgroundResource(R.drawable.rounded_corner_event_type_blue);
+                }
+
                 if (newEvent.getJoined()){
                     joinEventbtn.setText("annuler");
                 }else {
                     joinEventbtn.setText("join");
+                }
+
+                if (newEvent.getUser().equals(currentUser.getId())){
+                    joinEventbtn.setVisibility(View.GONE);
+                    deleteEventbtn.setVisibility(View.VISIBLE);
+                }else {
+                    joinEventbtn.setVisibility(View.VISIBLE);
+                    deleteEventbtn.setVisibility(View.GONE);
                 }
 
                 //eventLocationTextView.setText(newEvent.getPlage());
@@ -151,6 +183,13 @@ public class DetailEventActivity extends AppCompatActivity implements OnMapReady
 
                 getPlageById(newEvent.getPlage(), currentUser.getId());
 
+                Handler handler = new Handler();
+                handler.postDelayed(new Runnable() {
+                    public void run() {
+                        pDialog.dismiss();
+                    }
+                }, 1000);
+
             }
 
             @Override
@@ -166,14 +205,14 @@ public class DetailEventActivity extends AppCompatActivity implements OnMapReady
             public void onResponse(Call<Plage> call, Response<Plage> response) {
                 final Plage responsePlage = response.body();
                 eventLocationTextView.setText(responsePlage.getNom());
-                plageLatLng = new LatLng(responsePlage.getLng(), responsePlage.getLat());
+                plageLatLng = new LatLng( responsePlage.getLat(),responsePlage.getLng());
                 mGoogleMap.addMarker(new MarkerOptions().position(plageLatLng));
                 mGoogleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(plageLatLng, 8.0f));
 
                 mGoogleMap.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
                     @Override
                     public void onMapClick(LatLng latLng) {
-                        Uri gmmIntentUri = Uri.parse("geo:" + responsePlage.getLng() + "," + responsePlage.getLat() + "?q=" + responsePlage.getLng() + "," + responsePlage.getLat());
+                        Uri gmmIntentUri = Uri.parse("geo:" + responsePlage.getLat() + "," + responsePlage.getLng() + "?q=" + responsePlage.getLat() + "," + responsePlage.getLng());
                         Intent mapIntent = new Intent(Intent.ACTION_VIEW, gmmIntentUri);
                         mapIntent.setPackage("com.google.android.apps.maps");
                         if (mapIntent.resolveActivity(getPackageManager()) != null) {
@@ -218,6 +257,14 @@ public class DetailEventActivity extends AppCompatActivity implements OnMapReady
 
             }
         });
+    }
+
+    private void displayLoader() {
+        pDialog = new ProgressDialog(DetailEventActivity.this);
+        pDialog.setMessage("Please wait...");
+        pDialog.setIndeterminate(false);
+        pDialog.setCancelable(false);
+        pDialog.show();
     }
 
 

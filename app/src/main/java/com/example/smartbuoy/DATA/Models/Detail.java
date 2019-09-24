@@ -8,9 +8,9 @@ public class Detail {
     @SerializedName("parking")
     @Expose
     private Boolean parking;
-    @SerializedName("douche")
+    @SerializedName("shower")
     @Expose
-    private Boolean douche;
+    private Boolean shower;
     @SerializedName("resto")
     @Expose
     private Boolean resto;
@@ -20,18 +20,15 @@ public class Detail {
     @SerializedName("bar")
     @Expose
     private Boolean bar;
-    @SerializedName("cafe")
-    @Expose
-    private Boolean cafe;
-    @SerializedName("beachTennis")
-    @Expose
-    private Boolean beachTennis;
     @SerializedName("beachVolley")
     @Expose
     private Boolean beachVolley;
     @SerializedName("chienAdmis")
     @Expose
     private Boolean chienAdmis;
+    @SerializedName("parasol")
+    @Expose
+    private Boolean parasol;
 
     public Boolean getParking() {
         return parking;
@@ -41,12 +38,12 @@ public class Detail {
         this.parking = parking;
     }
 
-    public Boolean getDouche() {
-        return douche;
+    public Boolean getShower() {
+        return shower;
     }
 
-    public void setDouche(Boolean douche) {
-        this.douche = douche;
+    public void setShower(Boolean shower) {
+        this.shower = shower;
     }
 
     public Boolean getResto() {
@@ -73,22 +70,6 @@ public class Detail {
         this.bar = bar;
     }
 
-    public Boolean getCafe() {
-        return cafe;
-    }
-
-    public void setCafe(Boolean cafe) {
-        this.cafe = cafe;
-    }
-
-    public Boolean getBeachTennis() {
-        return beachTennis;
-    }
-
-    public void setBeachTennis(Boolean beachTennis) {
-        this.beachTennis = beachTennis;
-    }
-
     public Boolean getBeachVolley() {
         return beachVolley;
     }
@@ -103,6 +84,14 @@ public class Detail {
 
     public void setChienAdmis(Boolean chienAdmis) {
         this.chienAdmis = chienAdmis;
+    }
+
+    public Boolean getParasol() {
+        return parasol;
+    }
+
+    public void setParasol(Boolean parasol) {
+        this.parasol = parasol;
     }
 
 }

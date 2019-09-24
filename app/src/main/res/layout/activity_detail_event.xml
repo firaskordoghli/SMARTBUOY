@@ -1,11 +1,39 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<androidx.constraintlayout.widget.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
+
+    <Button
+        android:id="@+id/btnJoinEvent"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="40dp"
+        android:layout_marginEnd="40dp"
+        android:layout_marginBottom="8dp"
+        android:background="@drawable/button_rounded_corner_blue"
+        android:text="join"
+        android:textColor="@color/ms_white"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <Button
+        android:id="@+id/btnDeleteEvent"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="40dp"
+        android:layout_marginEnd="40dp"
+        android:layout_marginBottom="8dp"
+        android:background="@drawable/button_rounded_corner_grey"
+        android:text="delete"
+        android:visibility="gone"
+        android:textColor="@color/ms_black"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 
     <ScrollView
         android:layout_width="match_parent"
@@ -38,10 +66,10 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="32dp"
                 android:layout_marginTop="16dp"
+                android:fontFamily="@font/montserrat_bold"
                 android:text="event title"
                 android:textColor="@color/colorPrimary"
                 android:textSize="18sp"
-                android:textStyle="bold"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/ivDetailEvent" />
 
@@ -66,6 +94,7 @@
                 android:layout_marginTop="24dp"
                 android:drawableLeft="@drawable/ic_clock_circular_outline"
                 android:drawablePadding="20dp"
+                android:fontFamily="@font/montserrat_semibold"
                 android:text="eventDate"
                 android:textColor="@color/ms_black"
                 android:textSize="16sp"
@@ -77,6 +106,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="32dp"
+                android:fontFamily="@font/montserrat_regular"
                 android:text="event location"
                 android:textSize="16sp"
                 app:layout_constraintStart_toStartOf="parent"
@@ -88,10 +118,10 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="32dp"
                 android:layout_marginTop="32dp"
+                android:fontFamily="@font/montserrat_bold"
                 android:text="Description"
                 android:textColor="@color/ms_black"
                 android:textSize="14sp"
-                android:textStyle="bold"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/tvDetailEventDate" />
 
@@ -103,8 +133,9 @@
                 android:layout_marginTop="16dp"
                 android:layout_marginEnd="24dp"
                 android:text="Sidi Mansour has become very dirty, let’s clean it"
+                android:textColor="#686868"
                 android:textSize="14sp"
-
+                android:fontFamily="@font/montserrat_regular"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/textView25" />
@@ -118,6 +149,8 @@
                 android:layout_marginEnd="24dp"
                 android:text="number of people are going"
                 android:textSize="14sp"
+                android:textColor="#686868"
+                android:fontFamily="@font/montserrat_regular"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/etDetailEventDescription" />
@@ -132,7 +165,7 @@
                 android:text="Similar Events"
                 android:textColor="@color/ms_black"
                 android:textSize="14sp"
-                android:textStyle="bold"
+                android:fontFamily="@font/montserrat_bold"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/mapEvent" />
@@ -247,20 +280,6 @@
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>
-
-    <Button
-        android:id="@+id/btnJoinEvent"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="40dp"
-        android:layout_marginEnd="40dp"
-        android:layout_marginBottom="8dp"
-        android:background="@drawable/button_rounded_corner_blue"
-        android:text="join"
-        android:textColor="@color/ms_white"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>
 
 

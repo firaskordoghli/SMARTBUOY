@@ -6,14 +6,73 @@
     android:layout_height="match_parent"
     tools:context=".UI.Menu.HomeFragment">
 
+    <HorizontalScrollView
+        android:id="@+id/horizontalScrollView"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp"
+        android:scrollbars="none"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/cardViewHomePlan">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent">
+
+            <TextView
+                android:id="@+id/etRecommended"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/rounded_corner"
+                android:text="Recommended"
+                android:textColor="@color/ms_white"
+                android:fontFamily="@font/montserrat_semibold"
+                android:textSize="14sp" />
+
+            <TextView
+                android:id="@+id/etNearYou"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/rounded_corner_transparent"
+                android:text="Near you"
+                android:textColor="#CBCBCB"
+                android:fontFamily="@font/montserrat_semibold"
+                android:textSize="14sp"/>
+
+            <TextView
+                android:id="@+id/etFishingSpots"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/rounded_corner_transparent"
+                android:text="fishing spots"
+                android:textColor="#CBCBCB"
+                android:fontFamily="@font/montserrat_semibold"
+                android:textSize="14sp" />
+
+            <TextView
+                android:id="@+id/textView9efef"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/rounded_corner_transparent"
+                android:text="others"
+                android:textColor="#CBCBCB"
+                android:fontFamily="@font/montserrat_semibold"
+                android:textSize="14sp" />
+        </LinearLayout>
+    </HorizontalScrollView>
+
     <ImageView
         android:id="@+id/imageView11"
-        android:layout_width="0dp"
-        android:layout_height="136dp"
+        android:layout_width="match_parent"
+        android:layout_height="125dp"
         android:src="@drawable/graphic_homexxxhdpi"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
 
     <LinearLayout
         android:id="@+id/linearLayout"
@@ -35,38 +94,23 @@
             android:drawableLeft="@drawable/ic_search_black_24dp"
             android:drawablePadding="5dp"
             android:ems="10"
-            android:textSize="16sp"
-            android:textColor="#CBCBCB"
-            android:textColorHint="#CBCBCB"
             android:focusableInTouchMode="false"
             android:hint="Search"
-            android:padding="12dp" />
+            android:padding="12dp"
+            android:textColor="#CBCBCB"
+            android:textColorHint="#CBCBCB"
+            android:textSize="16sp" />
 
         <ImageButton
             android:id="@+id/ibtnToMap"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
+            android:layout_marginLeft="10dp"
             android:background="@null"
             android:padding="5dp"
-            android:layout_marginLeft="10dp"
             android:src="@drawable/ic_groupe_349" />
 
     </LinearLayout>
-
-
-    <TextView
-        android:id="@+id/tvWelcome"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
-        android:fontFamily="@font/montserrat_regular"
-        android:text="welcome frere"
-        android:textColor="@color/colorPrimary"
-        android:textSize="20sp"
-        android:textStyle="bold"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/linearLayout" />
 
     <TextView
         android:id="@+id/textView7"
@@ -74,11 +118,24 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginTop="8dp"
+        android:fontFamily="@font/montserrat_bold"
         android:text="Upcoming"
         android:textSize="16sp"
-        android:textStyle="bold"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tvWelcome" />
+
+    <TextView
+        android:id="@+id/tvWelcome"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:fontFamily="@font/montserrat_semibold"
+        android:text="welcome frere"
+        android:textColor="@color/colorPrimary"
+        android:textSize="20sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout" />
 
     <androidx.cardview.widget.CardView
         android:id="@+id/cardViewHomePlan"
@@ -124,33 +181,8 @@
                     android:text="Plan"
                     android:textColor="@color/colorPrimary"
                     android:textSize="12sp"
-                    android:textStyle="bold" />
+                    android:fontFamily="@font/montserrat_semibold" />
             </LinearLayout>
-
-            <TextView
-                android:id="@+id/tvNamePlagePlanHome"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="24dp"
-                android:layout_marginTop="24dp"
-                android:text="plage name"
-                android:textAppearance="@style/itemPlanPlageName"
-                app:layout_constraintBottom_toTopOf="@+id/tvCityPlanHome"
-                app:layout_constraintStart_toEndOf="@+id/linearLayoutPlanHome"
-                app:layout_constraintTop_toTopOf="parent" />
-
-            <TextView
-                android:id="@+id/tvCityPlanHome"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="24dp"
-                android:layout_marginBottom="24dp"
-                android:text="city"
-                android:textAppearance="@style/itemPlanPlageCity"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toEndOf="@+id/linearLayoutPlanHome"
-                app:layout_constraintTop_toBottomOf="@+id/tvNamePlagePlanHome" />
-
 
             <LinearLayout
                 android:id="@+id/linearLayoutPlanHomeDate"
@@ -169,6 +201,8 @@
                     android:layout_height="wrap_content"
                     android:background="@color/colorPrimaryDark"
                     android:text="TextView"
+                    android:fontFamily="@font/montserrat_semibold"
+                    android:textSize="14sp"
                     android:textColor="@color/ms_white" />
 
                 <TextView
@@ -177,11 +211,39 @@
                     android:layout_height="wrap_content"
                     android:background="@color/colorPrimaryDark"
                     android:text="Date"
-                    android:textAppearance="@style/itemPlanPlageDate"
+                    android:fontFamily="@font/montserrat_regular"
+                    android:textSize="14sp"
                     android:textColor="@color/ms_white"
                     tools:layout_editor_absoluteX="323dp" />
 
             </LinearLayout>
+
+            <TextView
+                android:id="@+id/tvCityPlanHome"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="24dp"
+                android:layout_marginBottom="24dp"
+                android:text="city"
+                android:fontFamily="@font/montserrat_regular"
+                android:textSize="12sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/linearLayoutPlanHome"
+                app:layout_constraintTop_toBottomOf="@+id/tvNamePlagePlanHome" />
+
+
+            <TextView
+                android:id="@+id/tvNamePlagePlanHome"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="24dp"
+                android:layout_marginTop="24dp"
+                android:fontFamily="@font/montserrat_bold"
+                android:textSize="14sp"
+                android:text="plage name"
+                app:layout_constraintBottom_toTopOf="@+id/tvCityPlanHome"
+                app:layout_constraintStart_toEndOf="@+id/linearLayoutPlanHome"
+                app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
                 android:id="@+id/textView9"
@@ -198,59 +260,20 @@
 
     </androidx.cardview.widget.CardView>
 
-    <HorizontalScrollView
-        android:id="@+id/horizontalScrollView"
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rvHome"
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="8dp"
         android:layout_marginEnd="16dp"
-        android:scrollbars="none"
+        android:paddingBottom="60dp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/cardViewHomePlan">
+        app:layout_constraintTop_toBottomOf="@+id/horizontalScrollView" />
 
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent">
-
-            <TextView
-                android:id="@+id/etRecommended"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:background="@drawable/rounded_corner"
-                android:text="Recommended"
-                android:textColor="@color/ms_white"
-                android:textStyle="bold" />
-
-            <TextView
-                android:id="@+id/etNearYou"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:background="@drawable/rounded_corner_transparent"
-                android:text="Near you"
-                android:textColor="#CBCBCB"
-                android:textStyle="bold" />
-
-            <TextView
-                android:id="@+id/etFishingSpots"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:background="@drawable/rounded_corner_transparent"
-                android:text="fishing spots"
-                android:textColor="#CBCBCB"
-                android:textStyle="bold" />
-
-            <TextView
-                android:id="@+id/textView9efef"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:background="@drawable/rounded_corner_transparent"
-                android:text="others"
-                android:textColor="#CBCBCB"
-                android:textStyle="bold" />
-        </LinearLayout>
-    </HorizontalScrollView>
 
     <com.facebook.shimmer.ShimmerFrameLayout
         android:id="@+id/shimmer_view_container"
@@ -286,21 +309,6 @@
         </LinearLayout>
 
     </com.facebook.shimmer.ShimmerFrameLayout>
-
-
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rvHome"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="16dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/horizontalScrollView"
-        />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

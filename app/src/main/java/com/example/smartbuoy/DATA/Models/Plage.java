@@ -18,7 +18,10 @@ public class Plage {
     private List<Object> events = null;
     @SerializedName("buoys")
     @Expose
-    private List<Object> buoys = null;
+    private List<String> buoys = null;
+    @SerializedName("acti")
+    @Expose
+    private List<Object> acti = null;
     @SerializedName("_id")
     @Expose
     private String id;
@@ -28,6 +31,12 @@ public class Plage {
     @SerializedName("ville")
     @Expose
     private String ville;
+    @SerializedName("desc")
+    @Expose
+    private String desc;
+    @SerializedName("region")
+    @Expose
+    private String region;
     @SerializedName("etat")
     @Expose
     private String etat;
@@ -43,9 +52,6 @@ public class Plage {
     @SerializedName("mainImage")
     @Expose
     private String mainImage;
-    @SerializedName("rates")
-    @Expose
-    private List<Object> rates = null;
     @SerializedName("__v")
     @Expose
     private Integer v;
@@ -55,6 +61,12 @@ public class Plage {
     @SerializedName("favoris")
     @Expose
     private Boolean favoris;
+    @SerializedName("prev")
+    @Expose
+    private List<Meteo> prev = null;
+    @SerializedName("rate")
+    @Expose
+    private float rate;
 
     public Detail getDetail() {
         return detail;
@@ -80,12 +92,20 @@ public class Plage {
         this.events = events;
     }
 
-    public List<Object> getBuoys() {
+    public List<String> getBuoys() {
         return buoys;
     }
 
-    public void setBuoys(List<Object> buoys) {
+    public void setBuoys(List<String> buoys) {
         this.buoys = buoys;
+    }
+
+    public List<Object> getActi() {
+        return acti;
+    }
+
+    public void setActi(List<Object> acti) {
+        this.acti = acti;
     }
 
     public String getId() {
@@ -110,6 +130,14 @@ public class Plage {
 
     public void setVille(String ville) {
         this.ville = ville;
+    }
+
+    public String getRegion() {
+        return region;
+    }
+
+    public void setRegion(String region) {
+        this.region = region;
     }
 
     public String getEtat() {
@@ -152,14 +180,6 @@ public class Plage {
         this.mainImage = mainImage;
     }
 
-    public List<Object> getRates() {
-        return rates;
-    }
-
-    public void setRates(List<Object> rates) {
-        this.rates = rates;
-    }
-
     public Integer getV() {
         return v;
     }
@@ -184,4 +204,27 @@ public class Plage {
         this.favoris = favoris;
     }
 
+    public List<Meteo> getPrev() {
+        return prev;
+    }
+
+    public void setPrev(List<Meteo> prev) {
+        this.prev = prev;
+    }
+
+    public float getRate() {
+        return rate;
+    }
+
+    public void setRate(float rate) {
+        this.rate = rate;
+    }
+
+    public String getDesc() {
+        return desc;
+    }
+
+    public void setDesc(String desc) {
+        this.desc = desc;
+    }
 }
