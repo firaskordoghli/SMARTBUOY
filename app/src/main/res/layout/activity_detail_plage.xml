@@ -243,7 +243,6 @@
                 android:orientation="vertical"
                 android:gravity="center"
                 android:padding="10dp"
-                android:background="@drawable/rounded_corner_plage"
 
                 app:layout_constraintBottom_toBottomOf="@+id/linearLayout5"
                 app:layout_constraintEnd_toStartOf="@+id/linearLayout5"
@@ -277,7 +276,6 @@
                 android:orientation="vertical"
                 android:gravity="center"
                 android:padding="10dp"
-                android:background="@drawable/rounded_corner_plage"
 
                 app:layout_constraintEnd_toStartOf="@+id/linearLayout6"
                 app:layout_constraintStart_toEndOf="@+id/linearLayout4"
@@ -309,7 +307,6 @@
                 android:orientation="vertical"
                 android:gravity="center"
                 android:padding="10dp"
-                android:background="@drawable/rounded_corner_plage"
 
                 app:layout_constraintBottom_toBottomOf="@+id/linearLayout5"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -351,6 +348,7 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:visibility="gone"
+                    android:padding="5dp"
                     app:srcCompat="@drawable/ic_alcohol_allowed_icon" />
 
                 <ImageView
@@ -359,6 +357,7 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:visibility="gone"
+                    android:padding="5dp"
                     app:srcCompat="@drawable/ic_no_dogs_icon" />
 
                 <ImageView
@@ -367,6 +366,7 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:visibility="gone"
+                    android:padding="5dp"
                     app:srcCompat="@drawable/ic_wc_icon" />
 
                 <ImageView
@@ -375,6 +375,7 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:visibility="gone"
+                    android:padding="5dp"
                     app:srcCompat="@drawable/ic_parasol_icon" />
 
                 <ImageView
@@ -383,6 +384,7 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:visibility="gone"
+                    android:padding="5dp"
                     app:srcCompat="@drawable/ic_parking_icon_" />
 
                 <ImageView
@@ -391,6 +393,7 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:visibility="gone"
+                    android:padding="5dp"
                     app:srcCompat="@drawable/ic_restaurant_icon_" />
 
                 <ImageView
@@ -399,14 +402,16 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:visibility="gone"
+                    android:padding="5dp"
                     app:srcCompat="@drawable/ic_shower_icon" />
 
                 <ImageView
                     android:id="@+id/icSport"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
                     android:layout_weight="1"
                     android:visibility="gone"
+                    android:padding="5dp"
                     app:srcCompat="@drawable/ic_sports_icon_" />
             </LinearLayout>
 
