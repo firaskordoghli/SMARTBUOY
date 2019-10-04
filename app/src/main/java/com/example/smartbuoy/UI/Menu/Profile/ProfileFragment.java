@@ -76,17 +76,22 @@ public class ProfileFragment extends Fragment {
 
                             case R.id.nav_first_fragment:
                                 Toast.makeText(getActivity(), "test 1", Toast.LENGTH_SHORT).show();
+                                break;
                             case R.id.nav_second_fragment:
                                 Toast.makeText(getActivity(), "test 2", Toast.LENGTH_SHORT).show();
+                                break;
                             case R.id.nav_third_fragment:
                                 Toast.makeText(getActivity(), "test 3", Toast.LENGTH_SHORT).show();
+                                break;
                             case R.id.nav_about:
                                 Toast.makeText(getActivity(), "test 4", Toast.LENGTH_SHORT).show();
+                                break;
                             case R.id.nav_log_out:
                                 // Clear the User session data
                                 // and redirect user to LoginActivity
                                 session.logoutUser();
                                 getActivity().finish();
+                                break;
                         }
                         return false;
                     }

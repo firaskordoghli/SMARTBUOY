@@ -82,6 +82,7 @@ public class FavoritesFragment extends Fragment {
 
                 mRecyclerView.setLayoutManager(mLayoutManager);
                 mRecyclerView.setAdapter(mAdapter);
+
             }
 
             @Override

@@ -14,6 +14,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -53,6 +54,8 @@ public class HomeFragment extends Fragment {
     private RecyclerView mRecyclerView;
     private HomePlageAdapter mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
+    private String plageId = "none";
+    private CardView cardPlan;
 
     private LinearLayout dateLinearLayout, iconLinearLayout;
 
@@ -81,6 +84,8 @@ public class HomeFragment extends Fragment {
 
         EditText toSearshEditText = view.findViewById(R.id.etToSearsh);
 
+        cardPlan = view.findViewById(R.id.cardViewHomePlan);
+
         planImageView = view.findViewById(R.id.ivPlanHome);
         planDateTextView = view.findViewById(R.id.tvDatePlanHome);
         planDayTextView = view.findViewById(R.id.tvDayPlanHome);
@@ -99,6 +104,15 @@ public class HomeFragment extends Fragment {
         iconLinearLayout = view.findViewById(R.id.linearLayoutPlanHome);
         dateLinearLayout = view.findViewById(R.id.linearLayoutPlanHomeDate);
 
+        cardPlan.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Toast.makeText(getContext(), plageId, Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(getContext(), DetailPlageActivity.class);
+                intent.putExtra("idPlageFromHome", plageId);
+                startActivity(intent);
+            }
+        });
 
         recommendedTextView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -347,6 +361,7 @@ public class HomeFragment extends Fragment {
                     planDayTextView.setText(goal);
                     planPlageTextView.setText(firstPlan.getNomPlage());
                     planCityTextView.setText(firstPlan.getVillePlage());
+                    plageId = firstPlan.getIdPlage();
 /*
                     System.out.println(firstPlan.getDate());
                     SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'");

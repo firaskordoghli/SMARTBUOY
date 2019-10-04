@@ -157,7 +157,7 @@ public class DetailPlageActivity extends AppCompatActivity implements OnMapReady
             }
         });
 
-        getPlageById(idPlageFromHome, currentUser.getId());
+        //getPlageById(idPlageFromHome, currentUser.getId());
 
         date1Lin.setOnClickListener(new View.OnClickListener() {
             @Override
