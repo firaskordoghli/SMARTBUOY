@@ -146,8 +146,8 @@ public class DetailEventActivity extends AppCompatActivity implements OnMapReady
                 eventDateTextView.setText(newEvent.getDate().substring(0, 10));
 
                 if (newEvent.getType().equals("sport")){
-                    eventTypeTextView.setTextColor(Color.parseColor("#F4AD1C"));
-                    eventTypeTextView.setBackgroundResource(R.drawable.rounded_corner_event_type_yello);
+                        eventTypeTextView.setTextColor(Color.parseColor("#F4AD1C"));
+                        eventTypeTextView.setBackgroundResource(R.drawable.rounded_corner_event_type_yello);
                 }else if (newEvent.getType().equals("cleaning")){
                     eventTypeTextView.setTextColor(Color.parseColor("#2262F8"));
                     eventTypeTextView.setBackgroundResource(R.drawable.rounded_corner_event_type_blue);

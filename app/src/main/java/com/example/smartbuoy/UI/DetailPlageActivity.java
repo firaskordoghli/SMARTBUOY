@@ -311,6 +311,14 @@ public class DetailPlageActivity extends AppCompatActivity implements OnMapReady
                 date1tv.setText("Today");
                 date1tvDate.setText(meteoList.get(0).getDate().substring(5, 10));
 
+                if(responsePlage.getFavoris()){
+                    Drawable addFavoris = getResources().getDrawable(R.drawable.ic_favoris_added);
+                    favorisImageView.setImageDrawable(addFavoris);
+                }else if (!responsePlage.getFavoris()){
+                    Drawable addFavoris = getResources().getDrawable(R.drawable.ic_favoris);
+                    favorisImageView.setImageDrawable(addFavoris);
+                }
+
                 SimpleDateFormat inFormat = new SimpleDateFormat("dd-MM-yyyy");
                 try {
                     Date date = inFormat.parse(previsionList.get(0).getDate());
@@ -403,39 +411,35 @@ public class DetailPlageActivity extends AppCompatActivity implements OnMapReady
     }
 
     public void followPlage(String idUser, String idPlage) {
-
+        displayLoader();
         JsonObject object = new JsonObject();
         object.addProperty("idPlage", idPlage);
         object.addProperty("idUser", idUser);
-
         ApiUtil.getServiceClass().followPlage(object).enqueue(new Callback<JsonObject>() {
             @Override
             public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
-                JsonObject responseObject = new JsonObject();
+                JsonObject responseObject;
                 responseObject = response.body();
 
-                Drawable addFavoris = getResources().getDrawable(R.drawable.ic_favoris_added);
-                favorisImageView.setImageDrawable(addFavoris);
-                Toast.makeText(DetailPlageActivity.this, responseObject.get("msg").toString(), Toast.LENGTH_SHORT).show();
-/*
-                if (responseObject.get("msg").toString().equals("added")) {
-                    Drawable addFavoris = getResources().getDrawable(R.drawable.ic_favoris);
-                    favorisImageView.setImageDrawable(addFavoris);
-                    Toast.makeText(DetailPlageActivity.this, responseObject.get("msg").toString(), Toast.LENGTH_SHORT).show();
-                } else if (responseObject.get("msg").toString().equals("deleted")) {
+                if (responseObject.get("msg").toString().contains("added")){
                     Drawable addFavoris = getResources().getDrawable(R.drawable.ic_favoris_added);
                     favorisImageView.setImageDrawable(addFavoris);
-                    Toast.makeText(DetailPlageActivity.this, responseObject.get("msg").toString(), Toast.LENGTH_SHORT).show();
+                    pDialog.dismiss();
+                    Toast.makeText(DetailPlageActivity.this, "Added to favoris", Toast.LENGTH_LONG).show();
+                }else {
+                    Drawable addFavoris = getResources().getDrawable(R.drawable.ic_favoris);
+                    favorisImageView.setImageDrawable(addFavoris);
+                    pDialog.dismiss();
+                    Toast.makeText(DetailPlageActivity.this, "Deleted from favoris", Toast.LENGTH_LONG).show();
                 }
-                */
             }
-
             @Override
             public void onFailure(Call<JsonObject> call, Throwable t) {
                 Toast.makeText(DetailPlageActivity.this, "mamchetesh", Toast.LENGTH_SHORT).show();
             }
         });
     }
+
 
     @SuppressLint("SetTextI18n")
     private void initMeteo(){
@@ -547,10 +551,10 @@ public class DetailPlageActivity extends AppCompatActivity implements OnMapReady
                 case 3:
                     detailPlageCloudytv.setText("cloudy");
                     cloudyIv.setImageResource(R.drawable.ic_cloudy);
-                    break;
-            }
 
         if (previsionList != null)
+            break;
+    }
             switch (previsionList.get(posotion).getCrowded()) {
                 case 1:
                     detailPlageCroudedtv.setText("empty");
@@ -574,8 +578,6 @@ public class DetailPlageActivity extends AppCompatActivity implements OnMapReady
         pDialog.setCancelable(false);
         pDialog.show();
     }
-
-
 
     private boolean checkMapServices() {
         if (isServicesOK()) {
