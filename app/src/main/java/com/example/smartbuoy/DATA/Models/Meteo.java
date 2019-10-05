@@ -29,7 +29,7 @@ public class Meteo {
     @SerializedName("tempEau")
     @Expose
     private Integer tempEau;
-    @SerializedName("data")
+    @SerializedName("date")
     @Expose
     private String date;
     @SerializedName("flag")

@@ -1,6 +1,7 @@
 package com.example.smartbuoy.UI;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.ProgressDialog;
@@ -73,11 +74,18 @@ public class DetailPlageActivity extends AppCompatActivity implements OnMapReady
     private ImageView parking, shower, resto, wc, bar, beachVolley, chienAdmis, parasol;
     private ImageView flagIv, croudedIv, cloudyIv;
     private List<Meteo> previsionList = null;
-    private Meteo meteo;
+    private List<Meteo> meteoList = null;
     private String idPlageFromHome = "null";
 
     private TextView date1tv,date1tvDate,date2tv,date2tvDate,date3tv,date3tvDate,date4tv,date4tvDate;
     private LinearLayout date1Lin,date2Lin,date3Lin,date4Lin;
+
+    private TextView temp1Tv,temp2Tv,temp3Tv,temp4Tv;
+    private TextView wTemp1,wTemp2,wTemp3,wTemp4;
+    private TextView wSpeed1,wSpeed2,wSpeed3,wSpeed4;
+    private TextView wDirec1,wDirec2,wDirec3,wDirec4;
+    private TextView hum1,hum2,hum3,hum4;
+    private TextView pres1,pres2,pres3,pres4;
 
     private ProgressDialog pDialog;
 
@@ -128,8 +136,8 @@ public class DetailPlageActivity extends AppCompatActivity implements OnMapReady
         detailPlageCloudytv = findViewById(R.id.tvCloudy);
 
         flagIv = findViewById(R.id.ivFlag);
-        croudedIv = findViewById(R.id.ivCloudy);
-        cloudyIv = findViewById(R.id.ivCrouded);
+        croudedIv = findViewById(R.id.ivCrouded);
+        cloudyIv = findViewById(R.id.ivCloudy);
 
         parking = findViewById(R.id.icParking);
         shower = findViewById(R.id.icShower);
@@ -141,6 +149,36 @@ public class DetailPlageActivity extends AppCompatActivity implements OnMapReady
         parasol = findViewById(R.id.icParasol);
 
         favorisImageView = findViewById(R.id.ivFavoris);
+
+        temp1Tv = findViewById(R.id.tem1);
+        temp2Tv = findViewById(R.id.tem2);
+        temp3Tv = findViewById(R.id.tem3);
+        temp4Tv = findViewById(R.id.tem4);
+
+        wTemp1 = findViewById(R.id.wTem1);
+        wTemp2 = findViewById(R.id.wTem2);
+        wTemp3 = findViewById(R.id.wTem3);
+        wTemp4 = findViewById(R.id.wTem4);
+
+        wSpeed1 = findViewById(R.id.wSpeed1);
+        wSpeed2 = findViewById(R.id.wSpeed2);
+        wSpeed3 = findViewById(R.id.wSpeed3);
+        wSpeed4 = findViewById(R.id.wSpeed4);
+
+        wDirec1 = findViewById(R.id.wDirection1);
+        wDirec2 = findViewById(R.id.wDirection2);
+        wDirec3 = findViewById(R.id.wDirection3);
+        wDirec4 = findViewById(R.id.wDirection4);
+
+        hum1 = findViewById(R.id.hum1);
+        hum2 = findViewById(R.id.hum2);
+        hum3 = findViewById(R.id.hum3);
+        hum4 = findViewById(R.id.hum4);
+
+        pres1 = findViewById(R.id.pres1);
+        pres2 = findViewById(R.id.pres2);
+        pres3 = findViewById(R.id.pres3);
+        pres4 = findViewById(R.id.pres4);
 
         date1tv.setTextColor(Color.parseColor("#000000"));
         date1tvDate.setTextColor(Color.parseColor("#000000"));
@@ -157,7 +195,7 @@ public class DetailPlageActivity extends AppCompatActivity implements OnMapReady
             }
         });
 
-        //getPlageById(idPlageFromHome, currentUser.getId());
+        getPlageById(idPlageFromHome, currentUser.getId());
 
         date1Lin.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -179,36 +217,7 @@ public class DetailPlageActivity extends AppCompatActivity implements OnMapReady
                 date3tvDate.setBackgroundResource(0);
                 date4tvDate.setBackgroundResource(0);
 
-                if (previsionList != null)
-                    switch (previsionList.get(0).getFlag()) {
-                        case 1:
-                            detailPlageFlagtv.setText("safe");
-                            flagIv.setImageResource(R.drawable.ic_green_flag_icon);
-                            break;
-                        case 2:
-                            detailPlageFlagtv.setText("risquy");
-                            flagIv.setImageResource(R.drawable.ic_groupe_351);
-                            break;
-                        case 3:
-                            detailPlageFlagtv.setText("dangerous");
-                            flagIv.setImageResource(R.drawable.ic_red_flag_icon_);
-                            break;
-                    }
-                if (previsionList != null)
-                    switch (previsionList.get(0).getCrowded()) {
-                        case 1:
-                            detailPlageCroudedtv.setText("empty");
-                            croudedIv.setImageResource(R.drawable.ic_empty_icon);
-                            break;
-                        case 2:
-                            detailPlageCroudedtv.setText("little crouded");
-                            croudedIv.setImageResource(R.drawable.ic_groupe_363);
-                            break;
-                        case 3:
-                            detailPlageCroudedtv.setText("crouded");
-                            croudedIv.setImageResource(R.drawable.ic_crowded_icon_);
-                            break;
-                    }
+                initMeteo();
             }
         });
 
@@ -231,6 +240,7 @@ public class DetailPlageActivity extends AppCompatActivity implements OnMapReady
                 date1tvDate.setBackgroundResource(0);
                 date3tvDate.setBackgroundResource(0);
                 date4tvDate.setBackgroundResource(0);
+                updateMeteo(0);
             }
         });
 
@@ -253,6 +263,7 @@ public class DetailPlageActivity extends AppCompatActivity implements OnMapReady
                 date2tvDate.setBackgroundResource(0);
                 date1tvDate.setBackgroundResource(0);
                 date4tvDate.setBackgroundResource(0);
+                updateMeteo(1);
             }
         });
 
@@ -275,6 +286,8 @@ public class DetailPlageActivity extends AppCompatActivity implements OnMapReady
                 date2tvDate.setBackgroundResource(0);
                 date1tvDate.setBackgroundResource(0);
                 date3tvDate.setBackgroundResource(0);
+
+                updateMeteo(2);
             }
         });
     }
@@ -291,11 +304,12 @@ public class DetailPlageActivity extends AppCompatActivity implements OnMapReady
                 detailPlageVilletv.setText(responsePlage.getVille());
                 detailPlageRatetv.setText(String.valueOf(responsePlage.getRate()).substring(0, 3));
                 detailPlageDescription.setText(responsePlage.getDesc());
+
                 previsionList = responsePlage.getPrev();
-                meteo = responsePlage.getMeteo();
+                meteoList = responsePlage.getMeteo();
 
                 date1tv.setText("Today");
-                date1tvDate.setText(meteo.getDate().substring(5, 10));
+                date1tvDate.setText(meteoList.get(0).getDate().substring(5, 10));
 
                 SimpleDateFormat inFormat = new SimpleDateFormat("dd-MM-yyyy");
                 try {
@@ -355,37 +369,7 @@ public class DetailPlageActivity extends AppCompatActivity implements OnMapReady
                     parasol.setVisibility(View.VISIBLE);
                 }
 
-                Meteo observation = responsePlage.getMeteo();
-                if (observation != null)
-                    switch (observation.getFlag()) {
-                        case 1:
-                            detailPlageFlagtv.setText("safe");
-                            flagIv.setImageResource(R.drawable.ic_green_flag_icon);
-                            break;
-                        case 2:
-                            detailPlageFlagtv.setText("risquy");
-                            flagIv.setImageResource(R.drawable.ic_groupe_351);
-                            break;
-                        case 3:
-                            detailPlageFlagtv.setText("dangerous");
-                            flagIv.setImageResource(R.drawable.ic_red_flag_icon_);
-                            break;
-                    }
-                if (observation != null)
-                    switch (observation.getCrowded()) {
-                        case 1:
-                            detailPlageCroudedtv.setText("empty");
-                            croudedIv.setImageResource(R.drawable.ic_empty_icon);
-                            break;
-                        case 2:
-                            detailPlageCroudedtv.setText("little crouded");
-                            croudedIv.setImageResource(R.drawable.ic_groupe_363);
-                            break;
-                        case 3:
-                            detailPlageCroudedtv.setText("crouded");
-                            croudedIv.setImageResource(R.drawable.ic_crowded_icon_);
-                            break;
-                    }
+                initMeteo();
 
                 Handler handler = new Handler();
                 handler.postDelayed(new Runnable() {
@@ -451,6 +435,136 @@ public class DetailPlageActivity extends AppCompatActivity implements OnMapReady
                 Toast.makeText(DetailPlageActivity.this, "mamchetesh", Toast.LENGTH_SHORT).show();
             }
         });
+    }
+
+    @SuppressLint("SetTextI18n")
+    private void initMeteo(){
+        if (meteoList != null)
+            switch (meteoList.get(0).getFlag()) {
+                case 1:
+                    detailPlageFlagtv.setText("safe");
+                    flagIv.setImageResource(R.drawable.ic_green_flag_icon);
+                    break;
+                case 2:
+                    detailPlageFlagtv.setText("risquy");
+                    flagIv.setImageResource(R.drawable.ic_groupe_351);
+                    break;
+                case 3:
+                    detailPlageFlagtv.setText("dangerous");
+                    flagIv.setImageResource(R.drawable.ic_red_flag_icon_);
+                    break;
+            }
+        if (meteoList != null)
+            switch (meteoList.get(0).getCloudy()) {
+                case 1:
+                    detailPlageCloudytv.setText("sunny");
+                    cloudyIv.setImageResource(R.drawable.ic_sunny);
+                    break;
+                case 2:
+                    detailPlageCloudytv.setText("windy");
+                    cloudyIv.setImageResource(R.drawable.ic_windy);
+                    break;
+                case 3:
+                    detailPlageCloudytv.setText("cloudy");
+                    cloudyIv.setImageResource(R.drawable.ic_cloudy);
+                    break;
+            }
+
+        if (meteoList != null)
+            switch (meteoList.get(0).getCrowded()) {
+                case 1:
+                    detailPlageCroudedtv.setText("empty");
+                    croudedIv.setImageResource(R.drawable.ic_empty_icon);
+                    break;
+                case 2:
+                    detailPlageCroudedtv.setText("little crouded");
+                    croudedIv.setImageResource(R.drawable.ic_groupe_363);
+                    break;
+                case 3:
+                    detailPlageCroudedtv.setText("crouded");
+                    croudedIv.setImageResource(R.drawable.ic_crowded_icon_);
+                    break;
+            }
+        temp1Tv.setText(meteoList.get(0).getTemp().toString()+"°c");
+        temp2Tv.setText(meteoList.get(1).getTemp().toString()+"°c");
+        temp3Tv.setText(meteoList.get(2).getTemp().toString()+"°c");
+        temp4Tv.setText(meteoList.get(3).getTemp().toString()+"°c");
+
+        wTemp1.setText(meteoList.get(0).getTempEau().toString()+"°c");
+        wTemp2.setText(meteoList.get(1).getTempEau().toString()+"°c");
+        wTemp3.setText(meteoList.get(2).getTempEau().toString()+"°c");
+        wTemp4.setText(meteoList.get(3).getTempEau().toString()+"°c");
+
+        wSpeed1.setText(meteoList.get(0).getViVent().toString());
+        wSpeed2.setText(meteoList.get(1).getViVent().toString());
+        wSpeed3.setText(meteoList.get(2).getViVent().toString());
+        wSpeed4.setText(meteoList.get(3).getViVent().toString());
+
+        wDirec1.setText(meteoList.get(0).getDiVent());
+        wDirec2.setText(meteoList.get(1).getDiVent());
+        wDirec3.setText(meteoList.get(2).getDiVent());
+        wDirec4.setText(meteoList.get(3).getDiVent());
+
+
+
+        pres1.setText(meteoList.get(0).getPress().toString()+"Pa");
+        pres2.setText(meteoList.get(1).getPress().toString()+"Pa");
+        pres3.setText(meteoList.get(2).getPress().toString()+"Pa");
+        pres4.setText(meteoList.get(3).getPress().toString()+"Pa");
+
+        hum1.setText(meteoList.get(0).getHumi().toString());
+        hum2.setText(meteoList.get(1).getHumi().toString());
+        hum3.setText(meteoList.get(2).getHumi().toString());
+        hum4.setText(meteoList.get(3).getHumi().toString());
+    }
+
+    private void updateMeteo(int posotion){
+        if (previsionList != null)
+            switch (previsionList.get(posotion).getFlag()) {
+                case 1:
+                    detailPlageFlagtv.setText("safe");
+                    flagIv.setImageResource(R.drawable.ic_green_flag_icon);
+                    break;
+                case 2:
+                    detailPlageFlagtv.setText("risquy");
+                    flagIv.setImageResource(R.drawable.ic_groupe_351);
+                    break;
+                case 3:
+                    detailPlageFlagtv.setText("dangerous");
+                    flagIv.setImageResource(R.drawable.ic_red_flag_icon_);
+                    break;
+            }
+        if (previsionList != null)
+            switch (previsionList.get(posotion).getCloudy()) {
+                case 1:
+                    detailPlageCloudytv.setText("sunny");
+                    cloudyIv.setImageResource(R.drawable.ic_sunny);
+                    break;
+                case 2:
+                    detailPlageCloudytv.setText("windy");
+                    cloudyIv.setImageResource(R.drawable.ic_windy);
+                    break;
+                case 3:
+                    detailPlageCloudytv.setText("cloudy");
+                    cloudyIv.setImageResource(R.drawable.ic_cloudy);
+                    break;
+            }
+
+        if (previsionList != null)
+            switch (previsionList.get(posotion).getCrowded()) {
+                case 1:
+                    detailPlageCroudedtv.setText("empty");
+                    croudedIv.setImageResource(R.drawable.ic_empty_icon);
+                    break;
+                case 2:
+                    detailPlageCroudedtv.setText("little crouded");
+                    croudedIv.setImageResource(R.drawable.ic_groupe_363);
+                    break;
+                case 3:
+                    detailPlageCroudedtv.setText("crouded");
+                    croudedIv.setImageResource(R.drawable.ic_crowded_icon_);
+                    break;
+            }
     }
 
     private void displayLoader() {

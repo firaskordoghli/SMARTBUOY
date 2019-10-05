@@ -57,7 +57,7 @@ public class Plage {
     private Integer v;
     @SerializedName("meteo")
     @Expose
-    private Meteo meteo;
+    private List<Meteo> meteo = null;
     @SerializedName("favoris")
     @Expose
     private Boolean favoris;
@@ -188,11 +188,11 @@ public class Plage {
         this.v = v;
     }
 
-    public Meteo getMeteo() {
+    public List<Meteo> getMeteo() {
         return meteo;
     }
 
-    public void setMeteo(Meteo meteo) {
+    public void setMeteo(List<Meteo> meteo) {
         this.meteo = meteo;
     }
 
