@@ -53,13 +53,16 @@
                 android:layout_height="wrap_content"
                 android:gravity="center"
                 android:orientation="vertical"
-                android:paddingRight="10dp">
+                android:paddingRight="15dp"
+                android:paddingTop="5dp"
+                android:paddingBottom="5dp">
 
                 <TextView
                     android:id="@+id/date1tv"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/montserrat_semibold"
+                    android:textAlignment="center"
                     android:text="Today "
                     android:textColor="#CBCBCB" />
 
@@ -69,6 +72,7 @@
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/montserrat_regular"
                     android:paddingBottom="5dp"
+                    android:textAlignment="center"
                     android:text="14/08"
                     android:textColor="#CBCBCB" />
             </LinearLayout>
@@ -79,8 +83,10 @@
                 android:layout_height="wrap_content"
                 android:gravity="center"
                 android:orientation="vertical"
-                android:paddingLeft="10dp"
-                android:paddingRight="10dp">
+                android:paddingLeft="15dp"
+                android:paddingRight="15dp"
+                android:paddingTop="5dp"
+                android:paddingBottom="5dp">
 
                 <TextView
                     android:id="@+id/date2tv"
@@ -88,6 +94,7 @@
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/montserrat_semibold"
                     android:text="Today "
+                    android:textAlignment="center"
                     android:textColor="#CBCBCB" />
 
                 <TextView
@@ -97,6 +104,7 @@
                     android:fontFamily="@font/montserrat_regular"
                     android:paddingBottom="5dp"
                     android:text="14/08"
+                    android:textAlignment="center"
                     android:textColor="#CBCBCB" />
             </LinearLayout>
 
@@ -106,8 +114,10 @@
                 android:layout_height="wrap_content"
                 android:gravity="center"
                 android:orientation="vertical"
-                android:paddingLeft="10dp"
-                android:paddingRight="10dp">
+                android:paddingLeft="15dp"
+                android:paddingRight="15dp"
+                android:paddingTop="5dp"
+                android:paddingBottom="5dp">
 
                 <TextView
                     android:id="@+id/date3tv"
@@ -115,6 +125,7 @@
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/montserrat_semibold"
                     android:text="Today "
+                    android:textAlignment="center"
                     android:textColor="#CBCBCB" />
 
                 <TextView
@@ -124,6 +135,7 @@
                     android:fontFamily="@font/montserrat_regular"
                     android:paddingBottom="5dp"
                     android:text="14/08"
+                    android:textAlignment="center"
                     android:textColor="#CBCBCB" />
             </LinearLayout>
 
@@ -133,7 +145,9 @@
                 android:layout_height="wrap_content"
                 android:gravity="center"
                 android:orientation="vertical"
-                android:paddingLeft="10dp">
+                android:paddingLeft="15dp"
+                android:paddingTop="5dp"
+                android:paddingBottom="5dp">
 
                 <TextView
                     android:id="@+id/date4tv"

@@ -338,7 +338,7 @@ public class DetailPlageActivity extends AppCompatActivity implements OnMapReady
                     Date date = inFormat.parse(previsionList.get(0).getDate());
                     SimpleDateFormat outFormat = new SimpleDateFormat("EEEE");
                     String goal = outFormat.format(date);
-                    date2tv.setText(goal);
+                    date2tv.setText(goal.substring(0, 3));
                 } catch (ParseException e) {
                     e.printStackTrace();
                 }
@@ -348,7 +348,7 @@ public class DetailPlageActivity extends AppCompatActivity implements OnMapReady
                     Date date = inFormat.parse(previsionList.get(1).getDate());
                     SimpleDateFormat outFormat = new SimpleDateFormat("EEEE");
                     String goal = outFormat.format(date);
-                    date3tv.setText(goal);
+                    date3tv.setText(goal.substring(0, 3));
                 } catch (ParseException e) {
                     e.printStackTrace();
                 }
@@ -358,7 +358,7 @@ public class DetailPlageActivity extends AppCompatActivity implements OnMapReady
                     Date date = inFormat.parse(previsionList.get(2).getDate());
                     SimpleDateFormat outFormat = new SimpleDateFormat("EEEE");
                     String goal = outFormat.format(date);
-                    date4tv.setText(goal);
+                    date4tv.setText(goal.substring(0, 3));
                 } catch (ParseException e) {
                     e.printStackTrace();
                 }
@@ -610,7 +610,7 @@ public class DetailPlageActivity extends AppCompatActivity implements OnMapReady
 
     private void openDialog(String idPlage) {
         RatingDialog ratingDialog = RatingDialog.newInstance(idPlage);
-        ratingDialog.show(getSupportFragmentManager(),"rate dialog");
+        ratingDialog.show(getSupportFragmentManager(), "rate dialog");
     }
 
     private boolean checkMapServices() {
