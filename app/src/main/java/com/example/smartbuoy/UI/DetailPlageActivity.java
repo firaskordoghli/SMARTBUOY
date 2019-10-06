@@ -17,10 +17,11 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
+import android.view.MotionEvent;
 import android.view.View;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -37,7 +38,6 @@ import com.example.smartbuoy.DATA.Models.User;
 import com.example.smartbuoy.DATA.Retrofite.ApiUtil;
 import com.example.smartbuoy.DATA.UserSessionManager;
 import com.example.smartbuoy.R;
-import com.example.smartbuoy.UI.Menu.Event.DetailEventActivity;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GoogleApiAvailability;
 import com.google.android.gms.common.api.GoogleApiClient;
@@ -65,7 +65,7 @@ import static com.example.smartbuoy.DATA.Constants.ERROR_DIALOG_REQUEST;
 import static com.example.smartbuoy.DATA.Constants.PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION;
 import static com.example.smartbuoy.DATA.Constants.PERMISSIONS_REQUEST_ENABLE_GPS;
 
-public class DetailPlageActivity extends AppCompatActivity implements OnMapReadyCallback, GoogleMap.OnMarkerClickListener, GoogleApiClient.OnConnectionFailedListener, GoogleMap.OnInfoWindowClickListener  {
+public class DetailPlageActivity extends AppCompatActivity implements OnMapReadyCallback, GoogleMap.OnMarkerClickListener, GoogleApiClient.OnConnectionFailedListener, GoogleMap.OnInfoWindowClickListener {
     private static final String TAG = "DetailPlageActivity";
     private ImageView detailPlageIv, favorisImageView;
     private TextView detailPlageNomtv, detailPlageVilletv, detailPlageRatetv, detailPlageDescription;
@@ -77,15 +77,15 @@ public class DetailPlageActivity extends AppCompatActivity implements OnMapReady
     private List<Meteo> meteoList = null;
     private String idPlageFromHome = "null";
 
-    private TextView date1tv,date1tvDate,date2tv,date2tvDate,date3tv,date3tvDate,date4tv,date4tvDate;
-    private LinearLayout date1Lin,date2Lin,date3Lin,date4Lin;
+    private TextView date1tv, date1tvDate, date2tv, date2tvDate, date3tv, date3tvDate, date4tv, date4tvDate;
+    private LinearLayout date1Lin, date2Lin, date3Lin, date4Lin;
 
-    private TextView temp1Tv,temp2Tv,temp3Tv,temp4Tv;
-    private TextView wTemp1,wTemp2,wTemp3,wTemp4;
-    private TextView wSpeed1,wSpeed2,wSpeed3,wSpeed4;
-    private TextView wDirec1,wDirec2,wDirec3,wDirec4;
-    private TextView hum1,hum2,hum3,hum4;
-    private TextView pres1,pres2,pres3,pres4;
+    private TextView temp1Tv, temp2Tv, temp3Tv, temp4Tv;
+    private TextView wTemp1, wTemp2, wTemp3, wTemp4;
+    private TextView wSpeed1, wSpeed2, wSpeed3, wSpeed4;
+    private TextView wDirec1, wDirec2, wDirec3, wDirec4;
+    private TextView hum1, hum2, hum3, hum4;
+    private TextView pres1, pres2, pres3, pres4;
 
     private ProgressDialog pDialog;
 
@@ -94,6 +94,8 @@ public class DetailPlageActivity extends AppCompatActivity implements OnMapReady
     private GoogleApiClient mGoogleApiClient;
     private MapFragment mapFragment;
     private LatLng plageLatLng;
+
+    private RatingBar ratingBar;
 
 
     @Override
@@ -180,6 +182,8 @@ public class DetailPlageActivity extends AppCompatActivity implements OnMapReady
         pres3 = findViewById(R.id.pres3);
         pres4 = findViewById(R.id.pres4);
 
+        ratingBar = findViewById(R.id.ratingBar);
+
         date1tv.setTextColor(Color.parseColor("#000000"));
         date1tvDate.setTextColor(Color.parseColor("#000000"));
         date1tvDate.setBackgroundResource(R.drawable.edit_text_bottom_border);
@@ -196,6 +200,16 @@ public class DetailPlageActivity extends AppCompatActivity implements OnMapReady
         });
 
         getPlageById(idPlageFromHome, currentUser.getId());
+
+        getRatePlage(currentUser.getId(), idPlageFromHome);
+
+        ratingBar.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View view, MotionEvent motionEvent) {
+                openDialog(idPlageFromHome);
+                return false;
+            }
+        });
 
         date1Lin.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -311,10 +325,10 @@ public class DetailPlageActivity extends AppCompatActivity implements OnMapReady
                 date1tv.setText("Today");
                 date1tvDate.setText(meteoList.get(0).getDate().substring(5, 10));
 
-                if(responsePlage.getFavoris()){
+                if (responsePlage.getFavoris()) {
                     Drawable addFavoris = getResources().getDrawable(R.drawable.ic_favoris_added);
                     favorisImageView.setImageDrawable(addFavoris);
-                }else if (!responsePlage.getFavoris()){
+                } else if (!responsePlage.getFavoris()) {
                     Drawable addFavoris = getResources().getDrawable(R.drawable.ic_favoris);
                     favorisImageView.setImageDrawable(addFavoris);
                 }
@@ -386,7 +400,7 @@ public class DetailPlageActivity extends AppCompatActivity implements OnMapReady
                     }
                 }, 1000);
 
-                plageLatLng = new LatLng(responsePlage.getLat(),responsePlage.getLng());
+                plageLatLng = new LatLng(responsePlage.getLat(), responsePlage.getLng());
                 mGoogleMap.addMarker(new MarkerOptions().position(plageLatLng));
                 mGoogleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(plageLatLng, 8.0f));
 
@@ -410,6 +424,22 @@ public class DetailPlageActivity extends AppCompatActivity implements OnMapReady
         });
     }
 
+    public void getRatePlage(String idUser, String idPlage) {
+        ApiUtil.getServiceClass().getRate(idUser, idPlage).enqueue(new Callback<Float>() {
+            @Override
+            public void onResponse(Call<Float> call, Response<Float> response) {
+                Float rate = response.body();
+                ratingBar.setRating(rate);
+                Toast.makeText(DetailPlageActivity.this, "rate is" + rate.toString(), Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onFailure(Call<Float> call, Throwable t) {
+                Toast.makeText(DetailPlageActivity.this, t.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
     public void followPlage(String idUser, String idPlage) {
         displayLoader();
         JsonObject object = new JsonObject();
@@ -421,18 +451,19 @@ public class DetailPlageActivity extends AppCompatActivity implements OnMapReady
                 JsonObject responseObject;
                 responseObject = response.body();
 
-                if (responseObject.get("msg").toString().contains("added")){
+                if (responseObject.get("msg").toString().contains("added")) {
                     Drawable addFavoris = getResources().getDrawable(R.drawable.ic_favoris_added);
                     favorisImageView.setImageDrawable(addFavoris);
                     pDialog.dismiss();
                     Toast.makeText(DetailPlageActivity.this, "Added to favoris", Toast.LENGTH_LONG).show();
-                }else {
+                } else {
                     Drawable addFavoris = getResources().getDrawable(R.drawable.ic_favoris);
                     favorisImageView.setImageDrawable(addFavoris);
                     pDialog.dismiss();
                     Toast.makeText(DetailPlageActivity.this, "Deleted from favoris", Toast.LENGTH_LONG).show();
                 }
             }
+
             @Override
             public void onFailure(Call<JsonObject> call, Throwable t) {
                 Toast.makeText(DetailPlageActivity.this, "mamchetesh", Toast.LENGTH_SHORT).show();
@@ -440,9 +471,8 @@ public class DetailPlageActivity extends AppCompatActivity implements OnMapReady
         });
     }
 
-
     @SuppressLint("SetTextI18n")
-    private void initMeteo(){
+    private void initMeteo() {
         if (meteoList != null)
             switch (meteoList.get(0).getFlag()) {
                 case 1:
@@ -489,15 +519,15 @@ public class DetailPlageActivity extends AppCompatActivity implements OnMapReady
                     croudedIv.setImageResource(R.drawable.ic_crowded_icon_);
                     break;
             }
-        temp1Tv.setText(meteoList.get(0).getTemp().toString()+"°c");
-        temp2Tv.setText(meteoList.get(1).getTemp().toString()+"°c");
-        temp3Tv.setText(meteoList.get(2).getTemp().toString()+"°c");
-        temp4Tv.setText(meteoList.get(3).getTemp().toString()+"°c");
+        temp1Tv.setText(meteoList.get(0).getTemp().toString() + "°c");
+        temp2Tv.setText(meteoList.get(1).getTemp().toString() + "°c");
+        temp3Tv.setText(meteoList.get(2).getTemp().toString() + "°c");
+        temp4Tv.setText(meteoList.get(3).getTemp().toString() + "°c");
 
-        wTemp1.setText(meteoList.get(0).getTempEau().toString()+"°c");
-        wTemp2.setText(meteoList.get(1).getTempEau().toString()+"°c");
-        wTemp3.setText(meteoList.get(2).getTempEau().toString()+"°c");
-        wTemp4.setText(meteoList.get(3).getTempEau().toString()+"°c");
+        wTemp1.setText(meteoList.get(0).getTempEau().toString() + "°c");
+        wTemp2.setText(meteoList.get(1).getTempEau().toString() + "°c");
+        wTemp3.setText(meteoList.get(2).getTempEau().toString() + "°c");
+        wTemp4.setText(meteoList.get(3).getTempEau().toString() + "°c");
 
         wSpeed1.setText(meteoList.get(0).getViVent().toString());
         wSpeed2.setText(meteoList.get(1).getViVent().toString());
@@ -510,11 +540,10 @@ public class DetailPlageActivity extends AppCompatActivity implements OnMapReady
         wDirec4.setText(meteoList.get(3).getDiVent());
 
 
-
-        pres1.setText(meteoList.get(0).getPress().toString()+"Pa");
-        pres2.setText(meteoList.get(1).getPress().toString()+"Pa");
-        pres3.setText(meteoList.get(2).getPress().toString()+"Pa");
-        pres4.setText(meteoList.get(3).getPress().toString()+"Pa");
+        pres1.setText(meteoList.get(0).getPress().toString() + "Pa");
+        pres2.setText(meteoList.get(1).getPress().toString() + "Pa");
+        pres3.setText(meteoList.get(2).getPress().toString() + "Pa");
+        pres4.setText(meteoList.get(3).getPress().toString() + "Pa");
 
         hum1.setText(meteoList.get(0).getHumi().toString());
         hum2.setText(meteoList.get(1).getHumi().toString());
@@ -522,7 +551,7 @@ public class DetailPlageActivity extends AppCompatActivity implements OnMapReady
         hum4.setText(meteoList.get(3).getHumi().toString());
     }
 
-    private void updateMeteo(int posotion){
+    private void updateMeteo(int posotion) {
         if (previsionList != null)
             switch (previsionList.get(posotion).getFlag()) {
                 case 1:
@@ -552,23 +581,23 @@ public class DetailPlageActivity extends AppCompatActivity implements OnMapReady
                     detailPlageCloudytv.setText("cloudy");
                     cloudyIv.setImageResource(R.drawable.ic_cloudy);
 
-        if (previsionList != null)
-            break;
-    }
-            switch (previsionList.get(posotion).getCrowded()) {
-                case 1:
-                    detailPlageCroudedtv.setText("empty");
-                    croudedIv.setImageResource(R.drawable.ic_empty_icon);
-                    break;
-                case 2:
-                    detailPlageCroudedtv.setText("little crouded");
-                    croudedIv.setImageResource(R.drawable.ic_groupe_363);
-                    break;
-                case 3:
-                    detailPlageCroudedtv.setText("crouded");
-                    croudedIv.setImageResource(R.drawable.ic_crowded_icon_);
-                    break;
+                    if (previsionList != null)
+                        break;
             }
+        switch (previsionList.get(posotion).getCrowded()) {
+            case 1:
+                detailPlageCroudedtv.setText("empty");
+                croudedIv.setImageResource(R.drawable.ic_empty_icon);
+                break;
+            case 2:
+                detailPlageCroudedtv.setText("little crouded");
+                croudedIv.setImageResource(R.drawable.ic_groupe_363);
+                break;
+            case 3:
+                detailPlageCroudedtv.setText("crouded");
+                croudedIv.setImageResource(R.drawable.ic_crowded_icon_);
+                break;
+        }
     }
 
     private void displayLoader() {
@@ -577,6 +606,11 @@ public class DetailPlageActivity extends AppCompatActivity implements OnMapReady
         pDialog.setIndeterminate(false);
         pDialog.setCancelable(false);
         pDialog.show();
+    }
+
+    private void openDialog(String idPlage) {
+        RatingDialog ratingDialog = RatingDialog.newInstance(idPlage);
+        ratingDialog.show(getSupportFragmentManager(),"rate dialog");
     }
 
     private boolean checkMapServices() {

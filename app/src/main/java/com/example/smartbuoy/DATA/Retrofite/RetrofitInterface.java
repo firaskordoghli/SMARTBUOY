@@ -77,5 +77,10 @@ public interface RetrofitInterface {
     @PUT("mob/event/participer")
     public  Call<String> joinEvent(@Body JsonObject object);
 
+    @GET("mob/rate/{idUser}/{idPlage}")
+    public Call<Float> getRate(@Path("idUser") String idUser,@Path("idPlage") String id);
+
+    @PUT("mob/plage/rate")
+    public  Call<JsonObject> ratePlage(@Body JsonObject object);
 
 }
