@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.DefaultItemAnimator;
@@ -13,7 +14,6 @@ import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-import androidx.recyclerview.widget.SnapHelper;
 
 import com.example.smartbuoy.DATA.Adapters.PlanProfileAdapter;
 import com.example.smartbuoy.DATA.Models.Plan;
@@ -41,6 +41,7 @@ public class UpcomingFragment extends Fragment implements RecyclerItemTouchHelpe
     private PlanProfileAdapter planProfileAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
     private List<Plan> list;
+    private TextView emptyUpcommingText;
 
 
     public UpcomingFragment() {
@@ -55,6 +56,7 @@ public class UpcomingFragment extends Fragment implements RecyclerItemTouchHelpe
         View view = inflater.inflate(R.layout.fragment_upcoming, container, false);
         mRecycleView = view.findViewById(R.id.rvUpcoming);
         mRecycleView.setHasFixedSize(true);
+        emptyUpcommingText = view.findViewById(R.id.emptyUpcommingTv);
 
         mLayoutManager = new LinearLayoutManager(getContext());
         planProfileAdapter = new PlanProfileAdapter(getContext(), list);
@@ -81,12 +83,19 @@ public class UpcomingFragment extends Fragment implements RecyclerItemTouchHelpe
             @Override
             public void onResponse(Call<List<Plan>> call, Response<List<Plan>> response) {
                 try {
-                    list.clear();
-                    list.addAll(response.body());
-                    planProfileAdapter.notifyDataSetChanged();
-                    System.out.println("response");
-                } catch (Exception e) { System.out.println("Error " + e.getMessage()); }
+                    List<Plan> listPlan = response.body();
+                    if (listPlan.size() == 0) {
+                        emptyUpcommingText.setText("Nothing is scheduled yet, Add Plans in the beach of your choosing");
+                    } else {
+                        list.clear();
+                        list.addAll(listPlan);
+                        planProfileAdapter.notifyDataSetChanged();
+                    }
+                } catch (Exception e) {
+                    System.out.println("Error " + e.getMessage());
+                }
             }
+
             @Override
             public void onFailure(Call<List<Plan>> call, Throwable t) {
 
@@ -102,11 +111,11 @@ public class UpcomingFragment extends Fragment implements RecyclerItemTouchHelpe
             final int deletedIndex = viewHolder.getAdapterPosition();
             planProfileAdapter.removeItem(deletedIndex);
 
-            Snackbar snackbar = Snackbar.make(getView(),name + "removed from list",Snackbar.LENGTH_LONG);
+            Snackbar snackbar = Snackbar.make(getView(), name + "removed from list", Snackbar.LENGTH_LONG);
             snackbar.setAction("UNDO", new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    planProfileAdapter.restoreItem(deletedPlan,deletedIndex);
+                    planProfileAdapter.restoreItem(deletedPlan, deletedIndex);
                 }
             });
             snackbar.setActionTextColor(Color.YELLOW);

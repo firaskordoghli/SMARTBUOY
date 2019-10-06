@@ -1,11 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
-        <item
-            android:id="@+id/nav_first_fragment"
-            android:title="Notifications" />
-        <item
-            android:id="@+id/nav_second_fragment"
-            android:title="Account" />
+
         <item
             android:id="@+id/nav_third_fragment"
             android:title="Help" />

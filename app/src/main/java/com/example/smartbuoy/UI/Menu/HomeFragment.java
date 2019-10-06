@@ -171,7 +171,7 @@ public class HomeFragment extends Fragment {
                 othresTextView.setBackgroundResource(R.drawable.rounded_corner_transparent);
                 othresTextView.setTextColor(Color.parseColor("#CBCBCB"));
 
-                Toast.makeText(getContext(), "fishing list", Toast.LENGTH_LONG).show();
+                Toast.makeText(getContext(), "no data is available", Toast.LENGTH_LONG).show();
             }
         });
 
@@ -190,7 +190,7 @@ public class HomeFragment extends Fragment {
                 recommendedTextView.setBackgroundResource(R.drawable.rounded_corner_transparent);
                 recommendedTextView.setTextColor(Color.parseColor("#CBCBCB"));
 
-                Toast.makeText(getContext(), "others list", Toast.LENGTH_LONG).show();
+                Toast.makeText(getContext(), "no data is available", Toast.LENGTH_LONG).show();
             }
         });
 
@@ -274,8 +274,6 @@ public class HomeFragment extends Fragment {
                 // Stopping Shimmer Effect's animation after data is loaded to ListView
                 mShimmerViewContainer.stopShimmerAnimation();
                 mShimmerViewContainer.setVisibility(View.GONE);
-
-                Toast.makeText(getContext(), "rec", Toast.LENGTH_SHORT).show();
 
                 mLayoutManager = new LinearLayoutManager(getContext());
                 mAdapter = new HomePlageAdapter(mlist);
@@ -373,14 +371,11 @@ public class HomeFragment extends Fragment {
 
 
                 } catch (Exception e) {
-                    dateLinearLayout.setVisibility(INVISIBLE);
-                    planPlageTextView.setVisibility(INVISIBLE);
-                    planCityTextView.setVisibility(INVISIBLE);
-                    iconLinearLayout.setVisibility(INVISIBLE);
+
+                    cardPlan.setVisibility(INVISIBLE);
                     emptyPlanTextView.setText("Nothing is scheduled yet, Add Plans in the beach of your choosing");
                     // This will catch any exception, because they are all descended from Exception
                     System.out.println("Error " + e.getMessage());
-                    Toast.makeText(getContext(), "plan empty", Toast.LENGTH_SHORT).show();
                 }
 
             }

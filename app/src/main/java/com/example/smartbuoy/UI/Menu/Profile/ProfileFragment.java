@@ -64,7 +64,6 @@ public class ProfileFragment extends Fragment {
         menuIvBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(getContext(), "menu", Toast.LENGTH_SHORT).show();
 
                 PopupMenu popup = new PopupMenu(getActivity(), view);
                 popup.getMenuInflater().inflate(R.menu.drawer_view,popup.getMenu());
@@ -74,12 +73,6 @@ public class ProfileFragment extends Fragment {
 
                         switch(item.getItemId()){
 
-                            case R.id.nav_first_fragment:
-                                Toast.makeText(getActivity(), "test 1", Toast.LENGTH_SHORT).show();
-                                break;
-                            case R.id.nav_second_fragment:
-                                Toast.makeText(getActivity(), "test 2", Toast.LENGTH_SHORT).show();
-                                break;
                             case R.id.nav_third_fragment:
                                 Toast.makeText(getActivity(), "test 3", Toast.LENGTH_SHORT).show();
                                 break;
@@ -128,8 +121,8 @@ public class ProfileFragment extends Fragment {
 
     private void setUpViewPager(ViewPager viewPager) {
         SectionPagerAdapter adapter = new SectionPagerAdapter(getChildFragmentManager());
-        adapter.addFragment(new UpcomingFragment(), "Upcoming");
         adapter.addFragment(new FavoritesFragment(), "Favorites");
+        adapter.addFragment(new UpcomingFragment(), "Upcoming");
         adapter.addFragment(new HistoryFragment(), "History");
 
         viewPager.setAdapter(adapter);

@@ -96,7 +96,7 @@ public class DetailPlageActivity extends AppCompatActivity implements OnMapReady
     private LatLng plageLatLng;
 
     private RatingBar ratingBar;
-
+    private com.github.clans.fab.FloatingActionButton fabPlage;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -111,6 +111,8 @@ public class DetailPlageActivity extends AppCompatActivity implements OnMapReady
 
         mapFragment = (MapFragment) getFragmentManager().findFragmentById(R.id.mapPlage);
         mapFragment.getMapAsync(this);
+
+        fabPlage = findViewById(R.id.menu_item_add_plan);
 
         detailPlageNomtv = findViewById(R.id.tvNomPlageDetail);
         detailPlageIv = findViewById(R.id.imagePlageDetail);
@@ -202,6 +204,13 @@ public class DetailPlageActivity extends AppCompatActivity implements OnMapReady
         getPlageById(idPlageFromHome, currentUser.getId());
 
         getRatePlage(currentUser.getId(), idPlageFromHome);
+
+        fabPlage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                openDialogPlan();
+            }
+        });
 
         ratingBar.setOnTouchListener(new View.OnTouchListener() {
             @Override
@@ -611,6 +620,11 @@ public class DetailPlageActivity extends AppCompatActivity implements OnMapReady
     private void openDialog(String idPlage) {
         RatingDialog ratingDialog = RatingDialog.newInstance(idPlage);
         ratingDialog.show(getSupportFragmentManager(), "rate dialog");
+    }
+
+    private void openDialogPlan() {
+        AddPlanDialog ratingDialog = new AddPlanDialog();
+        ratingDialog.show(getSupportFragmentManager(),"add plan dialog");
     }
 
     private boolean checkMapServices() {

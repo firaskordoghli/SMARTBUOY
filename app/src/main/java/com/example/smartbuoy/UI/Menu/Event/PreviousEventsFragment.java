@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.smartbuoy.DATA.Adapters.PreviousEventsAdapter;
@@ -34,6 +35,7 @@ public class PreviousEventsFragment extends Fragment {
     private RecyclerView mRecycleView;
     private PreviousEventsAdapter eventAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
+    private TextView emptyTextView;
 
     private ShimmerFrameLayout mShimmerViewContainer;
 
@@ -54,7 +56,7 @@ public class PreviousEventsFragment extends Fragment {
         mRecycleView.setHasFixedSize(true);
 
         mShimmerViewContainer = view.findViewById(R.id.previousEventShimmer);
-
+        emptyTextView = view.findViewById(R.id.etEmptyPrevious);
 
         listPreviousEvent();
         return view;
@@ -69,23 +71,28 @@ public class PreviousEventsFragment extends Fragment {
                 // Stopping Shimmer Effect's animation after data is loaded to ListView
                 mShimmerViewContainer.stopShimmerAnimation();
                 mShimmerViewContainer.setVisibility(View.GONE);
+                if (listEvent.size() == 0) {
+                    emptyTextView.setText("no previous events");
+                } else {
+                    mLayoutManager = new LinearLayoutManager(getContext());
+                    eventAdapter = new PreviousEventsAdapter(listEvent);
 
-                mLayoutManager = new LinearLayoutManager(getContext());
-                eventAdapter = new PreviousEventsAdapter(listEvent);
+                    mRecycleView.setLayoutManager(mLayoutManager);
+                    mRecycleView.setAdapter(eventAdapter);
 
-                mRecycleView.setLayoutManager(mLayoutManager);
-                mRecycleView.setAdapter(eventAdapter);
+                    eventAdapter.setOnItemClickListener(new UpComingEventsAdapter.OnItemClickListener() {
+                        @Override
+                        public void onItemClick(int position) {
+                            //Toast.makeText(getContext(), listEvent.get(position).getId(), Toast.LENGTH_SHORT).show();
 
-                eventAdapter.setOnItemClickListener(new UpComingEventsAdapter.OnItemClickListener() {
-                    @Override
-                    public void onItemClick(int position) {
-                        //Toast.makeText(getContext(), listEvent.get(position).getId(), Toast.LENGTH_SHORT).show();
+                            Intent intent = new Intent(getContext(), DetailEventActivity.class);
+                            intent.putExtra("idEventFromUpcoming", listEvent.get(position).getId());
+                            startActivity(intent);
+                        }
+                    });
+                }
 
-                        Intent intent = new Intent(getContext(), DetailEventActivity.class);
-                        intent.putExtra("idEventFromUpcoming", listEvent.get(position).getId());
-                        startActivity(intent);
-                    }
-                });
+
             }
 
             @Override

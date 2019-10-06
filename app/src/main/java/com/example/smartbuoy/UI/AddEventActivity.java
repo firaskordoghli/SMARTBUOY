@@ -2,6 +2,7 @@ package com.example.smartbuoy.UI;
 
 import android.app.DatePickerDialog;
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.os.Handler;
@@ -25,6 +26,7 @@ import com.example.smartbuoy.DATA.Models.User;
 import com.example.smartbuoy.DATA.PictureUploader;
 import com.example.smartbuoy.DATA.Retrofite.ApiUtil;
 import com.example.smartbuoy.DATA.UserSessionManager;
+import com.example.smartbuoy.MainActivity;
 import com.example.smartbuoy.R;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
@@ -108,7 +110,6 @@ public class AddEventActivity extends AppCompatActivity {
         addEventBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
                 displayLoader();
                 newEvent = new Event(
                         eventNameTextView.getText().toString()
@@ -136,6 +137,9 @@ public class AddEventActivity extends AppCompatActivity {
                     }
                 }, 1000);
                 Toast.makeText(AddEventActivity.this, "success" + event, Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(AddEventActivity.this, MainActivity.class);
+                startActivity(intent);
+                finish();
             }
 
             @Override
