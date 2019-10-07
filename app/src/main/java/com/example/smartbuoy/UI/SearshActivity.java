@@ -4,7 +4,10 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.view.View;
 import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -29,6 +32,9 @@ public class SearshActivity extends AppCompatActivity {
     private HomePlageAdapter mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
     private EditText searchBarEditText;
+    private ImageView mapSearshBtn;
+
+    private TextView searchNearYouEt,searchFishingSpotsEt,searchOthersEt;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,10 +44,44 @@ public class SearshActivity extends AppCompatActivity {
 
         mRecyclerView = findViewById(R.id.rvSearsh);
         searchBarEditText = findViewById(R.id.etSearshBar);
+        mapSearshBtn = findViewById(R.id.ibtnToMapSearsh);
+
+        searchNearYouEt = findViewById(R.id.etSearchNearYou);
+        searchFishingSpotsEt = findViewById(R.id.etSearchFishingSpots);
+        searchOthersEt = findViewById(R.id.etSearchOthers);
 
         mRecyclerView.setHasFixedSize(true);
 
         listePlage();
+
+        mapSearshBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(SearshActivity.this, MapSearchActivity.class);
+                startActivity(intent);
+            }
+        });
+
+        searchFishingSpotsEt.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Toast.makeText(SearshActivity.this, "no available data", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        searchOthersEt.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Toast.makeText(SearshActivity.this, "no available data", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        searchNearYouEt.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                nearPlage("36.858197","11.135506","5");
+            }
+        });
 
         searchBarEditText.addTextChangedListener(new TextWatcher() {
             @Override
@@ -59,6 +99,39 @@ public class SearshActivity extends AppCompatActivity {
                 mAdapter.getFilter().filter(editable.toString());
             }
         });
+    }
+
+    private void nearPlage(String lat, String lng, String ditance) {
+        ApiUtil.getServiceClass().plageNearYou(lat,lng,ditance).enqueue(new Callback<List<ItemHomePlage>>() {
+            @Override
+            public void onResponse(Call<List<ItemHomePlage>> call, Response<List<ItemHomePlage>> response) {
+                final List<ItemHomePlage> mlist = response.body();
+
+                mLayoutManager = new LinearLayoutManager(SearshActivity.this);
+                mAdapter = new HomePlageAdapter(mlist);
+
+                mRecyclerView.setLayoutManager(mLayoutManager);
+                mRecyclerView.setAdapter(mAdapter);
+
+                mAdapter.setOnItemClickListener(new HomePlageAdapter.OnItemClickListener() {
+                    @Override
+                    public void onItemClick(int position) {
+                        //Toast.makeText(getContext(), mlist.get(position).getId(), Toast.LENGTH_SHORT).show();
+
+                        Intent intent = new Intent(SearshActivity.this, DetailPlageActivity.class);
+                        intent.putExtra("idPlageFromHome", mlist.get(position).getId());
+                        startActivity(intent);
+
+                    }
+                });
+            }
+
+            @Override
+            public void onFailure(Call<List<ItemHomePlage>> call, Throwable t) {
+
+            }
+        });
+
     }
 
 
