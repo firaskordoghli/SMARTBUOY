@@ -974,6 +974,7 @@
             app:layout_constraintTop_toTopOf="parent" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
+    <!--
     <com.github.clans.fab.FloatingActionButton
         android:id="@+id/menu_item_add_plan"
         android:layout_width="wrap_content"
@@ -986,5 +987,7 @@
         app:fab_colorRipple="#5CFFC6"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintRight_toRightOf="parent" />
+
+        -->
 
 </androidx.constraintlayout.widget.ConstraintLayout>
