@@ -152,7 +152,7 @@ public class HomeFragment extends Fragment {
                 othresTextView.setBackgroundResource(R.drawable.rounded_corner_transparent);
                 othresTextView.setTextColor(Color.parseColor("#CBCBCB"));
 
-                nearPlage("36.858197","11.135506","5");
+                nearPlage("36.858197", "11.135506", "5");
             }
         });
 
@@ -200,9 +200,7 @@ public class HomeFragment extends Fragment {
         mRecyclerView = view.findViewById(R.id.rvHome);
         mRecyclerView.setHasFixedSize(true);
 
-
         recommendedPlage(currentUser.getId());
-
 
         listPlan(currentUser.getId());
 
@@ -303,7 +301,7 @@ public class HomeFragment extends Fragment {
     }
 
     private void nearPlage(String lat, String lng, String ditance) {
-        ApiUtil.getServiceClass().plageNearYou(lat,lng,ditance).enqueue(new Callback<List<ItemHomePlage>>() {
+        ApiUtil.getServiceClass().plageNearYou(lat, lng, ditance).enqueue(new Callback<List<ItemHomePlage>>() {
             @Override
             public void onResponse(Call<List<ItemHomePlage>> call, Response<List<ItemHomePlage>> response) {
                 final List<ItemHomePlage> mlist = response.body();

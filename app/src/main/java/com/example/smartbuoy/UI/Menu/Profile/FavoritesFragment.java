@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -30,6 +31,8 @@ import retrofit2.Response;
 public class FavoritesFragment extends Fragment {
     UserSessionManager session;
 
+    private TextView emptyFavoris;
+
     private RecyclerView mRecyclerView;
     private FavorisAdapter mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
@@ -53,6 +56,7 @@ public class FavoritesFragment extends Fragment {
         getListFavoris(currentUser.getId());
 
         mRecyclerView = view.findViewById(R.id.rvFavoris);
+        emptyFavoris = view.findViewById(R.id.textView20);
 
         return view;
     }
@@ -63,14 +67,18 @@ public class FavoritesFragment extends Fragment {
             public void onResponse(Call<List<ItemHomePlage>> call, Response<List<ItemHomePlage>> response) {
                 final List<ItemHomePlage> mlist = response.body();
                 System.out.println("$$$$$$$$$$$$" + mlist.size());
-                //Toast.makeText(getContext(), mlist.size(), Toast.LENGTH_SHORT).show();
 
-                mLayoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false);
-                mAdapter = new FavorisAdapter(mlist);
+                if (mlist.size() == 0){
+                    emptyFavoris.setText("you have no favoris");
+                }else {
+                    //Toast.makeText(getContext(), mlist.size(), Toast.LENGTH_SHORT).show();
 
-                mRecyclerView.setLayoutManager(mLayoutManager);
-                mRecyclerView.setAdapter(mAdapter);
+                    mLayoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false);
+                    mAdapter = new FavorisAdapter(mlist);
 
+                    mRecyclerView.setLayoutManager(mLayoutManager);
+                    mRecyclerView.setAdapter(mAdapter);
+                }
             }
 
             @Override

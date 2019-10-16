@@ -143,14 +143,15 @@ public class SignUpStep3Activity extends AppCompatActivity {
 
         newUser.setInterest(interestList);
 
-        Gson gson = new Gson();
-        // Creating user login session
-        String userString = gson.toJson(newUser);
-        session.createUserLoginSession(userString);
 
         ApiUtil.getServiceClass().createUser(newUser).enqueue(new Callback<User>() {
             @Override
             public void onResponse(Call<User> call, Response<User> response) {
+
+                Gson gson = new Gson();
+                // Creating user login session
+                String userString = gson.toJson(response.body());
+                session.createUserLoginSession(userString);
 
                 Handler handler = new Handler();
                 handler.postDelayed(new Runnable() {

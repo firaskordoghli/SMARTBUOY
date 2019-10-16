@@ -336,6 +336,8 @@ public class DetailPlageActivity extends AppCompatActivity implements OnMapReady
                 previsionList = responsePlage.getPrev();
                 meteoList = responsePlage.getMeteo();
 
+                System.out.println("prev = " + previsionList);
+
                 date1tv.setText("Today");
                 date1tvDate.setText(meteoList.get(0).getDate().substring(5, 10));
 
@@ -629,7 +631,7 @@ public class DetailPlageActivity extends AppCompatActivity implements OnMapReady
 
     private void openDialogPlan() {
         AddPlanDialog ratingDialog = new AddPlanDialog();
-        ratingDialog.show(getSupportFragmentManager(),"add plan dialog");
+        ratingDialog.show(getSupportFragmentManager(), "add plan dialog");
     }
 
     private boolean checkMapServices() {
